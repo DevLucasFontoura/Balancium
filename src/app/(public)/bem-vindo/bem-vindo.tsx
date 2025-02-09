@@ -43,7 +43,18 @@ export function BemVindo() {
               </div>
             </div>
             <div className={styles.heroImage}>
-              <div className={styles.imageContainer} />
+              <div className={styles.imageContainer}>
+                {/* Círculos animados representando moedas/transações */}
+                <div className={styles.animationContainer}>
+                  <div className={styles.circle1} />
+                  <div className={styles.circle2} />
+                  <div className={styles.circle3} />
+                  <div className={styles.line1} />
+                  <div className={styles.line2} />
+                  <div className={styles.line3} />
+                  <div className={styles.dollarSign}>$</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

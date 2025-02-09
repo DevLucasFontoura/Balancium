@@ -44,7 +44,99 @@
 }
 
 .imageContainer {
-  @apply w-full h-96 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl;
+  @apply relative w-full h-[500px] rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 
+         backdrop-blur-sm overflow-hidden;
+}
+
+.animationContainer {
+  @apply absolute inset-0 flex items-center justify-center;
+}
+
+.circle1, .circle2, .circle3 {
+  @apply absolute rounded-full;
+  animation: pulse 3s infinite;
+}
+
+.circle1 {
+  @apply w-32 h-32 bg-primary/20;
+  animation-delay: 0s;
+}
+
+.circle2 {
+  @apply w-48 h-48 bg-accent/10;
+  animation-delay: 1s;
+}
+
+.circle3 {
+  @apply w-64 h-64 bg-primary/5;
+  animation-delay: 2s;
+}
+
+.line1, .line2, .line3 {
+  @apply absolute h-1 rounded-full bg-gradient-to-r from-primary/40 to-accent/40;
+  animation: slideIn 4s infinite;
+}
+
+.line1 {
+  width: 60%;
+  top: 30%;
+  animation-delay: 0s;
+}
+
+.line2 {
+  width: 40%;
+  top: 50%;
+  animation-delay: 1s;
+}
+
+.line3 {
+  width: 50%;
+  top: 70%;
+  animation-delay: 2s;
+}
+
+.dollarSign {
+  @apply absolute text-6xl font-bold text-primary/30;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 .ctaSection {
