@@ -2,8 +2,46 @@
   @apply max-w-7xl mx-auto p-8;
 }
 
+.header {
+  @apply mb-8;
+}
+
 .title {
-  @apply text-3xl font-bold mb-8;
+  @apply text-3xl font-bold text-gray-900 dark:text-white;
+}
+
+.subtitle {
+  @apply mt-2 text-gray-600 dark:text-gray-400;
+}
+
+/* Cards de Estatísticas */
+.statsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8;
+}
+
+.statCard {
+  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200;
+}
+
+/* Gráficos */
+.chartsGrid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+}
+
+.chartCard {
+  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm;
+}
+
+.chartTitle {
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+.periodSelect {
+  @apply text-sm text-gray-600 dark:text-gray-400 bg-transparent border-none focus:ring-0 cursor-pointer;
+}
+
+.viewAllButton {
+  @apply text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors;
 }
 
 .gridContainer {
