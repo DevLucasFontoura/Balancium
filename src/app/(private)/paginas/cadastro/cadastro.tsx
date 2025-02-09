@@ -1,4 +1,4 @@
-import { EntradaSaidaForm } from '@/app/componentes/formularios/EntradaSaidaForm';
+import { EntradaSaidaForm } from '@/app/(private)/componentes/formularios/EntradaSaidaForm';
 import styles from './cadastro.module.css';
 
 export function Cadastro() {

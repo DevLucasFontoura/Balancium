@@ -1,0 +1,36 @@
+.container {
+  @apply min-h-screen bg-gradient-to-br from-background via-background to-gray-100;
+}
+
+.resourcesSection {
+  @apply max-w-7xl mx-auto px-6 py-20;
+}
+
+.title {
+  @apply text-4xl font-bold text-center mb-4;
+}
+
+.subtitle {
+  @apply text-xl text-gray-600 dark:text-gray-300 text-center mb-12;
+}
+
+.resourcesGrid {
+  @apply grid md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+.resourceCard {
+  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl 
+         transition-shadow duration-200 border border-gray-100 dark:border-gray-700;
+}
+
+.resourceIcon {
+  @apply text-4xl mb-4;
+}
+
+.resourceTitle {
+  @apply text-xl font-semibold mb-2;
+}
+
+.resourceDescription {
+  @apply text-gray-600 dark:text-gray-300;
+} 

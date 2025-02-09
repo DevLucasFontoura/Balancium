@@ -1,5 +1,5 @@
-import { ResumoAnual } from '@/app/componentes/resumos/ResumoAnual';
-import { GraficoAnual } from '@/app/componentes/graficos/GraficoAnual';
+import { ResumoAnual } from '@/app/(private)/componentes/resumos/ResumoAnual';
+import { GraficoAnual } from '@/app/(private)/componentes/graficos/GraficoAnual';
 import Link from 'next/link';
 import styles from './dashboard.module.css';
 

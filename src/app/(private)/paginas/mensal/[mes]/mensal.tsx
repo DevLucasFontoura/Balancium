@@ -1,5 +1,5 @@
-import { TabelaMensal } from '@/app/componentes/tabelas/TabelaMensal';
-import { EntradaSaidaForm } from '@/app/componentes/formularios/EntradaSaidaForm';
+import { TabelaMensal } from '@/app/(private)/componentes/tabelas/TabelaMensal';
+import { EntradaSaidaForm } from '@/app/(private)/componentes/formularios/EntradaSaidaForm';
 import styles from './mensal.module.css';
 
 interface MensalProps {

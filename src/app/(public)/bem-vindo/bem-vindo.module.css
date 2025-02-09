@@ -1,0 +1,68 @@
+.container {
+  @apply min-h-screen;
+}
+
+.heroSection {
+  @apply bg-gradient-to-br from-primary/10 via-background to-background py-20;
+}
+
+.heroContent {
+  @apply max-w-7xl mx-auto px-6;
+}
+
+.heroGrid {
+  @apply grid lg:grid-cols-2 gap-12 items-center;
+}
+
+.textContent {
+  @apply space-y-8;
+}
+
+.title {
+  @apply text-5xl font-bold;
+}
+
+.highlight {
+  @apply text-primary block;
+}
+
+.subtitle {
+  @apply text-xl text-gray-600 dark:text-gray-300;
+}
+
+.buttonGroup {
+  @apply flex gap-4;
+}
+
+.secondaryButton {
+  @apply flex items-center px-6 py-2 rounded-lg border-2 border-primary 
+         text-primary hover:bg-primary hover:text-white transition-colors duration-200;
+}
+
+.heroImage {
+  @apply hidden lg:block;
+}
+
+.imageContainer {
+  @apply w-full h-96 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl;
+}
+
+.ctaSection {
+  @apply py-20;
+}
+
+.ctaContent {
+  @apply max-w-3xl mx-auto text-center px-6;
+}
+
+.ctaTitle {
+  @apply text-3xl font-bold mb-6;
+}
+
+.ctaText {
+  @apply text-xl text-gray-600 dark:text-gray-300 mb-8;
+}
+
+.ctaButtons {
+  @apply flex gap-4 justify-center;
+} 
