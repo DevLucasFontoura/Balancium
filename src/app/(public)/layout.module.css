@@ -1,0 +1,93 @@
+/* Navbar */
+.navbar {
+  @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50;
+}
+
+.navContainer {
+  @apply max-w-7xl mx-auto px-6 py-4;
+}
+
+.navContent {
+  @apply flex items-center justify-between;
+}
+
+.logoLink {
+  @apply flex items-center space-x-2;
+}
+
+.logoIcon {
+  @apply w-8 h-8 text-primary;
+}
+
+.logoText {
+  @apply text-xl font-bold;
+}
+
+.navLinks {
+  @apply hidden md:flex items-center space-x-8;
+}
+
+.navLink {
+  @apply text-gray-600 hover:text-primary dark:text-gray-300;
+}
+
+/* Footer */
+.footer {
+  @apply bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700;
+}
+
+.footerContainer {
+  @apply max-w-7xl mx-auto px-6 py-12;
+}
+
+.footerGrid {
+  @apply grid md:grid-cols-5 gap-8;
+}
+
+.brandSection {
+  @apply md:col-span-2;
+}
+
+.brandContainer {
+  @apply flex items-center space-x-2 mb-4;
+}
+
+.brandDescription {
+  @apply text-gray-600 dark:text-gray-300 mb-4;
+}
+
+.socialLinks {
+  @apply flex space-x-4;
+}
+
+.socialLink {
+  @apply text-gray-400 hover:text-primary;
+}
+
+.socialIcon {
+  @apply h-6 w-6;
+}
+
+.footerColumn {
+  @apply space-y-2;
+}
+
+.columnTitle {
+  @apply font-bold mb-4;
+}
+
+.columnLink {
+  @apply text-gray-600 hover:text-primary dark:text-gray-300;
+}
+
+.footerBottom {
+  @apply mt-8 pt-8 border-t border-gray-200 dark:border-gray-700;
+}
+
+.copyright {
+  @apply text-gray-500 text-sm text-center;
+}
+
+.companyLink {
+  @apply text-primary hover:text-primary-dark;
+} 
