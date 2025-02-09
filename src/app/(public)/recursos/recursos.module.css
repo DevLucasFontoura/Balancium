@@ -1,5 +1,5 @@
 .container {
-  @apply min-h-screen bg-gradient-to-br from-background via-background to-gray-100;
+  @apply min-h-screen bg-gray-50;
 }
 
 .resourcesSection {
@@ -10,27 +10,57 @@
   @apply text-4xl font-bold text-center mb-4;
 }
 
+.highlight {
+  @apply text-primary;
+}
+
 .subtitle {
-  @apply text-xl text-gray-600 dark:text-gray-300 text-center mb-12;
+  @apply text-xl text-gray-600 text-center mb-16;
 }
 
 .resourcesGrid {
-  @apply grid md:grid-cols-2 lg:grid-cols-3 gap-8;
+  @apply grid md:grid-cols-2 gap-8 max-w-5xl mx-auto;
 }
 
 .resourceCard {
-  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl 
-         transition-shadow duration-200 border border-gray-100 dark:border-gray-700;
+  @apply bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg 
+         transition-all duration-300 border border-gray-100
+         hover:-translate-y-1;
 }
 
 .resourceIcon {
-  @apply text-4xl mb-4;
+  @apply w-12 h-12 text-primary mb-6;
 }
 
 .resourceTitle {
-  @apply text-xl font-semibold mb-2;
+  @apply text-xl font-semibold mb-3 text-gray-900;
 }
 
 .resourceDescription {
-  @apply text-gray-600 dark:text-gray-300;
+  @apply text-gray-600 leading-relaxed;
+}
+
+.ctaSection {
+  @apply mt-16 text-center;
+}
+
+.ctaButton {
+  @apply px-8 py-3 bg-primary text-white rounded-lg font-medium
+         hover:bg-primary-dark transition-colors duration-200
+         shadow-lg hover:shadow-xl;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .resourcesGrid {
+    @apply grid-cols-1;
+  }
+  
+  .title {
+    @apply text-3xl;
+  }
+  
+  .subtitle {
+    @apply text-lg mb-12;
+  }
 } 

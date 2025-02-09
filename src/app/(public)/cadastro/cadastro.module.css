@@ -1,43 +1,96 @@
 .container {
-  @apply min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8;
+  @apply min-h-screen bg-gray-50;
+}
+
+.contentGrid {
+  @apply grid lg:grid-cols-2 min-h-screen max-w-7xl mx-auto;
+}
+
+.welcomeSection {
+  @apply hidden lg:flex flex-col justify-center px-16 bg-white;
+}
+
+.welcomeTitle {
+  @apply text-4xl font-bold mb-4;
+}
+
+.highlight {
+  @apply text-primary;
+}
+
+.welcomeText {
+  @apply text-gray-600 text-lg mb-8;
+}
+
+.features {
+  @apply space-y-4;
+}
+
+.featureItem {
+  @apply flex items-center gap-3 text-gray-600;
+}
+
+.featureIcon {
+  @apply w-5 h-5 text-primary;
+}
+
+.formSection {
+  @apply flex items-center justify-center p-8 bg-white lg:bg-gray-50;
 }
 
 .formContainer {
-  @apply max-w-md w-full space-y-8;
+  @apply w-full max-w-md -mt-12;
 }
 
-.title {
-  @apply mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white;
+.formTitle {
+  @apply text-2xl font-bold text-gray-900 text-center mb-2;
+}
+
+.formSubtitle {
+  @apply text-gray-600 text-center mb-8;
 }
 
 .form {
-  @apply mt-8 space-y-6;
+  @apply space-y-6;
 }
 
 .inputGroup {
-  @apply rounded-md shadow-sm -space-y-px;
+  @apply space-y-4;
 }
 
-.inputTop {
-  @apply appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 
-         placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none 
-         focus:ring-primary focus:border-primary focus:z-10 sm:text-sm;
+.inputLabel {
+  @apply block text-sm font-medium text-gray-700 mb-1;
 }
 
-.inputMiddle {
-  @apply appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 
-         placeholder-gray-500 text-gray-900 focus:outline-none 
-         focus:ring-primary focus:border-primary focus:z-10 sm:text-sm;
+.input {
+  @apply appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg
+         text-gray-900 placeholder-gray-400
+         focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+         transition-colors duration-200;
 }
 
-.inputBottom {
-  @apply appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 
-         placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none 
-         focus:ring-primary focus:border-primary focus:z-10 sm:text-sm;
+.formFooter {
+  @apply space-y-4;
 }
 
 .submitButton {
-  @apply relative w-full flex justify-center py-2 px-4 border border-transparent 
-         text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark 
-         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+  @apply w-full flex justify-center py-3 px-4 border border-transparent rounded-lg
+         text-sm font-medium text-white bg-primary hover:bg-primary-dark
+         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
+         transition-colors duration-200;
+}
+
+.loginText {
+  @apply text-sm text-center text-gray-600;
+}
+
+.loginLink {
+  @apply font-medium text-primary hover:text-primary-dark;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .formSection {
+    @apply bg-white;
+  }
 } 
