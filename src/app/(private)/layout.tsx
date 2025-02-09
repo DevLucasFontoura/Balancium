@@ -1,10 +1,46 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { auth } from '@/lib/firebase/config';
+import { signOut } from 'firebase/auth';
 
 export default function PrivateLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        router.push('/login');
+      } else {
+        setIsLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/login');
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  };
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>;
+  }
+
   return (
     <>
       <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
@@ -28,14 +64,14 @@ export default function PrivateLayout({
                 Dashboard
               </Link>
               <Link 
-                href="/transacao/nova" 
+                href="/cadastro" 
                 className="btn-primary"
               >
                 Nova Transação
               </Link>
               <button 
+                onClick={handleLogout}
                 className="text-gray-600 hover:text-primary dark:text-gray-300"
-                onClick={() => {/* Implementar logout */}}
               >
                 Sair
               </button>

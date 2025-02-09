@@ -1,7 +1,40 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
 import styles from './cadastro.module.css';
 
 export function Cadastro() {
+  const router = useRouter();
+  const { signUp, loading, error } = useAuth();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    console.log('Tentando criar conta com:', formData); // Para debug
+    
+    const result = await signUp(formData);
+    
+    if (result) {
+      console.log('Conta criada com sucesso:', result); // Para debug
+      router.push('/dashboard');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.contentGrid}>
@@ -49,7 +82,13 @@ export function Cadastro() {
               Preencha os dados abaixo para começar
             </p>
             
-            <form className={styles.form}>
+            {error && (
+              <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                {error}
+              </div>
+            )}
+            
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.inputGroup}>
                 <div>
                   <label htmlFor="name" className={styles.inputLabel}>Nome completo</label>
@@ -60,6 +99,8 @@ export function Cadastro() {
                     required
                     className={styles.input}
                     placeholder="João Silva"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -71,6 +112,8 @@ export function Cadastro() {
                     required
                     className={styles.input}
                     placeholder="seu@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -82,13 +125,19 @@ export function Cadastro() {
                     required
                     className={styles.input}
                     placeholder="••••••••"
+                    value={formData.password}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
 
               <div className={styles.formFooter}>
-                <button type="submit" className={styles.submitButton}>
-                  Criar conta gratuitamente
+                <button 
+                  type="submit" 
+                  className={styles.submitButton}
+                  disabled={loading}
+                >
+                  {loading ? 'Criando conta...' : 'Criar conta gratuitamente'}
                 </button>
                 <p className={styles.loginText}>
                   Já tem uma conta?{' '}
