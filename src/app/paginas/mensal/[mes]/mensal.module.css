@@ -1,0 +1,23 @@
+.container {
+  @apply max-w-7xl mx-auto p-8;
+}
+
+.title {
+  @apply text-3xl font-bold mb-8;
+}
+
+.gridContainer {
+  @apply grid gap-8 lg:grid-cols-2;
+}
+
+.formSection {
+  @apply space-y-8;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow;
+}
+
+.subtitle {
+  @apply text-xl font-semibold mb-4;
+} 
