@@ -1,0 +1,35 @@
+.container {
+  @apply max-w-4xl mx-auto p-6;
+}
+
+.title {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+.subtitle {
+  @apply text-gray-600 mb-8;
+}
+
+.section {
+  @apply space-y-4 mb-8;
+}
+
+.sectionTitle {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.grid {
+  @apply grid gap-4 md:grid-cols-2;
+}
+
+.gridThree {
+  @apply grid gap-4 md:grid-cols-3;
+}
+
+.dangerZone {
+  @apply text-lg font-semibold text-red-600;
+}
+
+.dangerCard {
+  @apply p-6 bg-red-50 border border-red-200;
+} 
