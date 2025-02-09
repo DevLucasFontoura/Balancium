@@ -59,26 +59,6 @@ export function BemVindo() {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className={styles.ctaSection}>
-        <div className={styles.ctaContent}>
-          <h2 className={styles.ctaTitle}>
-            Pronto para começar?
-          </h2>
-          <p className={styles.ctaText}>
-            Junte-se a milhares de usuários que já estão controlando melhor suas finanças
-          </p>
-          <div className={styles.ctaButtons}>
-            <Link href="/cadastro" className="btn-primary">
-              Criar Conta Grátis
-            </Link>
-            <Link href="/login" className="btn-secondary">
-              Fazer Login
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 } 

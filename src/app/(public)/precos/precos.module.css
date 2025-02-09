@@ -1,0 +1,72 @@
+.container {
+  @apply min-h-screen bg-gradient-to-br from-background via-background to-gray-100;
+}
+
+.pricingSection {
+  @apply max-w-7xl mx-auto px-6 py-20;
+}
+
+.title {
+  @apply text-4xl font-bold text-center mb-4;
+}
+
+.subtitle {
+  @apply text-xl text-gray-600 dark:text-gray-300 text-center mb-12;
+}
+
+.plansGrid {
+  @apply grid md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+.planCard {
+  @apply bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg 
+         border border-gray-100 dark:border-gray-700
+         flex flex-col;
+}
+
+.highlighted {
+  @apply border-primary/50 shadow-xl scale-105;
+}
+
+.planHeader {
+  @apply text-center mb-8;
+}
+
+.planName {
+  @apply text-2xl font-bold mb-4;
+}
+
+.planPrice {
+  @apply flex items-end justify-center gap-1;
+}
+
+.price {
+  @apply text-4xl font-bold text-primary;
+}
+
+.period {
+  @apply text-gray-500 mb-1;
+}
+
+.featuresList {
+  @apply space-y-4 mb-8 flex-grow;
+}
+
+.featureItem {
+  @apply flex items-start gap-2 text-gray-600 dark:text-gray-300;
+}
+
+.checkIcon {
+  @apply w-5 h-5 text-primary flex-shrink-0 mt-0.5;
+}
+
+.planButton {
+  @apply w-full py-3 px-6 rounded-lg text-center font-medium
+         border-2 border-primary text-primary
+         hover:bg-primary hover:text-white
+         transition-colors duration-200;
+}
+
+.highlightedButton {
+  @apply bg-primary text-white hover:bg-primary-dark;
+} 

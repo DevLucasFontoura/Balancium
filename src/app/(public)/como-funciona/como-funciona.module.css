@@ -1,0 +1,144 @@
+.container {
+  @apply max-w-7xl mx-auto px-6 py-20;
+}
+
+.heroSection {
+  @apply max-w-7xl mx-auto px-6 py-20 text-center;
+}
+
+.title {
+  @apply text-5xl font-bold mb-6 bg-clip-text text-transparent 
+         bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300;
+}
+
+.highlight {
+  @apply text-primary;
+}
+
+.subtitle {
+  @apply text-xl text-gray-600 dark:text-gray-300;
+}
+
+.stepsSection {
+  @apply max-w-7xl mx-auto px-6 py-12;
+}
+
+.stepsGrid {
+  @apply grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20;
+}
+
+.stepCard {
+  @apply bg-white rounded-2xl p-8 relative flex flex-col items-center text-center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+}
+
+.stepNumber {
+  @apply text-primary/20 text-lg font-medium absolute top-4 left-4;
+}
+
+.iconWrapper {
+  @apply mb-6;
+}
+
+.stepIcon {
+  @apply w-12 h-12 stroke-[1.5];
+  color: #1a1a1a;
+}
+
+.stepTitle {
+  @apply text-xl font-semibold mb-2 text-gray-900;
+}
+
+.stepDescription {
+  @apply text-gray-600 text-sm;
+}
+
+.stepProgress {
+  @apply absolute bottom-0 left-0 w-full h-1 bg-gray-100 dark:bg-gray-700;
+}
+
+.progressLine {
+  @apply h-full bg-primary/30 w-0;
+  animation: progress 2s ease-out forwards;
+}
+
+.featuresSection {
+  @apply max-w-7xl mx-auto px-6 py-20;
+}
+
+.featureGrid {
+  @apply grid md:grid-cols-3 gap-8;
+}
+
+.featureCard {
+  @apply bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl
+         border border-gray-100 dark:border-gray-700
+         hover:shadow-lg transition-all duration-300;
+}
+
+.featureCard h3 {
+  @apply text-lg font-semibold mb-3 text-primary;
+}
+
+.featureCard p {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.ctaSection {
+  @apply text-center max-w-2xl mx-auto;
+}
+
+.ctaTitle {
+  @apply text-3xl font-bold mb-4;
+}
+
+.ctaText {
+  @apply text-gray-600 mb-8;
+}
+
+.ctaButtons {
+  @apply flex gap-4 justify-center;
+}
+
+.primaryButton {
+  @apply px-6 py-3 bg-primary text-white rounded-lg font-medium
+         hover:bg-primary-dark transition-colors duration-200;
+}
+
+.secondaryButton {
+  @apply px-6 py-3 border border-primary text-primary rounded-lg font-medium
+         hover:bg-primary hover:text-white transition-colors duration-200;
+}
+
+@keyframes progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Adiciona hover effects nos cards */
+.stepCard:hover {
+  @apply transform -translate-y-1;
+}
+
+.stepCard:hover .stepNumber {
+  @apply text-primary/40;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .title {
+    @apply text-4xl;
+  }
+  
+  .stepsGrid {
+    @apply grid-cols-1;
+  }
+  
+  .featureGrid {
+    @apply grid-cols-1;
+  }
+  
+  .ctaButtons {
+    @apply flex-col;
+  }
+} 
