@@ -1,6 +1,6 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { getAuth, Auth } from 'firebase/auth';
+import { getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,16 +12,19 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID // opcional
 };
 
-// Verifica se já existe uma instância do Firebase
-let app;
+// Inicializa o Firebase apenas se não houver uma instância
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
+
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
 } else {
   app = getApps()[0];
 }
 
-const auth = getAuth(app);
-const db = getFirestore(app);
+auth = getAuth(app);
+db = getFirestore(app);
 
 // Debug mais detalhado
 if (process.env.NODE_ENV === 'development') {

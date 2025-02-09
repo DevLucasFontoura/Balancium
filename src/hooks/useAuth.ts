@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { 
   createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
   updateProfile,
   UserCredential,
   AuthError 
@@ -10,6 +11,11 @@ import { auth, db } from '@/lib/firebase/config';
 
 interface SignUpData {
   name: string;
+  email: string;
+  password: string;
+}
+
+interface SignInData {
   email: string;
   password: string;
 }
@@ -41,6 +47,44 @@ export function useAuth() {
     }
   };
 
+  const signIn = async ({ email, password }: SignInData): Promise<UserCredential | null> => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      return userCredential;
+    } catch (err) {
+      console.error('Erro detalhado:', err);
+      
+      const firebaseError = err as AuthError;
+      let message = 'Ocorreu um erro ao fazer login';
+      
+      switch (firebaseError.code) {
+        case 'auth/invalid-email':
+          message = 'Email inválido';
+          break;
+        case 'auth/user-disabled':
+          message = 'Usuário desativado';
+          break;
+        case 'auth/user-not-found':
+          message = 'Usuário não encontrado';
+          break;
+        case 'auth/wrong-password':
+          message = 'Senha incorreta';
+          break;
+        default:
+          message = `Erro: ${firebaseError.message}`;
+          break;
+      }
+      
+      setError(message);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signUp = async ({ name, email, password }: SignUpData): Promise<UserCredential | null> => {
     try {
       setLoading(true);
@@ -61,6 +105,9 @@ export function useAuth() {
         
         // 3. Criar o documento do usuário no Firestore
         await createUserDocument(userCredential.user, name);
+        
+        // Redirecionar para o dashboard após criar a conta
+        window.location.href = '/dashboard';
       }
 
       return userCredential;
@@ -108,6 +155,7 @@ export function useAuth() {
 
   return {
     signUp,
+    signIn,
     loading,
     error
   };

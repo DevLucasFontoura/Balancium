@@ -1,7 +1,36 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
 import styles from './login.module.css';
 
 export function Login() {
+  const router = useRouter();
+  const { signIn, loading, error } = useAuth();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const result = await signIn(formData);
+    
+    if (result) {
+      router.push('/dashboard');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.contentGrid}>
@@ -49,7 +78,13 @@ export function Login() {
               Insira suas credenciais para acessar
             </p>
             
-            <form className={styles.form}>
+            {error && (
+              <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                {error}
+              </div>
+            )}
+            
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.inputGroup}>
                 <div>
                   <label htmlFor="email" className={styles.inputLabel}>Email</label>
@@ -60,6 +95,8 @@ export function Login() {
                     required
                     className={styles.input}
                     placeholder="seu@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -71,13 +108,19 @@ export function Login() {
                     required
                     className={styles.input}
                     placeholder="••••••••"
+                    value={formData.password}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
 
               <div className={styles.formFooter}>
-                <button type="submit" className={styles.submitButton}>
-                  Entrar
+                <button 
+                  type="submit" 
+                  className={styles.submitButton}
+                  disabled={loading}
+                >
+                  {loading ? 'Entrando...' : 'Entrar'}
                 </button>
                 <p className={styles.signupText}>
                   Ainda não tem uma conta?{' '}
