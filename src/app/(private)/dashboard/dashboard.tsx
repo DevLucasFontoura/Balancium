@@ -1,8 +1,65 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase/config';
 import { ResumoAnual } from '@/app/(private)/componentes/resumos/ResumoAnual';
 import { GraficoAnual } from '@/app/(private)/componentes/graficos/GraficoAnual';
 import styles from './dashboard.module.css';
 
 export function Dashboard() {
+  const [totais, setTotais] = useState({
+    entradas: 0,
+    saidas: 0,
+    saldo: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function carregarTotais() {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const anoAtual = new Date().getFullYear();
+        const mesAtual = new Date().getMonth() + 1;
+        
+        // Busca transações do mês atual
+        const q = query(
+          collection(db, 'transacoes'),
+          where('userId', '==', user.uid),
+          where('ano', '==', anoAtual),
+          where('mes', '==', mesAtual)
+        );
+
+        const querySnapshot = await getDocs(q);
+        let totalEntradas = 0;
+        let totalSaidas = 0;
+
+        querySnapshot.forEach((doc) => {
+          const transacao = doc.data();
+          if (transacao.tipo === 'entrada') {
+            totalEntradas += transacao.valor;
+          } else {
+            totalSaidas += transacao.valor;
+          }
+        });
+
+        setTotais({
+          entradas: totalEntradas,
+          saidas: totalSaidas,
+          saldo: totalEntradas - totalSaidas
+        });
+      } catch (error) {
+        console.error('Erro ao carregar totais:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarTotais();
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -16,8 +73,9 @@ export function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Entradas</p>
-              <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">R$ 0,00</p>
-              <p className="text-xs text-emerald-600/80 dark:text-emerald-400/80 mt-1">+0% em relação ao mês anterior</p>
+              <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                R$ {totais.entradas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </p>
             </div>
             <div className="p-3 bg-emerald-100 dark:bg-emerald-800/30 rounded-full">
               <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,8 +89,9 @@ export function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Saídas</p>
-              <p className="text-2xl font-bold text-rose-600 dark:text-rose-400">R$ 0,00</p>
-              <p className="text-xs text-rose-600/80 dark:text-rose-400/80 mt-1">-0% em relação ao mês anterior</p>
+              <p className="text-2xl font-bold text-rose-600 dark:text-rose-400">
+                R$ {totais.saidas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </p>
             </div>
             <div className="p-3 bg-rose-100 dark:bg-rose-800/30 rounded-full">
               <svg className="w-6 h-6 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -46,8 +105,9 @@ export function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Saldo Total</p>
-              <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">R$ 0,00</p>
-              <p className="text-xs text-emerald-600/80 dark:text-emerald-400/80 mt-1">Balanço atual</p>
+              <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                R$ {totais.saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </p>
             </div>
             <div className="p-3 bg-emerald-100 dark:bg-emerald-800/30 rounded-full">
               <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { TipoTransacao } from '@/app/tipos';
 
@@ -16,6 +16,7 @@ export function EntradaSaidaForm() {
     valor: '',
     tipo: 'entrada' as TipoTransacao,
     data: new Date().toISOString().split('T')[0],
+    categoria: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,26 +30,69 @@ export function EntradaSaidaForm() {
         throw new Error('Usuário não autenticado');
       }
 
+      // Converte o valor para número considerando o formato brasileiro
+      const valorNumerico = parseFloat(formData.valor.replace(/\./g, '').replace(',', '.'));
+
       const transacao = {
         userId: user.uid,
         descricao: formData.descricao,
-        valor: parseFloat(formData.valor),
+        valor: valorNumerico, // Salva o valor numérico diretamente
         tipo: formData.tipo,
+        categoria: formData.categoria,
         data: new Date(formData.data).toISOString(),
-        createdAt: new Date().toISOString(),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        status: 'ativo',
+        mes: new Date(formData.data).getMonth() + 1,
+        ano: new Date(formData.data).getFullYear(),
       };
 
-      await addDoc(collection(db, 'transacoes'), transacao);
+      const docRef = await addDoc(collection(db, 'transacoes'), transacao);
+      console.log('Transação salva com ID:', docRef.id);
       
-      // Redireciona para o dashboard após salvar
+      setFormData({
+        descricao: '',
+        valor: '',
+        tipo: 'entrada',
+        data: new Date().toISOString().split('T')[0],
+        categoria: '',
+      });
+
       router.push('/dashboard');
-      router.refresh(); // Força atualização dos dados
+      router.refresh();
     } catch (err) {
       console.error('Erro ao salvar transação:', err);
       setError('Erro ao salvar transação. Tente novamente.');
     } finally {
       setLoading(false);
     }
+  };
+
+  // Formata o valor para exibição no input
+  const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    
+    // Remove tudo que não for número ou vírgula
+    value = value.replace(/[^\d,]/g, '');
+    
+    // Garante que só exista uma vírgula
+    const partes = value.split(',');
+    if (partes.length > 2) {
+      value = partes[0] + ',' + partes[1];
+    }
+    
+    // Limita a 2 casas decimais
+    if (partes[1]?.length > 2) {
+      value = partes[0] + ',' + partes[1].slice(0, 2);
+    }
+
+    // Formata o número com pontos para milhares
+    const numero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    // Reconstrói o valor com a parte decimal
+    value = partes[1] ? `${numero},${partes[1]}` : numero;
+
+    setFormData({ ...formData, valor: value });
   };
 
   return (
@@ -72,14 +116,38 @@ export function EntradaSaidaForm() {
 
       <div>
         <label className="block mb-2">Valor</label>
-        <input
-          type="number"
-          step="0.01"
-          value={formData.valor}
-          onChange={(e) => setFormData({ ...formData, valor: e.target.value })}
+        <div className="relative">
+          <span className="absolute left-3 top-2 text-gray-500">R$</span>
+          <input
+            type="text"
+            value={formData.valor}
+            onChange={handleValorChange}
+            className="w-full p-2 pl-8 border rounded"
+            placeholder="0,00"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block mb-2">Categoria</label>
+        <select
+          value={formData.categoria}
+          onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
           className="w-full p-2 border rounded"
           required
-        />
+        >
+          <option value="">Selecione uma categoria</option>
+          <option value="salario">Salário</option>
+          <option value="investimentos">Investimentos</option>
+          <option value="alimentacao">Alimentação</option>
+          <option value="transporte">Transporte</option>
+          <option value="moradia">Moradia</option>
+          <option value="lazer">Lazer</option>
+          <option value="saude">Saúde</option>
+          <option value="educacao">Educação</option>
+          <option value="outros">Outros</option>
+        </select>
       </div>
 
       <div>

@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import styles from './cadastro.module.css';
+import styles from './registroUser.module.css';
 
-export function Cadastro() {
+export function Registro() {
   const router = useRouter();
   const { signUp, loading, error } = useAuth();
   const [formData, setFormData] = useState({

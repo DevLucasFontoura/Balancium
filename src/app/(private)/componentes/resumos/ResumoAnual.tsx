@@ -1,7 +1,9 @@
 'use client';
 
-import { ResumoAnual as IResumoAnual } from '@/app/tipos';
 import { useState, useEffect } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase/config';
+import { ResumoAnual as IResumoAnual } from '@/app/tipos';
 
 export function ResumoAnual() {
   const [resumo, setResumo] = useState<IResumoAnual>({
@@ -10,6 +12,59 @@ export function ResumoAnual() {
     saldo: 0,
     transacoesPorMes: {}
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function carregarResumo() {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const anoAtual = new Date().getFullYear();
+        
+        const q = query(
+          collection(db, 'transacoes'),
+          where('userId', '==', user.uid),
+          where('ano', '==', anoAtual)
+        );
+
+        const querySnapshot = await getDocs(q);
+        let totalEntradas = 0;
+        let totalSaidas = 0;
+        const transacoesPorMes: { [key: number]: { entradas: number; saidas: number } } = {};
+
+        querySnapshot.forEach((doc) => {
+          const transacao = doc.data();
+          if (transacao.tipo === 'entrada') {
+            totalEntradas += transacao.valor;
+            transacoesPorMes[transacao.mes] = transacoesPorMes[transacao.mes] || { entradas: 0, saidas: 0 };
+            transacoesPorMes[transacao.mes].entradas += transacao.valor;
+          } else {
+            totalSaidas += transacao.valor;
+            transacoesPorMes[transacao.mes] = transacoesPorMes[transacao.mes] || { entradas: 0, saidas: 0 };
+            transacoesPorMes[transacao.mes].saidas += transacao.valor;
+          }
+        });
+
+        setResumo({
+          totalEntradas,
+          totalSaidas,
+          saldo: totalEntradas - totalSaidas,
+          transacoesPorMes
+        });
+      } catch (error) {
+        console.error('Erro ao carregar resumo:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarResumo();
+  }, []);
+
+  if (loading) {
+    return <div>Carregando resumo...</div>;
+  }
 
   return (
     <div className="space-y-4">

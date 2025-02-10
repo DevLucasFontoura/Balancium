@@ -24,7 +24,7 @@ export default function PublicLayout({
               <Link href="/precos" className={styles.navLink}>Preços</Link>
               <Link href="/como-funciona" className={styles.navLink}>Como Funciona</Link>
               <Link href="/login" className={styles.navLink}>Login</Link>
-              <Link href="/cadastro" className="btn-primary">Começar Grátis</Link>
+              <Link href="/registro" className="btn-primary">Começar Grátis</Link>
             </div>
           </div>
         </div>
