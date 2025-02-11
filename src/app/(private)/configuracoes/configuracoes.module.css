@@ -1,35 +1,91 @@
 .container {
-  @apply max-w-4xl mx-auto p-6;
+  @apply max-w-6xl mx-auto p-6 space-y-8;
+}
+
+.header {
+  @apply mb-8 text-center;
 }
 
 .title {
-  @apply text-2xl font-bold text-gray-900;
+  @apply text-3xl font-bold text-gray-900 dark:text-white mb-2;
 }
 
 .subtitle {
-  @apply text-gray-600 mb-8;
+  @apply text-lg text-gray-600 dark:text-gray-400;
+}
+
+.content {
+  @apply space-y-12;
 }
 
 .section {
-  @apply space-y-4 mb-8;
+  @apply space-y-6;
 }
 
 .sectionTitle {
-  @apply text-lg font-semibold text-gray-900;
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-4;
 }
 
-.grid {
-  @apply grid gap-4 md:grid-cols-2;
+.sectionGrid {
+  @apply grid gap-6 md:grid-cols-2;
 }
 
-.gridThree {
-  @apply grid gap-4 md:grid-cols-3;
+.card {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100 dark:border-gray-700;
 }
 
-.dangerZone {
-  @apply text-lg font-semibold text-red-600;
+.cardIcon {
+  @apply w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 text-emerald-600 dark:text-emerald-400;
+}
+
+.cardTitle {
+  @apply text-lg font-semibold text-gray-900 dark:text-white mb-2;
+}
+
+.cardDescription {
+  @apply text-sm text-gray-600 dark:text-gray-400 mb-4;
+}
+
+.cardButton {
+  @apply w-full justify-center;
+}
+
+.themeButtons {
+  @apply flex gap-4;
+}
+
+.themeButton {
+  @apply flex-1 justify-center;
 }
 
 .dangerCard {
-  @apply p-6 bg-red-50 border border-red-200;
+  @apply bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800;
+}
+
+.dangerContent {
+  @apply flex items-center justify-between;
+}
+
+.dangerTitle {
+  @apply text-lg font-semibold text-red-700 dark:text-red-400;
+}
+
+.dangerDescription {
+  @apply text-sm text-red-600 dark:text-red-300 mt-1;
+}
+
+.dangerButton {
+  @apply px-4 py-2;
+}
+
+.deleteConfirm {
+  @apply space-y-4;
+}
+
+.confirmText {
+  @apply text-sm font-medium text-red-700 dark:text-red-400;
+}
+
+.confirmButtons {
+  @apply flex gap-4;
 } 

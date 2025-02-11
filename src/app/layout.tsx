@@ -4,6 +4,7 @@ import "./globals.css";
 import { FirebaseProvider } from '@/providers/FirebaseProvider';
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,31 +21,33 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <SessionProvider>
-          <FirebaseProvider>
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  background: '#333',
-                  color: '#fff',
-                },
-                success: {
+        <ThemeProvider>
+          <SessionProvider>
+            <FirebaseProvider>
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 3000,
                   style: {
-                    background: '#059669',
+                    background: '#333',
+                    color: '#fff',
                   },
-                },
-                error: {
-                  style: {
-                    background: '#dc2626',
+                  success: {
+                    style: {
+                      background: '#059669',
+                    },
                   },
-                },
-              }}
-            />
-            {children}
-          </FirebaseProvider>
-        </SessionProvider>
+                  error: {
+                    style: {
+                      background: '#dc2626',
+                    },
+                  },
+                }}
+              />
+              {children}
+            </FirebaseProvider>
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

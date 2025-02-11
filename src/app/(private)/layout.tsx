@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase/config';
 import { Sidebar } from '@/components/ui/Sidebar';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 export default function PrivateLayout({
   children,
@@ -32,11 +33,13 @@ export default function PrivateLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar />
-      <main className="flex-1 ml-64 overflow-auto">
-        {children}
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+        <Sidebar />
+        <main className="flex-1 ml-64 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </ThemeProvider>
   );
 } 

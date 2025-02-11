@@ -4,23 +4,20 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 
-type Theme = 'light' | 'dark';
-
 interface ThemeContextType {
-  theme: Theme;
-  setTheme: (theme: Theme) => Promise<void>;
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
-    // Carrega o tema salvo do localStorage primeiro
-    const savedTheme = localStorage.getItem('theme') as Theme;
+    const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      setThemeState(savedTheme);
+      setTheme(savedTheme as 'light' | 'dark');
       document.documentElement.classList.toggle('dark', savedTheme === 'dark');
     }
 
@@ -32,7 +29,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           const userDoc = await userRef.get();
           const userData = userDoc.data();
           if (userData?.settings?.theme) {
-            setThemeState(userData.settings.theme);
+            setTheme(userData.settings.theme);
             document.documentElement.classList.toggle('dark', userData.settings.theme === 'dark');
           }
         } catch (error) {
@@ -44,27 +41,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const setTheme = async (newTheme: Theme) => {
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, {
-          'settings.theme': newTheme,
-          updatedAt: new Date().toISOString()
-        });
-      }
-      
-      setThemeState(newTheme);
-      localStorage.setItem('theme', newTheme);
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
-    } catch (error) {
-      console.error('Erro ao salvar tema:', error);
-    }
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.classList.toggle('dark');
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
