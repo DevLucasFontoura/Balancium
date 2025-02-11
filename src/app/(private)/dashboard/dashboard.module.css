@@ -7,29 +7,45 @@
 }
 
 .title {
-  @apply text-3xl font-bold text-gray-900 dark:text-white;
+  @apply text-2xl font-bold text-gray-900 dark:text-white;
 }
 
 .subtitle {
-  @apply mt-2 text-gray-600 dark:text-gray-400;
+  @apply text-gray-600 dark:text-gray-400;
 }
 
 /* Cards de Estatísticas */
 .statsGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8;
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6 mb-8;
 }
 
 .statCard {
-  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200;
+  @apply p-6 rounded-xl shadow-sm;
+}
+
+.statLabel {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-400;
+}
+
+.statValue {
+  @apply text-2xl font-bold;
+}
+
+.iconContainer {
+  @apply p-3 rounded-full;
 }
 
 /* Gráficos */
 .chartsGrid {
-  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
 }
 
 .chartCard {
-  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm;
+  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm w-full;
+}
+
+.chartHeader {
+  @apply flex items-center justify-between mb-6;
 }
 
 .chartTitle {
@@ -37,7 +53,20 @@
 }
 
 .periodSelect {
-  @apply text-sm text-gray-600 dark:text-gray-400 bg-transparent border-none focus:ring-0 cursor-pointer;
+  @apply px-3 py-1.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300;
+}
+
+.distributionCharts {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+}
+
+.chartContainer {
+  @apply w-full h-[300px] relative;  /* Altura fixa para melhor visualização */
+}
+
+/* Ajuste específico para o gráfico de distribuição */
+.chartContainer:has(canvas:only-child) {
+  @apply aspect-square max-w-md mx-auto;
 }
 
 .viewAllButton {
@@ -74,4 +103,12 @@
 
 .mesSubtitle {
   @apply mt-2 text-sm text-gray-600 dark:text-gray-400;
+}
+
+.chartsContainer {
+  @apply w-full;
+}
+
+.chartsContainer > div {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-8;
 } 
