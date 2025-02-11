@@ -24,26 +24,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SessionProvider>
             <FirebaseProvider>
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: 3000,
-                  style: {
-                    background: '#333',
-                    color: '#fff',
-                  },
-                  success: {
-                    style: {
-                      background: '#059669',
-                    },
-                  },
-                  error: {
-                    style: {
-                      background: '#dc2626',
-                    },
-                  },
-                }}
-              />
+              <Toaster />
               {children}
             </FirebaseProvider>
           </SessionProvider>

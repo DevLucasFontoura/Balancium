@@ -1,0 +1,110 @@
+.form {
+  @apply space-y-8;
+}
+
+.formGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.inputGroup {
+  @apply space-y-2;
+}
+
+.label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.input {
+  @apply w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 
+         rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:text-white 
+         transition-colors;
+}
+
+.select {
+  @apply w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 
+         rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:text-white 
+         appearance-none cursor-pointer transition-colors;
+}
+
+.tipoButtons {
+  @apply grid grid-cols-2 gap-4;
+}
+
+.tipoButton {
+  @apply flex items-center justify-center px-4 py-2.5 rounded-lg border border-gray-300 
+         dark:border-gray-600 text-sm font-medium transition-all duration-200 
+         hover:bg-gray-50 dark:hover:bg-gray-700;
+}
+
+.tipoButtonActive {
+  @apply bg-emerald-500 text-white border-emerald-500 hover:bg-emerald-600;
+}
+
+.valorInput {
+  @apply relative;
+}
+
+.valorPrefix {
+  @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-900 dark:text-white text-base;
+}
+
+.valorInput input {
+  @apply pl-10;
+}
+
+.error {
+  @apply p-4 text-sm text-red-800 bg-red-100 dark:bg-red-900/50 dark:text-red-200 rounded-lg mt-6;
+}
+
+.actions {
+  @apply flex justify-end space-x-4 mt-8;
+}
+
+.cancelButton {
+  @apply px-6 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 
+         dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+}
+
+.submitButton {
+  @apply px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 
+         transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 
+         focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.loadingSpinner {
+  @apply flex items-center justify-center;
+}
+
+.comboboxContainer {
+  @apply relative w-full;
+}
+
+.comboboxWrapper {
+  @apply relative w-full;
+}
+
+.comboboxButton {
+  @apply absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none;
+}
+
+.comboboxOptions {
+  @apply absolute z-50 w-full mt-1 max-h-60 overflow-auto bg-white dark:bg-gray-700 
+         rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 
+         focus:outline-none sm:text-sm;
+}
+
+.comboboxOption {
+  @apply cursor-default select-none relative py-2 pl-3 pr-9 text-gray-900 dark:text-white;
+}
+
+.comboboxOptionActive {
+  @apply text-white bg-emerald-600;
+}
+
+.comboboxEmpty {
+  @apply relative cursor-default select-none py-2 px-4 text-gray-700 dark:text-gray-300;
+}
+
+.comboboxWrapper .input {
+  @apply w-full pr-10;
+} 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 
 interface EditarTransacaoModalProps {
@@ -30,21 +30,36 @@ export function EditarTransacaoModal({ transacao, isOpen, onClose, onUpdate }: E
     saida: ['alimentacao', 'transporte', 'moradia', 'lazer', 'cartao_credito', 'saude', 'educacao', 'outros']
   };
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     try {
-      const docRef = doc(db, 'transacoes', transacao.id);
-      await updateDoc(docRef, {
-        ...formData,
+      setLoading(true);
+      
+      // Ajusta a data para meia-noite no fuso horário local
+      const dataObj = new Date(formData.data);
+      const dataLocal = new Date(dataObj.getTime() - dataObj.getTimezoneOffset() * 60000);
+      const dataISO = dataLocal.toISOString();
+
+      const dados = {
+        descricao: formData.descricao,
+        categoria: formData.categoria,
         valor: Number(formData.valor),
-        updatedAt: new Date()
-      });
+        tipo: formData.tipo,
+        data: dataISO, // Usa a data ajustada
+        mes: dataObj.getMonth() + 1,
+        ano: dataObj.getFullYear(),
+        updatedAt: serverTimestamp(),
+      };
+
+      const docRef = doc(db, 'transacoes', transacao.id);
+      await updateDoc(docRef, dados);
       onUpdate();
       onClose();
     } catch (error) {
       console.error('Erro ao atualizar transação:', error);
     }
-  }
+  };
 
   if (!isOpen) return null;
 

@@ -8,6 +8,7 @@ import { formatarData } from '@/utils/formatarData';
 import { EditarTransacaoModal } from '../modais/EditarTransacaoModal';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { formatarCategoria } from '@/utils/formatarCategoria.tsx';
 
 interface Transacao {
   id: string;
@@ -95,84 +96,102 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
 
   if (loading) {
     return (
-      <div className="mt-4 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-        <p className="text-center text-gray-600 dark:text-gray-400">Carregando...</p>
+      <div className="p-8 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
       </div>
     );
   }
 
   if (transacoes.length === 0) {
     return (
-      <div className="mt-4 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-        <p className="text-center text-gray-600 dark:text-gray-400">
-          Nenhuma transação encontrada para este mês.
+      <div className="p-12 text-center">
+        <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+        <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
+          Nenhuma transação encontrada
+        </h3>
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          Não há transações registradas para este mês.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="mt-4 bg-white rounded-lg shadow overflow-hidden dark:bg-gray-800">
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                DATA
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                DESCRIÇÃO
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                CATEGORIA
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                VALOR
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                AÇÕES
-              </th>
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead>
+          <tr className="bg-gray-50 dark:bg-gray-700/50">
+            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+              Data
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+              Descrição
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+              Categoria
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+              Valor
+            </th>
+            <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+              Ações
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          {transacoes.map((transacao) => (
+            <tr 
+              key={transacao.id}
+              className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+            >
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                {formatarData(transacao.data)}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
+                {transacao.descricao}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium ${formatarCategoria(transacao.categoria).cor}`}>
+                  {formatarCategoria(transacao.categoria).icone}
+                  {formatarCategoria(transacao.categoria).nome}
+                </span>
+              </td>
+              <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
+                transacao.tipo === 'entrada' 
+                  ? 'text-emerald-600 dark:text-emerald-400' 
+                  : 'text-rose-600 dark:text-rose-400'
+              }`}>
+                {formatarMoeda(transacao.valor)}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div className="flex justify-end space-x-2">
+                  <button
+                    onClick={() => setTransacaoParaEditar(transacao)}
+                    className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete(transacao.id)}
+                    className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 dark:text-rose-400 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Excluir
+                  </button>
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-            {transacoes.map((transacao) => (
-              <tr key={transacao.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                  {formatarData(transacao.data)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                  {transacao.descricao}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                  {transacao.categoria}
-                </td>
-                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
-                  transacao.tipo === 'entrada' ? 'text-emerald-600' : 'text-red-600'
-                }`}>
-                  {formatarMoeda(transacao.valor)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => setTransacaoParaEditar(transacao)}
-                      className="px-3 py-1 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 rounded-md transition-colors"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(transacao.id)}
-                      className="px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
+          ))}
+        </tbody>
+      </table>
+      
       {transacaoParaEditar && (
         <EditarTransacaoModal
           transacao={transacaoParaEditar}
