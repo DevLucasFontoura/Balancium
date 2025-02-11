@@ -1,26 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { auth, db } from '@/lib/firebase/config';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { auth } from '@/lib/firebase/config';
 import Link from 'next/link';
 import styles from './home.module.css';
-
-interface ResumoFinanceiro {
-  totalEntradas: number;
-  totalSaidas: number;
-  saldo: number;
-  ultimasTransacoes: any[];
-}
+import { ResumoAnual } from '../componentes/resumos/ResumoAnual';
 
 export function Home() {
   const [userName, setUserName] = useState<string>('');
-  const [resumo, setResumo] = useState<ResumoFinanceiro>({
-    totalEntradas: 0,
-    totalSaidas: 0,
-    saldo: 0,
-    ultimasTransacoes: []
-  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,60 +18,8 @@ export function Home() {
       // Se não tiver nome, usa a parte antes do @ do email
       setUserName(user.email.split('@')[0]);
     }
-
-    async function carregarResumo() {
-      if (!user) return;
-
-      try {
-        const hoje = new Date();
-        const mesAtual = hoje.getMonth() + 1;
-        const anoAtual = hoje.getFullYear();
-
-        const q = query(
-          collection(db, 'transacoes'),
-          where('userId', '==', user.uid),
-          where('mes', '==', mesAtual),
-          where('ano', '==', anoAtual),
-          where('status', '==', 'ativo')
-        );
-
-        const querySnapshot = await getDocs(q);
-        let entradas = 0;
-        let saidas = 0;
-        const transacoes = [];
-
-        querySnapshot.forEach((doc) => {
-          const transacao = doc.data();
-          if (transacao.tipo === 'entrada') {
-            entradas += transacao.valor;
-          } else {
-            saidas += transacao.valor;
-          }
-          transacoes.push({ id: doc.id, ...transacao });
-        });
-
-        setResumo({
-          totalEntradas: entradas,
-          totalSaidas: saidas,
-          saldo: entradas - saidas,
-          ultimasTransacoes: transacoes.slice(0, 3)
-        });
-        setLoading(false);
-      } catch (error) {
-        console.error('Erro ao carregar resumo:', error);
-        setLoading(false);
-      }
-    }
-
-    carregarResumo();
+    setLoading(false);
   }, []);
-
-  const formatarMoeda = (valor: number) => {
-    return valor.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    });
-  };
 
   if (loading) {
     return (
@@ -106,25 +41,10 @@ export function Home() {
             Que bom ter você de volta! Vamos organizar suas finanças?
           </p>
         </div>
-        <div className={styles.quickStats}>
-          <div className={styles.statCard}>
-            <span className={styles.statLabel}>Saldo do Mês</span>
-            <span className={`${styles.statValue} ${resumo.saldo >= 0 ? styles.positive : styles.negative}`}>
-              {formatarMoeda(resumo.saldo)}
-            </span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statLabel}>Entradas</span>
-            <span className={`${styles.statValue} ${styles.positive}`}>
-              {formatarMoeda(resumo.totalEntradas)}
-            </span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statLabel}>Saídas</span>
-            <span className={`${styles.statValue} ${styles.negative}`}>
-              {formatarMoeda(resumo.totalSaidas)}
-            </span>
-          </div>
+        
+        {/* Usando o ResumoAnual aqui */}
+        <div className="mt-6">
+          <ResumoAnual />
         </div>
       </section>
 
@@ -146,16 +66,16 @@ export function Home() {
             </div>
           </Link>
 
-          <Link href="/dashboard">
+          <Link href="/relatorios">
             <div className={styles.actionCard}>
               <div className={styles.actionIcon}>
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className={styles.actionTitle}>Dashboard</h3>
+              <h3 className={styles.actionTitle}>Relatórios</h3>
               <p className={styles.actionDescription}>
-                Visualize seus relatórios e análises
+                Visualize seus relatórios mensais
               </p>
             </div>
           </Link>
@@ -176,29 +96,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* Seção de Últimas Transações */}
-      <section className={styles.recentTransactions}>
-        <h2 className={styles.sectionTitle}>Últimas Transações</h2>
-        <div className={styles.transactionsList}>
-          {resumo.ultimasTransacoes.map((transacao) => (
-            <div key={transacao.id} className={styles.transactionCard}>
-              <div className={styles.transactionInfo}>
-                <span className={styles.transactionDescription}>{transacao.descricao}</span>
-                <span className={styles.transactionCategory}>{transacao.categoria}</span>
-              </div>
-              <span className={`${styles.transactionValue} ${
-                transacao.tipo === 'entrada' ? styles.positive : styles.negative
-              }`}>
-                {transacao.tipo === 'entrada' ? '+' : '-'} {formatarMoeda(transacao.valor)}
-              </span>
-            </div>
-          ))}
-          <Link href="/relatorios" className={styles.viewAllLink}>
-            Ver todas as transações →
-          </Link>
-        </div>
-      </section>
-
       {/* Seção de Dicas */}
       <section className={styles.tipsSection}>
         <h2 className={styles.sectionTitle}>Dicas para Você</h2>
@@ -214,7 +111,7 @@ export function Home() {
             <div className={styles.tipIcon}>📊</div>
             <h3 className={styles.tipTitle}>Análise Personalizada</h3>
             <p className={styles.tipDescription}>
-              Confira seu dashboard para insights personalizados sobre seus gastos.
+              Confira seus relatórios mensais para insights personalizados sobre seus gastos.
             </p>
           </div>
           <div className={styles.tipCard}>
