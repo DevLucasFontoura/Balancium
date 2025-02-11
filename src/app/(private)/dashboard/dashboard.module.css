@@ -1,34 +1,241 @@
 .container {
-  @apply max-w-7xl mx-auto p-8;
+  @apply max-w-7xl mx-auto p-8 space-y-8;
 }
 
-.header {
+.loadingContainer {
+  @apply flex justify-center items-center min-h-screen;
+}
+
+.loadingSpinner {
+  @apply w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin;
+}
+
+.welcomeHero {
+  @apply bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-2xl p-8 text-white shadow-xl mb-8;
+}
+
+.welcomeContent {
   @apply mb-8;
 }
 
-.title {
-  @apply text-2xl font-bold text-gray-900 dark:text-white;
+.welcomeTitle {
+  @apply text-4xl font-bold mb-2;
 }
 
-.subtitle {
+.welcomeMessage {
+  @apply text-xl text-emerald-50 capitalize;
+}
+
+.statsGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.statCard {
+  @apply bg-white/10 backdrop-blur-lg rounded-xl p-6;
+}
+
+.statHeader {
+  @apply flex items-center gap-3 mb-2;
+}
+
+.statLabel {
+  @apply text-sm text-emerald-50;
+}
+
+.statValue {
+  @apply text-3xl font-bold;
+}
+
+.statCompare {
+  @apply text-sm text-emerald-50/80 mt-2;
+}
+
+.positive {
+  @apply text-emerald-50;
+}
+
+.negative {
+  @apply text-red-100;
+}
+
+.mainGrid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+.leftColumn {
+  @apply lg:col-span-2 space-y-8;
+}
+
+.rightColumn {
+  @apply space-y-8;
+}
+
+.chartCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.chartHeader {
+  @apply mb-6;
+}
+
+.chartTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white;
+}
+
+.chartSubtitle {
+  @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
+}
+
+.cardHeader {
+  @apply flex items-center justify-between mb-6;
+}
+
+.cardTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white;
+}
+
+.viewAllButton {
+  @apply text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300;
+}
+
+.transactionsCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.transactionsList {
+  @apply space-y-4;
+}
+
+.transactionItem {
+  @apply flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-0;
+}
+
+.transactionInfo {
+  @apply flex-1;
+}
+
+.transactionDate {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.transactionDescription {
+  @apply text-gray-900 dark:text-white font-medium;
+}
+
+.transactionValue {
+  @apply text-right font-semibold;
+}
+
+.summaryCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.summaryContent {
+  @apply space-y-4 mt-4;
+}
+
+.summaryItem {
+  @apply flex items-center justify-between;
+}
+
+.summaryLabel {
   @apply text-gray-600 dark:text-gray-400;
+}
+
+.summaryValue {
+  @apply font-semibold;
+}
+
+.categoriesCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.categoriesList {
+  @apply space-y-4 mt-4;
+}
+
+.categoryItem {
+  @apply relative flex items-center gap-4;
+}
+
+.categoryRank {
+  @apply w-6 h-6 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 
+         text-emerald-600 dark:text-emerald-400 text-sm font-medium;
+}
+
+.categoryInfo {
+  @apply flex-1;
+}
+
+.categoryName {
+  @apply text-gray-900 dark:text-white font-medium;
+}
+
+.categoryValue {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.categoryBar {
+  @apply w-24 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden;
+}
+
+.categoryProgress {
+  @apply h-full bg-emerald-500 dark:bg-emerald-400 rounded-full transition-all duration-500;
+}
+
+.periodSelect {
+  @apply px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 
+         rounded-lg text-sm text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500;
+}
+
+.quickActions {
+  @apply space-y-6;
+}
+
+.sectionTitle {
+  @apply text-2xl font-bold text-gray-900 dark:text-white mb-6;
+}
+
+.actionsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.actionCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 
+         border border-gray-100 dark:border-gray-700 cursor-pointer transform hover:-translate-y-1;
+}
+
+.primaryAction {
+  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 text-white;
+}
+
+.actionIcon {
+  @apply w-12 h-12 mb-4 text-emerald-500 dark:text-emerald-400;
+}
+
+.primaryAction .actionIcon {
+  @apply text-white;
+}
+
+.actionTitle {
+  @apply text-xl font-semibold mb-2 text-gray-900 dark:text-white;
+}
+
+.primaryAction .actionTitle {
+  @apply text-white;
+}
+
+.actionDescription {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.primaryAction .actionDescription {
+  @apply text-emerald-50;
 }
 
 /* Cards de Estatísticas */
 .statsGrid {
   @apply grid grid-cols-1 md:grid-cols-3 gap-6 mb-8;
-}
-
-.statCard {
-  @apply p-6 rounded-xl shadow-sm;
-}
-
-.statLabel {
-  @apply text-sm font-medium text-gray-600 dark:text-gray-400;
-}
-
-.statValue {
-  @apply text-2xl font-bold;
 }
 
 .iconContainer {
@@ -38,22 +245,6 @@
 /* Gráficos */
 .chartsGrid {
   @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
-}
-
-.chartCard {
-  @apply bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm w-full;
-}
-
-.chartHeader {
-  @apply flex items-center justify-between mb-6;
-}
-
-.chartTitle {
-  @apply text-lg font-semibold text-gray-900 dark:text-white;
-}
-
-.periodSelect {
-  @apply px-3 py-1.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300;
 }
 
 .distributionCharts {
