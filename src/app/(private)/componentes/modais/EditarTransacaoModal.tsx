@@ -26,8 +26,8 @@ export function EditarTransacaoModal({ transacao, isOpen, onClose, onUpdate }: E
   });
 
   const categorias = {
-    entrada: ['salario', 'outros'],
-    saida: ['alimentacao', 'transporte', 'moradia', 'lazer', 'outros']
+    entrada: ['salario', 'investimentos', 'outros'],
+    saida: ['alimentacao', 'transporte', 'moradia', 'lazer', 'cartao_credito', 'saude', 'educacao', 'outros']
   };
 
   async function handleSubmit(e: React.FormEvent) {

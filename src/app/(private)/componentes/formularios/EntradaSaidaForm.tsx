@@ -148,6 +148,7 @@ export function EntradaSaidaForm() {
               <option value="lazer">Lazer</option>
               <option value="saude">Saúde</option>
               <option value="educacao">Educação</option>
+              <option value="cartao_credito">Cartão de Crédito</option>
               <option value="outros">Outros</option>
             </select>
           </div>

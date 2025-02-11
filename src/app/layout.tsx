@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { FirebaseProvider } from '@/providers/FirebaseProvider';
 import { SessionProvider } from '@/components/providers/SessionProvider';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,26 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <FirebaseProvider>
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  background: '#333',
+                  color: '#fff',
+                },
+                success: {
+                  style: {
+                    background: '#059669',
+                  },
+                },
+                error: {
+                  style: {
+                    background: '#dc2626',
+                  },
+                },
+              }}
+            />
             {children}
           </FirebaseProvider>
         </SessionProvider>

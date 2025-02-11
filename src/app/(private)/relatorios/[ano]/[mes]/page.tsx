@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ResumoMensal } from '@/app/(private)/componentes/resumos/ResumoMensal';
@@ -33,6 +34,14 @@ export default function RelatorioMensal() {
   const mesNormalizado = (params.mes as string).toLowerCase();
   const mesIndex = meses.findIndex(m => m === mesNormalizado) + 1;
   
+  // Adicione este estado para forçar atualizações
+  const [atualizacaoContador, setAtualizacaoContador] = useState(0);
+
+  // Função para forçar atualização dos componentes
+  const handleTransacoesChange = () => {
+    setAtualizacaoContador(prev => prev + 1);
+  };
+
   if (mesIndex <= 0) {
     return (
       <div className="p-8">
@@ -69,8 +78,16 @@ export default function RelatorioMensal() {
         </p>
       </div>
 
-      <ResumoMensal mes={mesIndex} ano={ano} />
-      <TabelaMensal mes={mesIndex} ano={ano} />
+      <ResumoMensal 
+        mes={mesIndex} 
+        ano={ano} 
+        key={`resumo-${atualizacaoContador}`} // Força re-render
+      />
+      <TabelaMensal 
+        mes={mesIndex} 
+        ano={ano} 
+        onTransacoesChange={handleTransacoesChange} 
+      />
 
       {/* Para debug */}
       <div className="text-sm text-gray-500 mt-4">

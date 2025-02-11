@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, query, where, orderBy, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
 import { formatarMoeda } from '@/utils/formatarMoeda';
 import { formatarData } from '@/utils/formatarData';
 import { EditarTransacaoModal } from '../modais/EditarTransacaoModal';
+import { toast } from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 interface Transacao {
   id: string;
@@ -19,9 +21,10 @@ interface Transacao {
 interface TabelaMensalProps {
   mes: number;
   ano: number;
+  onTransacoesChange?: () => void;
 }
 
-export function TabelaMensal({ mes, ano }: TabelaMensalProps) {
+export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps) {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [loading, setLoading] = useState(true);
   const [transacaoParaEditar, setTransacaoParaEditar] = useState<Transacao | null>(null);
@@ -60,20 +63,29 @@ export function TabelaMensal({ mes, ano }: TabelaMensalProps) {
   }
 
   async function handleDelete(transacaoId: string) {
-    if (!window.confirm('Tem certeza que deseja excluir esta transação?')) {
-      return;
-    }
+    const result = await Swal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter esta ação!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#059669',
+      cancelButtonColor: '#dc2626',
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar'
+    });
 
-    try {
-      const docRef = doc(db, 'transacoes', transacaoId);
-      await updateDoc(docRef, {
-        status: 'inativo',
-        updatedAt: new Date()
-      });
-      
-      await carregarTransacoes(); // Recarrega a lista após deletar
-    } catch (error) {
-      console.error('Erro ao excluir transação:', error);
+    if (result.isConfirmed) {
+      try {
+        const docRef = doc(db, 'transacoes', transacaoId);
+        await deleteDoc(docRef);
+        
+        toast.success('Transação excluída com sucesso!');
+        await carregarTransacoes();
+        onTransacoesChange?.();
+      } catch (error) {
+        console.error('Erro ao excluir transação:', error);
+        toast.error('Erro ao excluir transação. Tente novamente.');
+      }
     }
   }
 
@@ -169,6 +181,7 @@ export function TabelaMensal({ mes, ano }: TabelaMensalProps) {
           onUpdate={() => {
             carregarTransacoes();
             setTransacaoParaEditar(null);
+            onTransacoesChange?.();
           }}
         />
       )}

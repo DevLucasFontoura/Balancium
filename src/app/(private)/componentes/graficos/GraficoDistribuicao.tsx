@@ -22,6 +22,7 @@ const CATEGORIAS = {
   lazer: { nome: 'Lazer', cor: 'rgba(59, 130, 246, 0.9)' },
   saude: { nome: 'Saúde', cor: 'rgba(99, 102, 241, 0.9)' },
   educacao: { nome: 'Educação', cor: 'rgba(139, 92, 246, 0.9)' },
+  cartao_credito: { nome: 'Cartão de Crédito', cor: 'rgba(168, 85, 247, 0.9)' },
   outros: { nome: 'Outros', cor: 'rgba(236, 72, 153, 0.9)' }
 };
 
