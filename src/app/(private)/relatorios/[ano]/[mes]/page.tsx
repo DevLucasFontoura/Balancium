@@ -6,15 +6,51 @@ import { ResumoMensal } from '@/app/(private)/componentes/resumos/ResumoMensal';
 import { TabelaMensal } from '@/app/(private)/componentes/tabelas/TabelaMensal';
 
 const meses = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  'janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho',
+  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
 ];
+
+// Mapeamento para nomes de exibição
+const nomesMeses = {
+  'janeiro': 'Janeiro',
+  'fevereiro': 'Fevereiro',
+  'marco': 'Março',
+  'abril': 'Abril',
+  'maio': 'Maio',
+  'junho': 'Junho',
+  'julho': 'Julho',
+  'agosto': 'Agosto',
+  'setembro': 'Setembro',
+  'outubro': 'Outubro',
+  'novembro': 'Novembro',
+  'dezembro': 'Dezembro'
+};
 
 export default function RelatorioMensal() {
   const params = useParams();
   const ano = parseInt(params.ano as string);
-  const mes = parseInt(params.mes as string);
-  const nomeMes = meses[mes - 1];
+  
+  const mesNormalizado = (params.mes as string).toLowerCase();
+  const mesIndex = meses.findIndex(m => m === mesNormalizado) + 1;
+  
+  if (mesIndex <= 0) {
+    return (
+      <div className="p-8">
+        <Link href="/relatorios" className="text-emerald-600 hover:text-emerald-700 mb-4 inline-flex items-center">
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Voltar
+        </Link>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Mês não encontrado
+        </h1>
+      </div>
+    );
+  }
+
+  // Usar o mapeamento para obter o nome correto de exibição
+  const nomeMes = nomesMeses[mesNormalizado];
 
   return (
     <div className="p-8">
@@ -33,8 +69,13 @@ export default function RelatorioMensal() {
         </p>
       </div>
 
-      <ResumoMensal mes={mes} ano={ano} />
-      <TabelaMensal mes={nomeMes} ano={ano.toString()} />
+      <ResumoMensal mes={mesIndex} ano={ano} />
+      <TabelaMensal mes={mesIndex} ano={ano} />
+
+      {/* Para debug */}
+      <div className="text-sm text-gray-500 mt-4">
+        Debug: Mês: {mesIndex}, Ano: {ano}
+      </div>
     </div>
   );
 } 

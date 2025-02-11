@@ -4,18 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const MESES = [
-  { nome: 'Janeiro', abrev: 'Jan' },
-  { nome: 'Fevereiro', abrev: 'Fev' },
-  { nome: 'Março', abrev: 'Mar' },
-  { nome: 'Abril', abrev: 'Abr' },
-  { nome: 'Maio', abrev: 'Mai' },
-  { nome: 'Junho', abrev: 'Jun' },
-  { nome: 'Julho', abrev: 'Jul' },
-  { nome: 'Agosto', abrev: 'Ago' },
-  { nome: 'Setembro', abrev: 'Set' },
-  { nome: 'Outubro', abrev: 'Out' },
-  { nome: 'Novembro', abrev: 'Nov' },
-  { nome: 'Dezembro', abrev: 'Dez' }
+  { nome: 'Janeiro', abrev: 'Jan', url: 'janeiro' },
+  { nome: 'Fevereiro', abrev: 'Fev', url: 'fevereiro' },
+  { nome: 'Março', abrev: 'Mar', url: 'marco' },
+  { nome: 'Abril', abrev: 'Abr', url: 'abril' },
+  { nome: 'Maio', abrev: 'Mai', url: 'maio' },
+  { nome: 'Junho', abrev: 'Jun', url: 'junho' },
+  { nome: 'Julho', abrev: 'Jul', url: 'julho' },
+  { nome: 'Agosto', abrev: 'Ago', url: 'agosto' },
+  { nome: 'Setembro', abrev: 'Set', url: 'setembro' },
+  { nome: 'Outubro', abrev: 'Out', url: 'outubro' },
+  { nome: 'Novembro', abrev: 'Nov', url: 'novembro' },
+  { nome: 'Dezembro', abrev: 'Dez', url: 'dezembro' }
 ];
 
 function getAnos() {
@@ -59,10 +59,10 @@ export default function RelatoriosPage() {
 
       {/* Grid de Meses */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {MESES.map(({ nome, abrev }) => (
+        {MESES.map(({ nome, abrev, url }) => (
           <Link
             key={nome}
-            href={`/relatorios/${anoSelecionado}/${nome.toLowerCase()}`}
+            href={`/relatorios/${anoSelecionado}/${url}`}
             className="group relative bg-emerald-50/50 dark:bg-emerald-900/10 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             <div className="p-6">

@@ -1,91 +1,159 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase/config';
-import { Transacao } from '@/app/tipos';
+import { useEffect, useState } from 'react';
+import { collection, query, where, orderBy, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { db, auth } from '@/lib/firebase/config';
+import { formatarMoeda } from '@/utils/formatarMoeda';
+import { formatarData } from '@/utils/formatarData';
+import { EditarTransacaoModal } from '../modais/EditarTransacaoModal';
+
+interface Transacao {
+  id: string;
+  data: string;
+  descricao: string;
+  categoria: string;
+  valor: number;
+  tipo: 'entrada' | 'saida';
+}
 
 interface TabelaMensalProps {
-  mes: string;
-  ano?: string;
+  mes: number;
+  ano: number;
 }
 
 export function TabelaMensal({ mes, ano }: TabelaMensalProps) {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [loading, setLoading] = useState(true);
+  const [transacaoParaEditar, setTransacaoParaEditar] = useState<Transacao | null>(null);
 
-  useEffect(() => {
-    async function carregarTransacoes() {
-      try {
-        const user = auth.currentUser;
-        if (!user) return;
+  async function carregarTransacoes() {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
 
-        const mesNumero = new Date(`${mes} 1, 2024`).getMonth() + 1;
-        const anoNumero = ano ? parseInt(ano) : new Date().getFullYear();
+      console.log('Buscando transações:', { mes, ano, userId: user.uid });
 
-        const q = query(
-          collection(db, 'transacoes'),
-          where('userId', '==', user.uid),
-          where('mes', '==', mesNumero),
-          where('ano', '==', anoNumero),
-          orderBy('data', 'desc')
-        );
+      const q = query(
+        collection(db, 'transacoes'),
+        where('userId', '==', user.uid),
+        where('mes', '==', mes),
+        where('ano', '==', ano),
+        where('status', '==', 'ativo')
+      );
 
-        const querySnapshot = await getDocs(q);
-        const transacoesData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Transacao[];
+      const querySnapshot = await getDocs(q);
+      const dados = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Transacao[];
 
-        setTransacoes(transacoesData);
-      } catch (error) {
-        console.error('Erro ao carregar transações:', error);
-      } finally {
-        setLoading(false);
-      }
+      const dadosOrdenados = dados.sort((a, b) => 
+        new Date(b.data).getTime() - new Date(a.data).getTime()
+      );
+
+      setTransacoes(dadosOrdenados);
+      setLoading(false);
+    } catch (error) {
+      console.error('Erro ao carregar transações:', error);
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete(transacaoId: string) {
+    if (!window.confirm('Tem certeza que deseja excluir esta transação?')) {
+      return;
     }
 
+    try {
+      const docRef = doc(db, 'transacoes', transacaoId);
+      await updateDoc(docRef, {
+        status: 'inativo',
+        updatedAt: new Date()
+      });
+      
+      await carregarTransacoes(); // Recarrega a lista após deletar
+    } catch (error) {
+      console.error('Erro ao excluir transação:', error);
+    }
+  }
+
+  useEffect(() => {
     carregarTransacoes();
   }, [mes, ano]);
 
   if (loading) {
-    return <div className="text-center py-4">Carregando transações...</div>;
+    return (
+      <div className="mt-4 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+        <p className="text-center text-gray-600 dark:text-gray-400">Carregando...</p>
+      </div>
+    );
+  }
+
+  if (transacoes.length === 0) {
+    return (
+      <div className="mt-4 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+        <p className="text-center text-gray-600 dark:text-gray-400">
+          Nenhuma transação encontrada para este mês.
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Transações do Mês</h2>
-      
+    <div className="mt-4 bg-white rounded-lg shadow overflow-hidden dark:bg-gray-800">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-gray-50 dark:bg-gray-700">
-              <th className="p-4 text-left">Data</th>
-              <th className="p-4 text-left">Descrição</th>
-              <th className="p-4 text-left">Categoria</th>
-              <th className="p-4 text-right">Valor</th>
-              <th className="p-4 text-center">Tipo</th>
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                DATA
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                DESCRIÇÃO
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                CATEGORIA
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                VALOR
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                AÇÕES
+              </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+          <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
             {transacoes.map((transacao) => (
               <tr key={transacao.id}>
-                <td className="p-4">
-                  {new Date(transacao.data).toLocaleDateString('pt-BR')}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                  {formatarData(transacao.data)}
                 </td>
-                <td className="p-4">{transacao.descricao}</td>
-                <td className="p-4">{transacao.categoria}</td>
-                <td className="p-4 text-right">
-                  R$ {transacao.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                  {transacao.descricao}
                 </td>
-                <td className="p-4 text-center">
-                  <span className={`px-2 py-1 rounded-full text-xs ${
-                    transacao.tipo === 'entrada' 
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
-                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
-                  }`}>
-                    {transacao.tipo === 'entrada' ? 'Entrada' : 'Saída'}
-                  </span>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                  {transacao.categoria}
+                </td>
+                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
+                  transacao.tipo === 'entrada' ? 'text-emerald-600' : 'text-red-600'
+                }`}>
+                  {formatarMoeda(transacao.valor)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => setTransacaoParaEditar(transacao)}
+                      className="px-3 py-1 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 rounded-md transition-colors"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(transacao.id)}
+                      className="px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
+                    >
+                      Excluir
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -93,10 +161,16 @@ export function TabelaMensal({ mes, ano }: TabelaMensalProps) {
         </table>
       </div>
 
-      {transacoes.length === 0 && (
-        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-          Nenhuma transação registrada neste mês.
-        </div>
+      {transacaoParaEditar && (
+        <EditarTransacaoModal
+          transacao={transacaoParaEditar}
+          isOpen={!!transacaoParaEditar}
+          onClose={() => setTransacaoParaEditar(null)}
+          onUpdate={() => {
+            carregarTransacoes();
+            setTransacaoParaEditar(null);
+          }}
+        />
       )}
     </div>
   );
