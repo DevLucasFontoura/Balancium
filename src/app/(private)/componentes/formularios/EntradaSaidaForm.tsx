@@ -36,7 +36,7 @@ export function EntradaSaidaForm() {
       const transacao = {
         userId: user.uid,
         descricao: formData.descricao,
-        valor: valorNumerico, // Salva o valor numérico diretamente
+        valor: valorNumerico,
         tipo: formData.tipo,
         categoria: formData.categoria,
         data: new Date(formData.data).toISOString(),
