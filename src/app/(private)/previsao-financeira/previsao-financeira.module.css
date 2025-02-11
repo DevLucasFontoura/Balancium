@@ -1,0 +1,134 @@
+.container {
+  @apply max-w-7xl mx-auto p-8 space-y-8;
+}
+
+.heroCard {
+  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
+         rounded-2xl p-8 text-white shadow-lg;
+}
+
+.heroTitle {
+  @apply text-2xl font-bold mb-2;
+}
+
+.heroSubtitle {
+  @apply text-emerald-50;
+}
+
+.contentCard {
+  @apply bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg;
+}
+
+.welcomeHero {
+  @apply bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-2xl p-8 text-white shadow-xl mb-8;
+}
+
+.welcomeContent {
+  @apply mb-8;
+}
+
+.welcomeTitle {
+  @apply text-4xl font-bold mb-2;
+}
+
+.welcomeMessage {
+  @apply text-xl text-emerald-50 capitalize;
+}
+
+.mainGrid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8;
+}
+
+.leftColumn {
+  @apply lg:col-span-2 space-y-8;
+}
+
+.rightColumn {
+  @apply space-y-8;
+}
+
+.chartCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.chartHeader {
+  @apply mb-6;
+}
+
+.chartTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white;
+}
+
+.chartSubtitle {
+  @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
+}
+
+.categoriesCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.cardTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-6;
+}
+
+.categoriesList {
+  @apply space-y-4;
+}
+
+.categoryItem {
+  @apply flex items-center gap-4;
+}
+
+.categoryRank {
+  @apply w-8 h-8 flex items-center justify-center rounded-full 
+         bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400;
+}
+
+.categoryInfo {
+  @apply flex-1;
+}
+
+.categoryName {
+  @apply text-gray-900 dark:text-white font-medium;
+}
+
+.categoryValue {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.infoCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.infoTitle {
+  @apply text-lg font-semibold text-gray-900 dark:text-white mb-4;
+}
+
+.infoGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.infoItem {
+  @apply flex items-start gap-3;
+}
+
+.infoIcon {
+  @apply w-8 h-8 flex items-center justify-center rounded-full 
+         bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400;
+}
+
+.explanationCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.explanationTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-4;
+}
+
+.explanationContent {
+  @apply space-y-4 text-gray-600 dark:text-gray-300;
+}
+
+.explanationContent p {
+  @apply leading-relaxed;
+} 

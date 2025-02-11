@@ -1,11 +1,71 @@
 .container {
-  padding: 1.5rem;
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  dark:bg-gray-800;
+  @apply space-y-8;
 }
 
+.welcomeHero {
+  @apply bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-2xl p-8 text-white shadow-xl mb-8;
+}
+
+.welcomeContent {
+  @apply mb-4;
+}
+
+.welcomeTitle {
+  @apply text-4xl font-bold mb-2;
+}
+
+.welcomeMessage {
+  @apply text-xl text-emerald-50;
+}
+
+.loading {
+  @apply flex justify-center items-center h-64 text-gray-500;
+}
+
+.chartWrapper {
+  @apply h-[400px] bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.insightsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.insightCardPositive {
+  @apply flex items-start gap-4 bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-lg;
+}
+
+.insightCardNegative {
+  @apply flex items-start gap-4 bg-red-50 dark:bg-red-900/30 p-4 rounded-lg;
+}
+
+.insightIcon {
+  @apply w-8 h-8 flex items-center justify-center rounded-full 
+         bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400;
+}
+
+.insightContent {
+  @apply flex-1;
+}
+
+.insightTitle {
+  @apply text-lg font-semibold text-emerald-700 dark:text-emerald-300 mb-2;
+}
+
+.insightText {
+  @apply text-emerald-600 dark:text-emerald-400;
+}
+
+.insightCardNegative .insightIcon {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.insightCardNegative .insightTitle {
+  @apply text-red-700 dark:text-red-300;
+}
+
+.insightCardNegative .insightText {
+  @apply text-red-600 dark:text-red-400;
+}
 .header {
   text-align: center;
   margin-bottom: 2rem;

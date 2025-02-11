@@ -1,21 +1,48 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { formatarMoeda } from '@/utils/formatarMoeda';
 import styles from './PrevisaoFinanceiraIA.module.css';
 
-interface DadosMensais {
-  mes: string;
-  entradas: number;
-  saidas: number;
-  previsaoEntradas?: number;
-  previsaoSaidas?: number;
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+interface DadosPrevisao {
+  historico: {
+    entradas: number[];
+    saidas: number[];
+  };
+  previsao: {
+    entradas: number[];
+    saidas: number[];
+  };
 }
 
 export function PrevisaoFinanceiraIA() {
-  const [dados, setDados] = useState<DadosMensais[]>([]);
+  const [dados, setDados] = useState<DadosPrevisao>({
+    historico: { entradas: [], saidas: [] },
+    previsao: { entradas: [], saidas: [] }
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +52,9 @@ export function PrevisaoFinanceiraIA() {
         if (!user) return;
 
         const anoAtual = new Date().getFullYear();
+        const mesAtual = new Date().getMonth() + 1;
         
+        // Carregar dados históricos
         const q = query(
           collection(db, 'transacoes'),
           where('userId', '==', user.uid),
@@ -34,38 +63,63 @@ export function PrevisaoFinanceiraIA() {
         );
 
         const querySnapshot = await getDocs(q);
-        const transacoes = querySnapshot.docs.map(doc => ({
-          ...doc.data(),
-          id: doc.id
-        }));
+        const dadosPorMes: { [key: number]: { entradas: number; saidas: number } } = {};
 
-        // Agrupa transações por mês
-        const dadosPorMes = Array.from({ length: 12 }, (_, i) => ({
-          mes: new Date(2024, i).toLocaleString('pt-BR', { month: 'short' }),
-          entradas: 0,
-          saidas: 0
-        }));
+        // Inicializar meses
+        for (let i = 1; i <= 12; i++) {
+          dadosPorMes[i] = { entradas: 0, saidas: 0 };
+        }
 
-        transacoes.forEach((transacao: any) => {
-          const mesIndex = transacao.mes - 1;
-          if (transacao.tipo === 'entrada') {
-            dadosPorMes[mesIndex].entradas += transacao.valor;
-          } else {
-            dadosPorMes[mesIndex].saidas += transacao.valor;
+        // Processar dados históricos
+        querySnapshot.forEach((doc) => {
+          const transacao = doc.data();
+          if (transacao.mes <= mesAtual) {
+            if (transacao.tipo === 'entrada') {
+              dadosPorMes[transacao.mes].entradas += transacao.valor;
+            } else {
+              dadosPorMes[transacao.mes].saidas += transacao.valor;
+            }
           }
         });
 
-        // Filtra apenas os meses até o atual
-        const mesAtual = new Date().getMonth();
-        const dadosHistoricos = dadosPorMes.slice(0, mesAtual + 1);
+        // Calcular médias para previsão
+        const mediaEntradas = Object.values(dadosPorMes)
+          .reduce((acc, val) => acc + val.entradas, 0) / mesAtual;
+        const mediaSaidas = Object.values(dadosPorMes)
+          .reduce((acc, val) => acc + val.saidas, 0) / mesAtual;
 
-        // Calcula previsões para os próximos 3 meses
-        const previsoes = calcularPrevisoes(dadosHistoricos);
-        
-        setDados([...dadosHistoricos, ...previsoes]);
-        setLoading(false);
+        // Criar previsão para os próximos 3 meses
+        const historicoEntradas = [];
+        const historicoSaidas = [];
+        const previsaoEntradas = [];
+        const previsaoSaidas = [];
+
+        for (let i = 1; i <= mesAtual; i++) {
+          historicoEntradas.push(dadosPorMes[i].entradas);
+          historicoSaidas.push(dadosPorMes[i].saidas);
+        }
+
+        // Adicionar previsões com variação aleatória
+        for (let i = 1; i <= 3; i++) {
+          const variacaoEntradas = (Math.random() * 0.2) - 0.1; // -10% a +10%
+          const variacaoSaidas = (Math.random() * 0.2) - 0.1;
+          previsaoEntradas.push(mediaEntradas * (1 + variacaoEntradas));
+          previsaoSaidas.push(mediaSaidas * (1 + variacaoSaidas));
+        }
+
+        setDados({
+          historico: {
+            entradas: historicoEntradas,
+            saidas: historicoSaidas
+          },
+          previsao: {
+            entradas: previsaoEntradas,
+            saidas: previsaoSaidas
+          }
+        });
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
+      } finally {
         setLoading(false);
       }
     }
@@ -73,107 +127,92 @@ export function PrevisaoFinanceiraIA() {
     carregarDados();
   }, []);
 
-  // Função simplificada de previsão usando média móvel
-  function calcularPrevisoes(dadosHistoricos: DadosMensais[]): DadosMensais[] {
-    const mesesFuturos = ['jan', 'fev', 'mar'];
-    const ultimosMeses = dadosHistoricos.slice(-3);
-    
-    const mediaEntradas = ultimosMeses.reduce((acc, curr) => acc + curr.entradas, 0) / ultimosMeses.length;
-    const mediaSaidas = ultimosMeses.reduce((acc, curr) => acc + curr.saidas, 0) / ultimosMeses.length;
-    
-    // Adiciona uma pequena variação aleatória para tornar mais realista
-    return mesesFuturos.map((mes, index) => ({
-      mes: `${mes} (prev)`,
-      previsaoEntradas: mediaEntradas * (1 + (Math.random() * 0.1 - 0.05)),
-      previsaoSaidas: mediaSaidas * (1 + (Math.random() * 0.1 - 0.05)),
-      entradas: 0,
-      saidas: 0
-    }));
-  }
+  const meses = [
+    'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+  ];
+
+  const mesAtual = new Date().getMonth();
+  const labels = [
+    ...meses.slice(0, mesAtual + 1),
+    ...Array(3).fill(0).map((_, i) => `${meses[(mesAtual + i + 1) % 12]} (prev)`)
+  ];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Entradas',
+        data: [...dados.historico.entradas, ...dados.previsao.entradas],
+        borderColor: 'rgb(34, 197, 94)',
+        backgroundColor: 'rgba(34, 197, 94, 0.5)',
+        borderWidth: 2,
+        pointStyle: 'circle',
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        segment: {
+          borderDash: (ctx: any) => 
+            ctx.p0DataIndex >= dados.historico.entradas.length ? [6, 6] : undefined,
+        }
+      },
+      {
+        label: 'Saídas',
+        data: [...dados.historico.saidas, ...dados.previsao.saidas],
+        borderColor: 'rgb(239, 68, 68)',
+        backgroundColor: 'rgba(239, 68, 68, 0.5)',
+        borderWidth: 2,
+        pointStyle: 'circle',
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        segment: {
+          borderDash: (ctx: any) => 
+            ctx.p0DataIndex >= dados.historico.saidas.length ? [6, 6] : undefined,
+        }
+      }
+    ]
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            let label = context.dataset.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += formatarMoeda(context.parsed.y);
+            }
+            return label;
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value: any) {
+            return formatarMoeda(value);
+          }
+        }
+      }
+    }
+  };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-500"></div>
-      </div>
-    );
+    return <div className={styles.loading}>Carregando previsão...</div>;
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>Análise Preditiva de Finanças</h3>
-        <p className={styles.subtitle}>
-          Baseado em seu histórico financeiro e padrões de gastos
-        </p>
-      </div>
-
-      <div className={styles.chartContainer}>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={dados} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="mes" />
-            <YAxis />
-            <Tooltip 
-              formatter={(value: number) => 
-                `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
-              }
-            />
-            <Legend />
-            
-            {/* Dados históricos */}
-            <Line 
-              type="monotone" 
-              dataKey="entradas" 
-              stroke="#059669" 
-              strokeWidth={2}
-              name="Entradas"
-              dot={{ r: 4 }}
-            />
-            <Line 
-              type="monotone" 
-              dataKey="saidas" 
-              stroke="#dc2626" 
-              strokeWidth={2}
-              name="Saídas"
-              dot={{ r: 4 }}
-            />
-
-            {/* Previsões */}
-            <Line 
-              type="monotone" 
-              dataKey="previsaoEntradas" 
-              stroke="#059669" 
-              strokeDasharray="5 5"
-              name="Previsão Entradas"
-              dot={{ r: 4, strokeDasharray: '' }}
-            />
-            <Line 
-              type="monotone" 
-              dataKey="previsaoSaidas" 
-              stroke="#dc2626" 
-              strokeDasharray="5 5"
-              name="Previsão Saídas"
-              dot={{ r: 4, strokeDasharray: '' }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className={styles.insights}>
-        <div className={styles.insightCard}>
-          <h4>Tendência de Entradas</h4>
-          <p>{dados[dados.length - 1]?.previsaoEntradas > dados[dados.length - 4]?.entradas 
-            ? 'Tendência de aumento nas entradas' 
-            : 'Tendência de redução nas entradas'}</p>
-        </div>
-        <div className={styles.insightCard}>
-          <h4>Tendência de Saídas</h4>
-          <p>{dados[dados.length - 1]?.previsaoSaidas > dados[dados.length - 4]?.saidas
-            ? 'Tendência de aumento nas despesas' 
-            : 'Tendência de redução nas despesas'}</p>
-        </div>
-      </div>
+    <div className={styles.chartWrapper}>
+      <Line data={data} options={options} />
     </div>
   );
 } 
