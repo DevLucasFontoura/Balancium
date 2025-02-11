@@ -1,0 +1,150 @@
+.container {
+  @apply max-w-7xl mx-auto p-8 space-y-12;
+}
+
+.loadingContainer {
+  @apply flex justify-center items-center min-h-screen;
+}
+
+.loadingSpinner {
+  @apply w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin;
+}
+
+.welcomeHero {
+  @apply bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-2xl p-8 text-white shadow-xl;
+}
+
+.welcomeContent {
+  @apply mb-8;
+}
+
+.welcomeTitle {
+  @apply text-4xl font-bold mb-2;
+}
+
+.welcomeMessage {
+  @apply text-xl text-emerald-50;
+}
+
+.quickStats {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.statCard {
+  @apply bg-white/10 backdrop-blur-lg rounded-xl p-4 flex flex-col;
+}
+
+.statLabel {
+  @apply text-sm text-emerald-50 mb-1;
+}
+
+.statValue {
+  @apply text-2xl font-bold;
+}
+
+.positive {
+  @apply text-emerald-300;
+}
+
+.negative {
+  @apply text-red-300;
+}
+
+.sectionTitle {
+  @apply text-2xl font-bold text-gray-900 dark:text-white mb-6;
+}
+
+.actionsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.actionCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 
+         border border-gray-100 dark:border-gray-700 cursor-pointer transform hover:-translate-y-1;
+}
+
+.primaryAction {
+  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 text-white;
+}
+
+.actionIcon {
+  @apply w-12 h-12 mb-4 text-emerald-500 dark:text-emerald-400;
+}
+
+.primaryAction .actionIcon {
+  @apply text-white;
+}
+
+.actionTitle {
+  @apply text-xl font-semibold mb-2 text-gray-900 dark:text-white;
+}
+
+.primaryAction .actionTitle {
+  @apply text-white;
+}
+
+.actionDescription {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.primaryAction .actionDescription {
+  @apply text-emerald-50;
+}
+
+.recentTransactions {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+}
+
+.transactionsList {
+  @apply space-y-4;
+}
+
+.transactionCard {
+  @apply flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg;
+}
+
+.transactionInfo {
+  @apply flex flex-col;
+}
+
+.transactionDescription {
+  @apply font-medium text-gray-900 dark:text-white;
+}
+
+.transactionCategory {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.transactionValue {
+  @apply font-semibold;
+}
+
+.viewAllLink {
+  @apply block text-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 
+         dark:hover:text-emerald-300 font-medium mt-4;
+}
+
+.tipsSection {
+  @apply mt-12;
+}
+
+.tipsGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.tipCard {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 
+         dark:border-gray-700 hover:shadow-xl transition-all duration-300;
+}
+
+.tipIcon {
+  @apply text-3xl mb-4;
+}
+
+.tipTitle {
+  @apply text-lg font-semibold text-gray-900 dark:text-white mb-2;
+}
+
+.tipDescription {
+  @apply text-gray-600 dark:text-gray-400;
+} 
