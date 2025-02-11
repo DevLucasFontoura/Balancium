@@ -68,31 +68,22 @@ export function EntradaSaidaForm() {
     }
   };
 
-  // Formata o valor para exibição no input
   const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     
-    // Remove tudo que não for número ou vírgula
-    value = value.replace(/[^\d,]/g, '');
+    // Remove todos os caracteres não numéricos
+    value = value.replace(/\D/g, '');
     
-    // Garante que só exista uma vírgula
-    const partes = value.split(',');
-    if (partes.length > 2) {
-      value = partes[0] + ',' + partes[1];
-    }
+    // Converte para número e divide por 100 para considerar os centavos
+    const numero = parseInt(value, 10) / 100;
     
-    // Limita a 2 casas decimais
-    if (partes[1]?.length > 2) {
-      value = partes[0] + ',' + partes[1].slice(0, 2);
-    }
+    // Formata o número no padrão brasileiro
+    const valorFormatado = numero.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
 
-    // Formata o número com pontos para milhares
-    const numero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    
-    // Reconstrói o valor com a parte decimal
-    value = partes[1] ? `${numero},${partes[1]}` : numero;
-
-    setFormData({ ...formData, valor: value });
+    setFormData({ ...formData, valor: valorFormatado });
   };
 
   return (
