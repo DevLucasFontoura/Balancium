@@ -1,24 +1,45 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { auth } from '@/lib/firebase/config';
+import { auth, db } from '@/lib/firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import styles from './home.module.css';
 import { ResumoAnual } from '../componentes/resumos/ResumoAnual';
 
+interface UserData {
+  name: string;
+  email: string;
+  settings: {
+    currency: string;
+    language: string;
+  };
+}
+
 export function Home() {
-  const [userName, setUserName] = useState<string>('');
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const user = auth.currentUser;
-    if (user?.displayName) {
-      setUserName(user.displayName);
-    } else if (user?.email) {
-      // Se não tiver nome, usa a parte antes do @ do email
-      setUserName(user.email.split('@')[0]);
-    }
-    setLoading(false);
+    const loadUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setUserData(userDoc.data() as UserData);
+          }
+        } catch (error) {
+          console.error('Erro ao carregar dados do usuário:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
   }, []);
 
   if (loading) {
@@ -35,7 +56,7 @@ export function Home() {
       <section className={styles.welcomeHero}>
         <div className={styles.welcomeContent}>
           <h1 className={styles.welcomeTitle}>
-            Olá, {userName}! 👋
+            Olá, {userData?.name || 'Usuário'}! 👋
           </h1>
           <p className={styles.welcomeMessage}>
             Que bom ter você de volta! Vamos organizar suas finanças?

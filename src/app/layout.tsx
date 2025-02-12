@@ -24,7 +24,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SessionProvider>
             <FirebaseProvider>
-              <Toaster />
+              <Toaster position="top-right" />
               {children}
             </FirebaseProvider>
           </SessionProvider>

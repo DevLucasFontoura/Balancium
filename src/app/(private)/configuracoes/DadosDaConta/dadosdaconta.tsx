@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import styles from './dadosdaconta.module.css';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 interface UserData {
   name: string;
@@ -63,14 +64,25 @@ export function DadosDaConta() {
     if (user) {
       setIsSaving(true);
       try {
-        await updateDoc(doc(db, 'users', user.uid), {
+        const userRef = doc(db, 'users', user.uid);
+        const updateData = {
           name: userData.name,
-          settings: userData.settings,
+          settings: {
+            currency: userData.settings.currency,
+            language: userData.settings.language
+          },
           updatedAt: new Date().toISOString()
-        });
+        };
+        await updateDoc(userRef, updateData);
+        const updatedDoc = await getDoc(userRef);
+        if (updatedDoc.exists()) {
+          setUserData(updatedDoc.data() as UserData);
+        }
         setIsEditing(false);
+        toast.success('Dados atualizados com sucesso!');
       } catch (error) {
         console.error('Erro ao salvar dados:', error);
+        toast.error('Erro ao atualizar dados. Tente novamente.');
       } finally {
         setIsSaving(false);
       }
