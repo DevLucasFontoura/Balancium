@@ -20,7 +20,7 @@ export function Login() {
     const result = await signIn(formData);
     
     if (result) {
-      router.push('/dashboard');
+      router.push('/BemVindoLogado');
     }
   };
 

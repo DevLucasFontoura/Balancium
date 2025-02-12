@@ -1,0 +1,66 @@
+.container {
+  @apply max-w-7xl mx-auto p-8 space-y-8;
+}
+
+.heroCard {
+  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
+         rounded-2xl p-8 text-white shadow-lg;
+}
+
+.heroTitle {
+  @apply text-2xl font-bold mb-2;
+}
+
+.heroSubtitle {
+  @apply text-emerald-50;
+}
+
+.content {
+  @apply space-y-8;
+}
+
+.sectionCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+}
+
+.sectionTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-2;
+}
+
+.sectionDescription {
+  @apply text-gray-600 dark:text-gray-400 mb-6;
+}
+
+.integracoesGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.integracaoCard {
+  @apply flex items-center justify-between p-4 
+         bg-gray-50 dark:bg-gray-700/50 rounded-lg;
+}
+
+.integracaoInfo {
+  @apply flex items-center gap-4;
+}
+
+.logoContainer {
+  @apply w-12 h-12 flex items-center justify-center 
+         bg-white dark:bg-gray-800 rounded-lg p-2;
+}
+
+.logo {
+  @apply w-full h-full object-contain;
+}
+
+.integracaoNome {
+  @apply font-medium text-gray-900 dark:text-white;
+}
+
+.lastSync {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.loading {
+  @apply flex justify-center items-center h-64 text-gray-500;
+} 

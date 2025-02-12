@@ -1,0 +1,100 @@
+.container {
+  @apply max-w-7xl mx-auto p-8 space-y-8;
+}
+
+.heroCard {
+  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
+         rounded-2xl p-8 text-white shadow-lg;
+}
+
+.heroTitle {
+  @apply text-2xl font-bold mb-2;
+}
+
+.heroSubtitle {
+  @apply text-emerald-50;
+}
+
+.content {
+  @apply space-y-8;
+}
+
+.exportCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+}
+
+.cardTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-6;
+}
+
+.formGrid {
+  @apply space-y-6;
+}
+
+.formGroup {
+  @apply space-y-2;
+}
+
+.label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.select {
+  @apply w-full;
+}
+
+.formatosGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-3;
+}
+
+.formatoButton {
+  @apply flex items-center gap-2 p-3 rounded-lg border text-left
+         transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700;
+}
+
+.formatoSelected {
+  @apply bg-emerald-50 border-emerald-500 text-emerald-700
+         dark:bg-emerald-900/30 dark:border-emerald-500 dark:text-emerald-400;
+}
+
+.formatoIcon {
+  @apply text-xl;
+}
+
+.dateRange {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.datePicker {
+  @apply w-full;
+}
+
+.exportActions {
+  @apply flex justify-end mt-8;
+}
+
+.historyCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+}
+
+.historyTable {
+  @apply overflow-x-auto;
+}
+
+.table {
+  @apply w-full;
+}
+
+.table th {
+  @apply px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400;
+}
+
+.table td {
+  @apply px-4 py-2 text-sm text-gray-900 dark:text-white;
+}
+
+.statusBadge {
+  @apply px-2 py-1 rounded-full text-xs font-medium
+         bg-emerald-100 text-emerald-700
+         dark:bg-emerald-900/30 dark:text-emerald-400;
+} 

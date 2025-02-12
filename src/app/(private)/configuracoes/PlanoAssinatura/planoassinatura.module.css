@@ -1,0 +1,109 @@
+.container {
+  @apply max-w-7xl mx-auto p-8 space-y-8;
+}
+
+.heroCard {
+  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
+         rounded-2xl p-8 text-white shadow-lg;
+}
+
+.heroTitle {
+  @apply text-2xl font-bold mb-2;
+}
+
+.heroSubtitle {
+  @apply text-emerald-50;
+}
+
+.content {
+  @apply space-y-8;
+}
+
+.currentPlanCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+}
+
+.currentPlanHeader {
+  @apply flex justify-between items-start mb-4;
+}
+
+.currentPlanTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white;
+}
+
+.currentPlanType {
+  @apply text-lg text-emerald-600 dark:text-emerald-400 mt-1;
+}
+
+.statusBadge {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.ativo {
+  @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400;
+}
+
+.pendente {
+  @apply bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400;
+}
+
+.planInfo {
+  @apply flex justify-between items-center text-gray-600 dark:text-gray-400;
+}
+
+.plansGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.planCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg 
+         flex flex-col;
+}
+
+.planTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-2;
+}
+
+.planPrice {
+  @apply text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-4;
+}
+
+.planFeatures {
+  @apply space-y-3 mb-6 flex-grow;
+}
+
+.featureItem {
+  @apply flex items-center gap-2 text-gray-600 dark:text-gray-400;
+}
+
+.planButton {
+  @apply w-full justify-center;
+}
+
+.historyCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+}
+
+.historyTitle {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-4;
+}
+
+.historyTable {
+  @apply overflow-x-auto;
+}
+
+.table {
+  @apply w-full;
+}
+
+.table th {
+  @apply px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400;
+}
+
+.table td {
+  @apply px-4 py-2 text-sm text-gray-900 dark:text-white;
+}
+
+.loading {
+  @apply flex justify-center items-center h-64 text-gray-500;
+} 
