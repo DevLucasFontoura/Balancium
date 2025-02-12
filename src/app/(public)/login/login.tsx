@@ -124,7 +124,7 @@ export function Login() {
                 </button>
                 <p className={styles.signupText}>
                   Ainda não tem uma conta?{' '}
-                  <Link href="/cadastro" className={styles.signupLink}>
+                  <Link href="/registro" className={styles.signupLink}>
                     Criar conta
                   </Link>
                 </p>

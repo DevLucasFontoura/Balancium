@@ -3,13 +3,23 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/hooks/useAuth';
+import { db } from '@/lib/firebase/config';
+import { doc, setDoc } from 'firebase/firestore';
 import styles from './registroUser.module.css';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase/config';
+import { toast } from 'react-hot-toast';
+
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export function Registro() {
   const router = useRouter();
-  const { signUp, loading, error } = useAuth();
-  const [formData, setFormData] = useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     password: ''
@@ -17,14 +27,54 @@ export function Registro() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    console.log('Tentando criar conta com:', formData); // Para debug
-    
-    const result = await signUp(formData);
-    
-    if (result) {
-      console.log('Conta criada com sucesso:', result); // Para debug
-      router.push('/dashboard');
+    setIsLoading(true);
+
+    try {
+      // Criar conta de autenticação
+      const authResult = await createUserWithEmailAndPassword(
+        auth, 
+        formData.email, 
+        formData.password
+      );
+      
+      if (authResult && authResult.user) {
+        // Criar documento do usuário no Firestore
+        const userData = {
+          name: formData.name,
+          email: formData.email,
+          uid: authResult.user.uid,
+          createdAt: new Date().toISOString(),
+          settings: {
+            currency: 'BRL',
+            language: 'pt-BR'
+          },
+          plan: {
+            type: 'free',
+            features: [
+              'Controle básico de despesas',
+              'Relatórios mensais',
+              'Até 100 transações/mês'
+            ],
+            startDate: new Date().toISOString(),
+            status: 'active'
+          }
+        };
+
+        await setDoc(doc(db, 'users', authResult.user.uid), userData);
+        toast.success('Conta criada com sucesso!');
+        router.push('/BemVindoLogado');
+      }
+    } catch (error: any) {
+      console.error('Erro ao criar conta:', error);
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error('Este e-mail já está em uso.');
+      } else if (error.code === 'auth/weak-password') {
+        toast.error('A senha deve ter pelo menos 6 caracteres.');
+      } else {
+        toast.error('Erro ao criar conta. Tente novamente.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,12 +132,6 @@ export function Registro() {
               Preencha os dados abaixo para começar
             </p>
             
-            {error && (
-              <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
-                {error}
-              </div>
-            )}
-            
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.inputGroup}>
                 <div>
@@ -135,9 +179,9 @@ export function Registro() {
                 <button 
                   type="submit" 
                   className={styles.submitButton}
-                  disabled={loading}
+                  disabled={isLoading}
                 >
-                  {loading ? 'Criando conta...' : 'Criar conta gratuitamente'}
+                  {isLoading ? 'Criando conta...' : 'Criar conta gratuitamente'}
                 </button>
                 <p className={styles.loginText}>
                   Já tem uma conta?{' '}

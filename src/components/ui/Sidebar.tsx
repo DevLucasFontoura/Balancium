@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase/config';
+import { auth, db } from '@/lib/firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
+
+interface UserData {
+  name: string;
+  email: string;
+}
 
 const menuItems = [
   {
@@ -92,6 +99,25 @@ const menuItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setUserData(userDoc.data() as UserData);
+          }
+        } catch (error) {
+          console.error('Erro ao carregar dados do usuário:', error);
+        }
+      }
+    };
+
+    loadUserData();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -100,6 +126,16 @@ export function Sidebar() {
     } catch (error) {
       console.error('Erro ao fazer logout:', error);
     }
+  };
+
+  // Pegar as iniciais do nome
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
@@ -163,11 +199,17 @@ export function Sidebar() {
       <div className="p-6 border-t border-emerald-800/50">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-full bg-emerald-800/60 flex items-center justify-center">
-            <span className="text-sm font-medium text-emerald-100">LF</span>
+            <span className="text-sm font-medium text-emerald-100">
+              {userData ? getInitials(userData.name) : ''}
+            </span>
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-emerald-50">Lucas Fontoura</p>
-            <p className="text-xs text-emerald-200/70">devlucasfontoura@gmail.com</p>
+            <p className="text-sm font-medium text-emerald-50">
+              {userData?.name || 'Carregando...'}
+            </p>
+            <p className="text-xs text-emerald-200/70">
+              {userData?.email || 'Carregando...'}
+            </p>
           </div>
         </div>
       </div>

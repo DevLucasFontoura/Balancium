@@ -3,23 +3,74 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { auth } from '@/lib/firebase/config';
+import { Input } from '@/components/ui/Input';
+import { auth, db } from '@/lib/firebase/config';
 import { useRouter } from 'next/navigation';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { deleteUser, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { toast } from 'react-hot-toast';
 import styles from './configuracoes.module.css';
 
 export function Configuracoes() {
   const router = useRouter();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showReauthenticate, setShowReauthenticate] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [password, setPassword] = useState('');
+
+  const handleReauthenticate = async () => {
+    const user = auth.currentUser;
+    if (!user?.email) return;
+
+    try {
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+      await handleDeleteAccount();
+    } catch (error) {
+      console.error('Erro na reautenticação:', error);
+      toast.error('Senha incorreta. Tente novamente.');
+    }
+  };
 
   const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    
     try {
       const user = auth.currentUser;
-      if (user) {
-        await user.delete();
-        router.push('/login');
+      if (!user) {
+        throw new Error('Usuário não encontrado');
       }
-    } catch (error) {
-      console.error('Erro ao deletar conta:', error);
+
+      // Guarda o uid antes de deletar a conta
+      const userId = user.uid;
+
+      try {
+        // 1. Primeiro deleta o documento do Firestore
+        await deleteDoc(doc(db, 'users', userId));
+        
+        // 2. Depois deleta a conta do Authentication
+        await deleteUser(user);
+
+        toast.success('Conta excluída com sucesso');
+        router.push('/');
+      } catch (error: any) {
+        // Se falhar ao deletar o documento, tenta restaurar
+        console.error('Erro ao excluir conta:', error);
+        throw error;
+      }
+
+    } catch (error: any) {
+      console.error('Erro ao excluir conta:', error);
+      
+      if (error.code === 'auth/requires-recent-login') {
+        setShowReauthenticate(true);
+        setShowDeleteConfirm(false);
+      } else {
+        toast.error('Erro ao excluir conta. Tente novamente.');
+      }
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -116,43 +167,83 @@ export function Configuracoes() {
 
         {/* Segurança */}
         <Card className={styles.dangerCard}>
-          <div className={styles.dangerContent}>
-            <div>
-              <h3 className={styles.dangerTitle}>Excluir Conta</h3>
+          {showReauthenticate ? (
+            <div className={styles.deleteConfirm}>
+              <h3 className={styles.dangerTitle}>Confirme sua senha</h3>
               <p className={styles.dangerDescription}>
-                Esta ação é permanente e não pode ser desfeita
+                Por segurança, digite sua senha para confirmar a exclusão da conta.
               </p>
-            </div>
-            {!showDeleteConfirm ? (
-              <Button 
-                variant="danger"
-                onClick={() => setShowDeleteConfirm(true)}
-                className={styles.dangerButton}
-              >
-                Excluir Conta
-              </Button>
-            ) : (
-              <div className={styles.deleteConfirm}>
-                <p className={styles.confirmText}>
-                  Tem certeza? Esta ação não pode ser desfeita.
-                </p>
+              <div className="mt-4">
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Digite sua senha"
+                  className="mb-4"
+                />
                 <div className={styles.confirmButtons}>
-                  <Button 
-                    variant="danger"
-                    onClick={handleDeleteAccount}
+                  <Button
+                    variant="destructive"
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                    onClick={handleReauthenticate}
+                    disabled={isDeleting || !password}
                   >
-                    Confirmar Exclusão
+                    {isDeleting ? 'Excluindo...' : 'Confirmar exclusão'}
                   </Button>
-                  <Button 
+                  <Button
                     variant="outline"
-                    onClick={() => setShowDeleteConfirm(false)}
+                    onClick={() => {
+                      setShowReauthenticate(false);
+                      setShowDeleteConfirm(false);
+                      setPassword('');
+                    }}
+                    disabled={isDeleting}
                   >
                     Cancelar
                   </Button>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          ) : !showDeleteConfirm ? (
+            <div className={styles.dangerContent}>
+              <div>
+                <h3 className={styles.dangerTitle}>Excluir Conta</h3>
+                <p className={styles.dangerDescription}>
+                  Esta ação é irreversível e todos os seus dados serão perdidos.
+                </p>
+              </div>
+              <Button
+                variant="destructive"
+                className="bg-red-600 hover:bg-red-700 text-white"
+                onClick={() => setShowDeleteConfirm(true)}
+              >
+                Excluir Conta
+              </Button>
+            </div>
+          ) : (
+            <div className={styles.deleteConfirm}>
+              <p className={styles.confirmText}>
+                Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.
+              </p>
+              <div className={styles.confirmButtons}>
+                <Button
+                  variant="destructive"
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  onClick={handleDeleteAccount}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? 'Excluindo...' : 'Sim, excluir minha conta'}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  disabled={isDeleting}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </div>
+          )}
         </Card>
       </div>
     </div>
