@@ -7,10 +7,17 @@ import { auth, db } from '@/lib/firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import styles from './planoassinatura.module.css';
 
-interface PlanoData {
-  tipo: 'free' | 'pro' | 'enterprise';
-  dataRenovacao: string;
-  status: 'ativo' | 'inativo' | 'pendente';
+interface UserPlan {
+  type: 'free' | 'pro' | 'enterprise';
+  features: string[];
+  startDate: string;
+  status: 'active' | 'inactive' | 'pending';
+}
+
+interface UserData {
+  plan: UserPlan;
+  email: string;
+  name: string;
 }
 
 const PLANOS = {
@@ -18,9 +25,9 @@ const PLANOS = {
     nome: 'Gratuito',
     preco: 'R$ 0,00',
     recursos: [
-      'Até 100 transações/mês',
-      'Relatórios básicos',
-      'Suporte por email'
+      'Controle básico de despesas',
+      'Relatórios mensais',
+      'Até 100 transações/mês'
     ]
   },
   pro: {
@@ -48,27 +55,41 @@ const PLANOS = {
 };
 
 export function PlanoAssinatura() {
-  const [planoAtual, setPlanoAtual] = useState<PlanoData | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadPlanoData = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          setPlanoAtual(userDoc.data().plano as PlanoData);
+    const loadUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setUserData(userDoc.data() as UserData);
+          }
         }
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    loadPlanoData();
+    loadUserData();
   }, []);
 
   if (loading) {
     return <div className={styles.loading}>Carregando...</div>;
   }
+
+  // Formata a data de início do plano
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -85,18 +106,17 @@ export function PlanoAssinatura() {
             <div>
               <h2 className={styles.currentPlanTitle}>Seu Plano Atual</h2>
               <p className={styles.currentPlanType}>
-                {planoAtual ? PLANOS[planoAtual.tipo].nome : 'Carregando...'}
+                {userData?.plan ? PLANOS[userData.plan.type].nome : 'Carregando...'}
               </p>
             </div>
             <div className={styles.planStatus}>
-              <span className={`${styles.statusBadge} ${styles[planoAtual?.status || '']}`}>
-                {planoAtual?.status === 'ativo' ? 'Ativo' : 'Pendente'}
+              <span className={`${styles.statusBadge} ${styles[userData?.plan?.status || '']}`}>
+                {userData?.plan?.status === 'active' ? 'Ativo' : 'Pendente'}
               </span>
             </div>
           </div>
           <div className={styles.planInfo}>
-            <p>Próxima renovação: {planoAtual?.dataRenovacao}</p>
-            <Button variant="outline">Gerenciar Pagamento</Button>
+            <p>Início do plano: {userData?.plan ? formatDate(userData.plan.startDate) : ''}</p>
           </div>
         </Card>
 
@@ -117,45 +137,37 @@ export function PlanoAssinatura() {
                 ))}
               </ul>
               <Button 
-                variant={planoAtual?.tipo === key ? 'outline' : 'primary'}
+                variant={userData?.plan?.type === key ? 'outline' : 'primary'}
                 className={styles.planButton}
-                disabled={planoAtual?.tipo === key}
+                disabled={userData?.plan?.type === key}
               >
-                {planoAtual?.tipo === key ? 'Plano Atual' : 'Escolher Plano'}
+                {userData?.plan?.type === key ? 'Plano Atual' : 'Escolher Plano'}
               </Button>
             </Card>
           ))}
         </div>
 
-        {/* Histórico de Pagamentos */}
-        <Card className={styles.historyCard}>
-          <h3 className={styles.historyTitle}>Histórico de Pagamentos</h3>
-          <div className={styles.historyTable}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Data</th>
-                  <th>Valor</th>
-                  <th>Status</th>
-                  <th>Fatura</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>01/03/2024</td>
-                  <td>R$ 29,90</td>
-                  <td>
-                    <span className={styles.statusBadge}>Pago</span>
-                  </td>
-                  <td>
-                    <Button variant="ghost" size="sm">Download</Button>
-                  </td>
-                </tr>
-                {/* Adicione mais linhas conforme necessário */}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+        {/* Histórico de Pagamentos - Apenas para planos pagos */}
+        {userData?.plan?.type !== 'free' && (
+          <Card className={styles.historyCard}>
+            <h3 className={styles.historyTitle}>Histórico de Pagamentos</h3>
+            <div className={styles.historyTable}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Fatura</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Histórico será implementado quando houver pagamentos */}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );
