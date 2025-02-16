@@ -2,12 +2,29 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { TipoTransacao } from '@/app/tipos';
 import { Combobox } from '@headlessui/react';
 import toast from 'react-hot-toast';
 import styles from './EntradaSaidaForm.module.css';
+import { useForm } from 'react-hook-form';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+
+interface Categoria {
+  id: string;
+  nome: string;
+  cor: string;
+}
+
+interface FormData {
+  descricao: string;
+  valor: number;
+  categoria: string;
+  data: string;
+  tipo: 'entrada' | 'saida';
+}
 
 export function EntradaSaidaForm() {
   const router = useRouter();
@@ -15,6 +32,8 @@ export function EntradaSaidaForm() {
   const [error, setError] = useState<string | null>(null);
   const [descricoes, setDescricoes] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [tipo, setTipo] = useState<'entrada' | 'saida'>('saida');
   
   const initialFormState = {
     descricao: '',
@@ -25,6 +44,8 @@ export function EntradaSaidaForm() {
   };
   
   const [formData, setFormData] = useState(initialFormState);
+
+  const { register, handleSubmit: submitForm, formState: { errors }, reset } = useForm<FormData>();
 
   // Carregar descrições existentes do usuário
   useEffect(() => {
@@ -57,6 +78,27 @@ export function EntradaSaidaForm() {
     carregarDescricoes();
   }, []);
 
+  useEffect(() => {
+    carregarCategorias();
+  }, []);
+
+  const carregarCategorias = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const docRef = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists() && docSnap.data().categorias) {
+        setCategorias(docSnap.data().categorias);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar categorias:', error);
+      toast.error('Erro ao carregar categorias');
+    }
+  };
+
   const filteredDescricoes = searchQuery === ''
     ? descricoes
     : descricoes.filter((descricao) =>
@@ -66,7 +108,7 @@ export function EntradaSaidaForm() {
   console.log('Query atual:', searchQuery); // Debug
   console.log('Descrições filtradas:', filteredDescricoes); // Debug
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const onSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -144,8 +186,13 @@ export function EntradaSaidaForm() {
     setFormData({ ...formData, valor: valorFormatado });
   };
 
+  const handleFormSubmit = (data: FormData) => {
+    onSubmitForm({ ...data, tipo });
+    reset();
+  };
+
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={onSubmitForm} className={styles.form}>
       <div className={styles.formGrid}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Tipo de Transação</label>
@@ -256,16 +303,15 @@ export function EntradaSaidaForm() {
             required
           >
             <option value="">Selecione uma categoria</option>
-            <option value="salario">Salário</option>
-            <option value="investimentos">Investimentos</option>
-            <option value="alimentacao">Alimentação</option>
-            <option value="transporte">Transporte</option>
-            <option value="moradia">Moradia</option>
-            <option value="lazer">Lazer</option>
-            <option value="saude">Saúde</option>
-            <option value="educacao">Educação</option>
-            <option value="cartao_credito">Cartão de Crédito</option>
-            <option value="outros">Outros</option>
+            {categorias.map((categoria) => (
+              <option 
+                key={categoria.id} 
+                value={categoria.id}
+                style={{ backgroundColor: categoria.cor }}
+              >
+                {categoria.nome}
+              </option>
+            ))}
           </select>
         </div>
 
