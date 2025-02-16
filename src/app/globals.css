@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'react-day-picker/dist/style.css';
+
 :root {
   --background: #F7FAFC;
   --card-bg: #FFFFFF;
@@ -47,4 +49,23 @@ body {
            focus:ring-2 focus:ring-primary focus:border-transparent
            bg-white/50 dark:bg-gray-700/50;
   }
+}
+
+/* Customização do DatePicker */
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #10b981;
+  --rdp-background-color: #e5e7eb;
+  --rdp-accent-color-dark: #059669;
+  --rdp-background-color-dark: #374151;
+  --rdp-outline: 2px solid var(--rdp-accent-color);
+  --rdp-outline-selected: 2px solid var(--rdp-accent-color);
+  margin: 0;
+}
+
+.rdp-day_selected, 
+.rdp-day_selected:focus-visible, 
+.rdp-day_selected:hover {
+  background-color: var(--rdp-accent-color);
+  color: white;
 }

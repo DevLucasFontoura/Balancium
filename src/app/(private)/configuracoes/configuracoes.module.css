@@ -19,17 +19,18 @@
   @apply space-y-8;
 }
 
-.mainGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+.cardGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-8;
 }
 
-.card {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+.menuCard {
+  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg
+         hover:shadow-xl transition-shadow duration-200
+         border border-gray-100 dark:border-gray-700;
 }
 
 .cardIcon {
-  @apply w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 
-         flex items-center justify-center mb-4 text-emerald-600 dark:text-emerald-400;
+  @apply w-12 h-12 mb-4 text-emerald-500;
 }
 
 .cardTitle {
@@ -37,7 +38,7 @@
 }
 
 .cardDescription {
-  @apply text-sm text-gray-600 dark:text-gray-400 mb-4;
+  @apply text-sm text-gray-600 dark:text-gray-400;
 }
 
 .cardButton {
@@ -53,12 +54,13 @@
 }
 
 .dangerCard {
-  @apply bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 
-         rounded-xl p-6 shadow-lg;
+  @apply mt-8 bg-red-50 dark:bg-red-900/10 
+         border border-red-200 dark:border-red-800 
+         rounded-xl overflow-hidden;
 }
 
 .dangerContent {
-  @apply flex items-center justify-between;
+  @apply p-6 flex items-center justify-between;
 }
 
 .dangerTitle {
@@ -70,7 +72,9 @@
 }
 
 .dangerButton {
-  @apply px-4 py-2;
+  @apply px-4 py-2 bg-red-600 hover:bg-red-700 
+         text-white font-medium rounded-lg
+         transition-colors duration-200;
 }
 
 .deleteConfirm {
