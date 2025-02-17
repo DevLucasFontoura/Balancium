@@ -13,6 +13,7 @@ export default function PrivateLayout({
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -34,11 +35,23 @@ export default function PrivateLayout({
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <Sidebar />
-        <main className="flex-1 p-4 lg:p-8 lg:ml-64 w-full">
-          <div className="max-w-7xl mx-auto">
-            {children}
+        <main 
+          className={`
+            relative
+            min-h-screen 
+            transition-all 
+            duration-300 
+            ease-in-out
+            pt-20 lg:pt-8
+            ${isOpen ? 'lg:ml-64' : 'lg:ml-0'}
+          `}
+        >
+          <div className="p-4 lg:p-8">
+            <div className="max-w-7xl mx-auto">
+              {children}
+            </div>
           </div>
         </main>
       </div>

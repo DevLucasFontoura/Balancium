@@ -143,11 +143,11 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-emerald-500 z-40 px-4 flex items-center">
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-emerald-900 z-50 px-4 flex items-center shadow-md">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-lg text-white hover:bg-emerald-600 transition-colors"
+          className="p-2 rounded-lg text-white hover:bg-emerald-800 transition-colors"
           aria-label="Menu"
         >
           <svg 
@@ -173,13 +173,16 @@ export function Sidebar() {
             )}
           </svg>
         </button>
-        <span className="ml-4 text-white text-lg font-semibold">Balancium</span>
+        <div className="flex items-center space-x-2 ml-4">
+          <svg className="w-8 h-8 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd"/>
+          </svg>
+          <span className="text-xl font-bold text-emerald-50">Balancium</span>
+        </div>
       </div>
 
-      {/* Ajuste no padding do conteúdo principal para compensar a barra superior */}
-      <div className="lg:hidden h-16"></div>
-
-      {/* Overlay */}
+      {/* Overlay - Ajustado z-index */}
       {isMobileMenuOpen && (
         <div 
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
@@ -187,17 +190,18 @@ export function Sidebar() {
         />
       )}
 
-      {/* Sidebar - ajustado o top para considerar a barra superior */}
+      {/* Sidebar */}
       <aside className={`
         fixed top-16 lg:top-0 left-0 z-40
         h-[calc(100%-4rem)] lg:h-full w-64 
-        bg-emerald-900
+        bg-emerald-900 shadow-xl
+        flex flex-col
         transition-transform duration-300 ease-in-out
         lg:translate-x-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        {/* Logo */}
-        <div className="p-6 border-b border-emerald-800/50">
+        {/* Logo - Visível apenas em desktop */}
+        <div className="hidden lg:block p-6 border-b border-emerald-800/50">
           <Link 
             href="/dashboard" 
             className="flex items-center space-x-2"
@@ -211,8 +215,8 @@ export function Sidebar() {
           </Link>
         </div>
 
-        {/* Menu Items */}
-        <nav className="flex-1 mt-6 overflow-y-auto">
+        {/* Menu Items - Adicionado overflow-y-auto */}
+        <nav className="flex-1 overflow-y-auto py-6">
           {menuItems.map((category, index) => (
             <div key={index} className="mb-6">
               <h3 className="px-6 mb-2 text-sm font-semibold text-emerald-50">
@@ -243,34 +247,37 @@ export function Sidebar() {
           ))}
         </nav>
 
-        {/* Logout Button */}
-        <div className="px-6 mb-4">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-sm font-medium text-emerald-900 bg-emerald-100 rounded-lg hover:bg-emerald-200 transition-colors"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            <span>Sair</span>
-          </button>
-        </div>
+        {/* Footer com User Profile e Logout - Fixo na parte inferior */}
+        <div className="border-t border-emerald-800/50 mt-auto">
+          {/* Logout Button */}
+          <div className="px-6 py-4">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-sm font-medium text-emerald-900 bg-emerald-100 rounded-lg hover:bg-emerald-200 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>Sair</span>
+            </button>
+          </div>
 
-        {/* User Section */}
-        <div className="p-6 border-t border-emerald-800/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-full bg-emerald-800/60 flex items-center justify-center">
-              <span className="text-sm font-medium text-emerald-100">
-                {userData ? getInitials(userData.name) : ''}
-              </span>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-emerald-50">
-                {userData?.name || 'Carregando...'}
-              </p>
-              <p className="text-xs text-emerald-200/70">
-                {userData?.email || 'Carregando...'}
-              </p>
+          {/* User Profile */}
+          <div className="px-6 py-4 bg-emerald-800/20">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-full bg-emerald-800/60 flex items-center justify-center">
+                <span className="text-sm font-medium text-emerald-100">
+                  {userData ? getInitials(userData.name) : ''}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-emerald-50 truncate">
+                  {userData?.name || 'Carregando...'}
+                </p>
+                <p className="text-xs text-emerald-200/70 truncate">
+                  {userData?.email || 'Carregando...'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
