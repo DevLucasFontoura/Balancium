@@ -1,14 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, query, where, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore';
+import { collection, query, where, orderBy, getDocs, doc, deleteDoc, getDoc } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
 import { formatarMoeda } from '@/utils/formatarMoeda';
 import { formatarData } from '@/utils/formatarData';
 import { EditarTransacaoModal } from '../modais/EditarTransacaoModal';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import { formatarCategoria } from '@/utils/formatarCategoria.tsx';
+
+interface Categoria {
+  id: string;
+  nome: string;
+  cor: string;
+}
 
 interface Transacao {
   id: string;
@@ -29,6 +34,26 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [loading, setLoading] = useState(true);
   const [transacaoParaEditar, setTransacaoParaEditar] = useState<Transacao | null>(null);
+  const [categorias, setCategorias] = useState<Record<string, Categoria>>({});
+
+  async function carregarCategorias() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (userDoc.exists() && userDoc.data().categorias) {
+        const categoriasArray = userDoc.data().categorias;
+        const categoriasMap: Record<string, Categoria> = {};
+        categoriasArray.forEach((cat: Categoria) => {
+          categoriasMap[cat.id] = cat;
+        });
+        setCategorias(categoriasMap);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar categorias:', error);
+    }
+  }
 
   async function carregarTransacoes() {
     try {
@@ -63,6 +88,10 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
     }
   }
 
+  const getCategoriaInfo = (categoriaId: string) => {
+    return categorias[categoriaId] || { nome: 'Categoria não encontrada', cor: '#gray' };
+  };
+
   async function handleDelete(transacaoId: string) {
     const result = await Swal.fire({
       title: 'Tem certeza?',
@@ -91,6 +120,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
   }
 
   useEffect(() => {
+    carregarCategorias();
     carregarTransacoes();
   }, [mes, ano]);
 
@@ -141,54 +171,62 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-          {transacoes.map((transacao) => (
-            <tr 
-              key={transacao.id}
-              className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-            >
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                {formatarData(transacao.data)}
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
-                {transacao.descricao}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium ${formatarCategoria(transacao.categoria).cor}`}>
-                  {formatarCategoria(transacao.categoria).icone}
-                  {formatarCategoria(transacao.categoria).nome}
-                </span>
-              </td>
-              <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
-                transacao.tipo === 'entrada' 
-                  ? 'text-emerald-600 dark:text-emerald-400' 
-                  : 'text-rose-600 dark:text-rose-400'
-              }`}>
-                {formatarMoeda(transacao.valor)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <div className="flex justify-end space-x-2">
-                  <button
-                    onClick={() => setTransacaoParaEditar(transacao)}
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
+          {transacoes.map((transacao) => {
+            const categoriaInfo = getCategoriaInfo(transacao.categoria);
+            return (
+              <tr 
+                key={transacao.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              >
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                  {formatarData(transacao.data)}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
+                  {transacao.descricao}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                  <span 
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium"
+                    style={{ 
+                      backgroundColor: categoriaInfo.cor,
+                      color: 'white'
+                    }}
                   >
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(transacao.id)}
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 dark:text-rose-400 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 transition-colors"
-                  >
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    Excluir
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+                    {categoriaInfo.nome}
+                  </span>
+                </td>
+                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
+                  transacao.tipo === 'entrada' 
+                    ? 'text-emerald-600 dark:text-emerald-400' 
+                    : 'text-rose-600 dark:text-rose-400'
+                }`}>
+                  {formatarMoeda(transacao.valor)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div className="flex justify-end space-x-2">
+                    <button
+                      onClick={() => setTransacaoParaEditar(transacao)}
+                      className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(transacao.id)}
+                      className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 dark:text-rose-400 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                      Excluir
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       
