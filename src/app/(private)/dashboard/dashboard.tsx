@@ -1,17 +1,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { GraficoAnual } from '@/app/(private)/componentes/graficos/GraficoAnual';
 import { GraficoBarrasEmpilhadas } from '@/app/(private)/componentes/graficos/GraficoBarrasEmpilhadas';
 import styles from './dashboard.module.css';
 import { formatarMoeda } from '@/utils/formatarMoeda';
 
+interface Categoria {
+  id: string;
+  nome: string;
+  cor: string;
+}
+
 interface DashboardData {
   categoriasMaisGastos: Array<{
     categoria: string;
+    categoriaId: string;
     valor: number;
+    cor: string;
   }>;
 }
 
@@ -20,6 +28,7 @@ export function Dashboard() {
     categoriasMaisGastos: []
   });
   const [loading, setLoading] = useState(true);
+  const [categorias, setCategorias] = useState<Record<string, Categoria>>({});
 
   useEffect(() => {
     async function carregarDados() {
@@ -27,10 +36,20 @@ export function Dashboard() {
         const user = auth.currentUser;
         if (!user) return;
 
+        // Primeiro, carregar as categorias do usuário
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists() && userDoc.data().categorias) {
+          const categoriasArray = userDoc.data().categorias;
+          const categoriasMap: Record<string, Categoria> = {};
+          categoriasArray.forEach((cat: Categoria) => {
+            categoriasMap[cat.id] = cat;
+          });
+          setCategorias(categoriasMap);
+        }
+
         const anoAtual = new Date().getFullYear();
-        const mesAtual = new Date().getMonth() + 1;
         
-        // Carregar dados do ano
+        // Carregar transações
         const qAno = query(
           collection(db, 'transacoes'),
           where('userId', '==', user.uid),
@@ -41,16 +60,21 @@ export function Dashboard() {
         const snapshotAno = await getDocs(qAno);
 
         // Processar dados do ano
-        const categorias: { [key: string]: number } = {};
+        const categoriasGastos: { [key: string]: number } = {};
 
         snapshotAno.forEach((doc) => {
           const transacao = doc.data();
-          categorias[transacao.categoria] = (categorias[transacao.categoria] || 0) + transacao.valor;
+          categoriasGastos[transacao.categoria] = (categoriasGastos[transacao.categoria] || 0) + transacao.valor;
         });
 
         // Ordenar categorias por valor
-        const categoriasMaisGastos = Object.entries(categorias)
-          .map(([categoria, valor]) => ({ categoria, valor }))
+        const categoriasMaisGastos = Object.entries(categoriasGastos)
+          .map(([categoriaId, valor]) => ({
+            categoriaId,
+            categoria: categorias[categoriaId]?.nome || 'Categoria não encontrada',
+            valor,
+            cor: categorias[categoriaId]?.cor || '#gray'
+          }))
           .sort((a, b) => b.valor - a.valor)
           .slice(0, 5);
 
@@ -65,7 +89,7 @@ export function Dashboard() {
     }
 
     carregarDados();
-  }, []);
+  }, [categorias]);
 
   if (loading) {
     return (
@@ -119,7 +143,7 @@ export function Dashboard() {
             <h2 className={styles.cardTitle}>Top Categorias</h2>
             <div className={styles.categoriesList}>
               {data.categoriasMaisGastos.map((categoria, index) => (
-                <div key={categoria.categoria} className={styles.categoryItem}>
+                <div key={categoria.categoriaId} className={styles.categoryItem}>
                   <div className={styles.categoryRank}>{index + 1}</div>
                   <div className={styles.categoryInfo}>
                     <p className={styles.categoryName}>{categoria.categoria}</p>
@@ -129,7 +153,8 @@ export function Dashboard() {
                     <div 
                       className={styles.categoryProgress}
                       style={{ 
-                        width: `${(categoria.valor / data.categoriasMaisGastos[0].valor) * 100}%`
+                        width: `${(categoria.valor / data.categoriasMaisGastos[0].valor) * 100}%`,
+                        backgroundColor: categoria.cor
                       }}
                     />
                   </div>

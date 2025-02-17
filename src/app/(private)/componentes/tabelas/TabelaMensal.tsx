@@ -119,6 +119,11 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
     }
   }
 
+  const handleEditarTransacao = async (transacao: Transacao) => {
+    await carregarCategorias();
+    setTransacaoParaEditar(transacao);
+  };
+
   useEffect(() => {
     carregarCategorias();
     carregarTransacoes();
@@ -205,7 +210,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex justify-end space-x-2">
                     <button
-                      onClick={() => setTransacaoParaEditar(transacao)}
+                      onClick={() => handleEditarTransacao(transacao)}
                       className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
                     >
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,6 +238,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
       {transacaoParaEditar && (
         <EditarTransacaoModal
           transacao={transacaoParaEditar}
+          categorias={categorias}
           isOpen={!!transacaoParaEditar}
           onClose={() => setTransacaoParaEditar(null)}
           onUpdate={() => {

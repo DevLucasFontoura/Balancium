@@ -8,6 +8,7 @@ import { auth, db } from '@/lib/firebase/config';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import styles from './categorias.module.css';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 
 interface Categoria {
   id: string;
@@ -153,6 +154,25 @@ export function Categorias() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <Link href="/configuracoes" className={styles.backButton}>
+          <svg 
+            className="w-5 h-5 mr-2" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          Voltar para Configurações
+        </Link>
+      </div>
+
       <div className={styles.heroCard}>
         <h1 className={styles.heroTitle}>Categorias</h1>
         <p className={styles.heroSubtitle}>Gerencie suas categorias personalizadas</p>

@@ -2,6 +2,13 @@ import { useState } from 'react';
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 
+interface Categoria {
+  id: string;
+  nome: string;
+  cor: string;
+  tipo?: 'entrada' | 'saida';
+}
+
 interface EditarTransacaoModalProps {
   transacao: {
     id: string;
@@ -14,21 +21,29 @@ interface EditarTransacaoModalProps {
   isOpen: boolean;
   onClose: () => void;
   onUpdate: () => void;
+  categorias: Record<string, Categoria>;
 }
 
-export function EditarTransacaoModal({ transacao, isOpen, onClose, onUpdate }: EditarTransacaoModalProps) {
+export function EditarTransacaoModal({ 
+  transacao, 
+  isOpen, 
+  onClose, 
+  onUpdate,
+  categorias
+}: EditarTransacaoModalProps) {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     descricao: transacao.descricao,
     categoria: transacao.categoria,
     valor: transacao.valor,
-    data: transacao.data.split('T')[0], // Formata a data para YYYY-MM-DD
+    data: transacao.data.split('T')[0],
     tipo: transacao.tipo
   });
 
-  const categorias = {
-    entrada: ['salario', 'investimentos', 'outros'],
-    saida: ['alimentacao', 'transporte', 'moradia', 'lazer', 'cartao_credito', 'saude', 'educacao', 'outros']
-  };
+  // Usar todas as categorias disponíveis
+  const todasCategorias = Object.values(categorias);
+
+  console.log('Todas as categorias:', todasCategorias.map(cat => cat.nome));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,8 +67,7 @@ export function EditarTransacaoModal({ transacao, isOpen, onClose, onUpdate }: E
         updatedAt: serverTimestamp(),
       };
 
-      const docRef = doc(db, 'transacoes', transacao.id);
-      await updateDoc(docRef, dados);
+      await updateDoc(doc(db, 'transacoes', transacao.id), dados);
       onUpdate();
       onClose();
     } catch (error) {
@@ -102,10 +116,15 @@ export function EditarTransacaoModal({ transacao, isOpen, onClose, onUpdate }: E
               value={formData.categoria}
               onChange={(e) => setFormData(prev => ({ ...prev, categoria: e.target.value }))}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              required
             >
-              {categorias[formData.tipo].map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              <option value="">Selecione uma categoria</option>
+              {todasCategorias.map((cat) => (
+                <option 
+                  key={cat.id} 
+                  value={cat.id}
+                >
+                  {cat.nome}
                 </option>
               ))}
             </select>
