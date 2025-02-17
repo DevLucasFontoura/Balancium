@@ -1,5 +1,5 @@
 .container {
-  @apply max-w-7xl mx-auto p-8;
+  @apply max-w-7xl mx-auto p-4 sm:p-8;
 }
 
 .title {
@@ -11,5 +11,5 @@
 }
 
 .formCard {
-  @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg;
+  @apply bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg;
 } 

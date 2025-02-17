@@ -72,7 +72,7 @@ export function Home() {
       {/* Seção de Ações Rápidas */}
       <section className={styles.quickActions}>
         <h2 className={styles.sectionTitle}>Ações Rápidas</h2>
-        <div className={styles.actionsGrid}>
+        <div className={styles.actionGrid}>
           <Link href="/nova-transacao">
             <div className={`${styles.actionCard} ${styles.primaryAction}`}>
               <div className={styles.actionIcon}>

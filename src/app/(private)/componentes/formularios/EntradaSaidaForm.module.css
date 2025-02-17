@@ -3,7 +3,7 @@
 }
 
 .formGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  @apply grid grid-cols-1 gap-4 sm:gap-6;
 }
 
 .inputGroup {
@@ -15,7 +15,7 @@
 }
 
 .input {
-  @apply w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 
+  @apply w-full text-sm sm:text-base px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 
          rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:text-white 
          transition-colors;
 }
@@ -27,7 +27,7 @@
 }
 
 .tipoButtons {
-  @apply grid grid-cols-2 gap-4;
+  @apply flex flex-col sm:flex-row gap-2;
 }
 
 .tipoButton {
