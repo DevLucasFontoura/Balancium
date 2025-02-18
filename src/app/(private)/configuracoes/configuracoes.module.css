@@ -1,90 +1,186 @@
 .container {
-  @apply max-w-7xl mx-auto p-8 space-y-8;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .heroCard {
-  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
-         rounded-2xl p-8 text-white shadow-lg;
+  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  border-radius: 1rem;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .heroTitle {
-  @apply text-2xl font-bold mb-2;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .heroSubtitle {
-  @apply text-emerald-50;
+  color: rgb(236 253 245);
 }
 
 .content {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .cardGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-8;
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .menuCard {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg
-         hover:shadow-xl transition-shadow duration-200
-         border border-gray-100 dark:border-gray-700;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(243 244 246);
+  transition: box-shadow 0.2s;
+}
+
+.menuCard:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .cardIcon {
-  @apply w-12 h-12 mb-4 text-emerald-500;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  color: rgb(16 185 129);
 }
 
 .cardTitle {
-  @apply text-lg font-semibold text-gray-900 dark:text-white mb-2;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 0.5rem;
 }
 
 .cardDescription {
-  @apply text-sm text-gray-600 dark:text-gray-400;
+  font-size: 0.875rem;
+  color: rgb(107 114 128);
 }
 
 .cardButton {
-  @apply w-full justify-center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .themeButtons {
-  @apply flex gap-4;
+  display: flex;
+  gap: 1rem;
 }
 
 .themeButton {
-  @apply flex-1 justify-center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .dangerCard {
-  @apply mt-8 bg-red-50 dark:bg-red-900/10 
-         border border-red-200 dark:border-red-800 
-         rounded-xl overflow-hidden;
+  margin-top: 2rem;
+  background-color: rgb(254 242 242);
+  border: 1px solid rgb(254 202 202);
+  border-radius: 0.75rem;
+  overflow: hidden;
 }
 
 .dangerContent {
-  @apply p-6 flex items-center justify-between;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .dangerTitle {
-  @apply text-lg font-semibold text-red-700 dark:text-red-400;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(185 28 28);
 }
 
 .dangerDescription {
-  @apply text-sm text-red-600 dark:text-red-300 mt-1;
+  font-size: 0.875rem;
+  color: rgb(185 28 28);
+  margin-top: 0.25rem;
 }
 
 .dangerButton {
-  @apply px-4 py-2 bg-red-600 hover:bg-red-700 
-         text-white font-medium rounded-lg
-         transition-colors duration-200;
+  padding: 0.5rem 1rem;
+  background-color: rgb(220 38 38);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.dangerButton:hover {
+  background-color: rgb(185 28 28);
 }
 
 .deleteConfirm {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .confirmText {
-  @apply text-sm font-medium text-red-700 dark:text-red-400;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(185 28 28);
 }
 
 .confirmButtons {
-  @apply flex gap-4;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .menuCard {
+    background-color: rgb(31 41 55);
+    border-color: rgb(55 65 81);
+  }
+
+  .cardTitle {
+    color: white;
+  }
+
+  .cardDescription {
+    color: rgb(156 163 175);
+  }
+
+  .dangerCard {
+    background-color: rgba(185, 28, 28, 0.1);
+    border-color: rgb(185 28 28);
+  }
+
+  .dangerTitle {
+    color: rgb(252 165 165);
+  }
+
+  .dangerDescription {
+    color: rgb(252 165 165);
+  }
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 } 

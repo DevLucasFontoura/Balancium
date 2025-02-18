@@ -1,23 +1,49 @@
 .container {
-  @apply max-w-7xl mx-auto p-8;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .title {
-  @apply text-3xl font-bold mb-8;
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
 }
 
 .gridContainer {
-  @apply grid gap-8 lg:grid-cols-2;
+  display: grid;
+  gap: 2rem;
 }
 
 .formSection {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .card {
-  @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
-  @apply text-xl font-semibold mb-4;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: rgb(31 41 55);
+  }
+}
+
+/* Responsividade */
+@media (min-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
 } 

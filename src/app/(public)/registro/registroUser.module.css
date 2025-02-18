@@ -1,96 +1,174 @@
 .container {
-  @apply min-h-screen bg-gray-50;
+  min-height: 100vh;
+  background-color: rgb(249 250 251);
 }
 
 .contentGrid {
-  @apply grid lg:grid-cols-2 min-h-screen max-w-7xl mx-auto;
+  display: flex;
+  min-height: 100vh;
+  max-width: 80rem;
+  margin: 0 auto;
 }
 
 .welcomeSection {
-  @apply hidden lg:flex flex-col justify-center px-16 bg-white;
+  display: none;
 }
 
 .welcomeTitle {
-  @apply text-4xl font-bold mb-4;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .highlight {
-  @apply text-primary;
+  color: rgb(16 185 129);
 }
 
 .welcomeText {
-  @apply text-gray-600 text-lg mb-8;
+  color: rgb(75 85 99);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
 }
 
 .features {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .featureItem {
-  @apply flex items-center gap-3 text-gray-600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgb(75 85 99);
 }
 
 .featureIcon {
-  @apply w-5 h-5 text-primary;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(16 185 129);
 }
 
 .formSection {
-  @apply flex items-center justify-center p-8 bg-white lg:bg-gray-50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: white;
+  flex: 1;
 }
 
 .formContainer {
-  @apply w-full max-w-md -mt-12;
+  width: 100%;
+  max-width: 28rem;
 }
 
 .formTitle {
-  @apply text-2xl font-bold text-gray-900 text-center mb-2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(17 24 39);
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .formSubtitle {
-  @apply text-gray-600 text-center mb-8;
+  color: rgb(75 85 99);
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .form {
-  @apply space-y-6;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .inputGroup {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .inputLabel {
-  @apply block text-sm font-medium text-gray-700 mb-1;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(55 65 81);
 }
 
 .input {
-  @apply appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg
-         text-gray-900 placeholder-gray-400
-         focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
-         transition-colors duration-200;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(209 213 219);
+  border-radius: 0.5rem;
+  color: rgb(17 24 39);
+  transition: all 0.2s;
+}
+
+.input::placeholder {
+  color: rgb(156 163 175);
+}
+
+.input:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgb(16 185 129);
 }
 
 .formFooter {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .submitButton {
-  @apply w-full flex justify-center py-3 px-4 border border-transparent rounded-lg
-         text-sm font-medium text-white bg-primary hover:bg-primary-dark
-         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
-         transition-colors duration-200;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: rgb(16 185 129);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: rgb(4 120 87);
 }
 
 .loginText {
-  @apply text-sm text-center text-gray-600;
+  font-size: 0.875rem;
+  text-align: center;
+  color: rgb(75 85 99);
 }
 
 .loginLink {
-  @apply font-medium text-primary hover:text-primary-dark;
+  font-weight: 500;
+  color: rgb(16 185 129);
 }
 
-/* Responsividade */
+.loginLink:hover {
+  color: rgb(4 120 87);
+}
+
+@media (min-width: 1024px) {
+  .welcomeSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 4rem;
+    background-color: white;
+    flex: 1;
+  }
+
+  .formSection {
+    background-color: rgb(249 250 251);
+  }
+}
+
 @media (max-width: 1024px) {
   .formSection {
-    @apply bg-white;
+    background-color: white;
+    padding: 1.5rem;
   }
 } 

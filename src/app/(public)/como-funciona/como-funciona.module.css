@@ -1,113 +1,189 @@
 .container {
-  @apply max-w-7xl mx-auto px-6 py-20;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
 }
 
 .heroSection {
-  @apply max-w-7xl mx-auto px-6 py-20 text-center;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  text-align: center;
 }
 
 .title {
-  @apply text-5xl font-bold mb-6 bg-clip-text text-transparent 
-         bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, rgb(17 24 39), rgb(75 85 99));
 }
 
 .highlight {
-  @apply text-primary;
+  color: rgb(16 185 129);
 }
 
 .subtitle {
-  @apply text-xl text-gray-600 dark:text-gray-300;
+  font-size: 1.25rem;
+  color: rgb(75 85 99);
 }
 
 .stepsSection {
-  @apply max-w-7xl mx-auto px-6 py-12;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
 }
 
 .stepsGrid {
-  @apply grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20;
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 5rem;
 }
 
 .stepCard {
-  @apply bg-white rounded-2xl p-8 relative flex flex-col items-center text-center;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
 }
 
 .stepNumber {
-  @apply text-primary/20 text-lg font-medium absolute top-4 left-4;
+  color: rgba(16, 185, 129, 0.2);
+  font-size: 1.125rem;
+  font-weight: 500;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
 }
 
 .iconWrapper {
-  @apply mb-6;
+  margin-bottom: 1.5rem;
 }
 
 .stepIcon {
-  @apply w-12 h-12 stroke-[1.5];
+  width: 3rem;
+  height: 3rem;
+  stroke-width: 1.5;
   color: #1a1a1a;
 }
 
 .stepTitle {
-  @apply text-xl font-semibold mb-2 text-gray-900;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: rgb(17 24 39);
 }
 
 .stepDescription {
-  @apply text-gray-600 text-sm;
+  color: rgb(75 85 99);
+  font-size: 0.875rem;
 }
 
 .stepProgress {
-  @apply absolute bottom-0 left-0 w-full h-1 bg-gray-100 dark:bg-gray-700;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background-color: rgb(243 244 246);
 }
 
 .progressLine {
-  @apply h-full bg-primary/30 w-0;
+  height: 100%;
+  background-color: rgba(16, 185, 129, 0.3);
+  width: 0;
   animation: progress 2s ease-out forwards;
 }
 
 .featuresSection {
-  @apply max-w-7xl mx-auto px-6 py-20;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
 }
 
 .featureGrid {
-  @apply grid md:grid-cols-3 gap-8;
+  display: grid;
+  gap: 2rem;
 }
 
 .featureCard {
-  @apply bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl
-         border border-gray-100 dark:border-gray-700
-         hover:shadow-lg transition-all duration-300;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(243 244 246);
+  transition: all 0.3s;
+}
+
+.featureCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .featureCard h3 {
-  @apply text-lg font-semibold mb-3 text-primary;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: rgb(16 185 129);
 }
 
 .featureCard p {
-  @apply text-gray-600 dark:text-gray-300;
+  color: rgb(75 85 99);
 }
 
 .ctaSection {
-  @apply text-center max-w-2xl mx-auto;
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto;
 }
 
 .ctaTitle {
-  @apply text-3xl font-bold mb-4;
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .ctaText {
-  @apply text-gray-600 mb-8;
+  color: rgb(75 85 99);
+  margin-bottom: 2rem;
 }
 
 .ctaButtons {
-  @apply flex gap-4 justify-center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .primaryButton {
-  @apply px-6 py-3 bg-primary text-white rounded-lg font-medium
-         hover:bg-primary-dark transition-colors duration-200;
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(16 185 129);
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.primaryButton:hover {
+  background-color: rgb(4 120 87);
 }
 
 .secondaryButton {
-  @apply px-6 py-3 border border-primary text-primary rounded-lg font-medium
-         hover:bg-primary hover:text-white transition-colors duration-200;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgb(16 185 129);
+  color: rgb(16 185 129);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background-color: rgb(16 185 129);
+  color: white;
 }
 
 @keyframes progress {
@@ -115,30 +191,46 @@
   to { width: 100%; }
 }
 
-/* Adiciona hover effects nos cards */
+/* Hover effects */
 .stepCard:hover {
-  @apply transform -translate-y-1;
+  transform: translateY(-0.25rem);
 }
 
 .stepCard:hover .stepNumber {
-  @apply text-primary/40;
+  color: rgba(16, 185, 129, 0.4);
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .title {
-    @apply text-4xl;
+    font-size: 2.25rem;
   }
   
   .stepsGrid {
-    @apply grid-cols-1;
+    grid-template-columns: 1fr;
   }
   
   .featureGrid {
-    @apply grid-cols-1;
+    grid-template-columns: 1fr;
   }
   
   .ctaButtons {
-    @apply flex-col;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .stepsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .featureGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stepsGrid {
+    grid-template-columns: repeat(4, 1fr);
   }
 } 

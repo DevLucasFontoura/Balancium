@@ -1,101 +1,201 @@
 .container {
-  @apply max-w-7xl mx-auto p-8 space-y-8;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .loadingContainer {
-  @apply flex justify-center items-center min-h-screen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .loadingSpinner {
-  @apply w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin;
+  width: 3rem;
+  height: 3rem;
+  border: 4px solid rgb(167 243 208);
+  border-top-color: rgb(16 185 129);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 .welcomeHero {
-  @apply bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-2xl p-8 text-white shadow-xl mb-8;
+  background: linear-gradient(to right, rgb(16 185 129), rgb(5 150 105));
+  border-radius: 1rem;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
 .welcomeContent {
-  @apply mb-8;
+  margin-bottom: 2rem;
 }
 
 .welcomeTitle {
-  @apply text-4xl font-bold mb-2;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .welcomeMessage {
-  @apply text-xl text-emerald-50 capitalize;
+  font-size: 1.25rem;
+  color: rgb(236 253 245);
+  text-transform: capitalize;
 }
 
 .statsGrid {
-  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .statCard {
-  @apply bg-white/10 backdrop-blur-lg rounded-xl p-6;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
 }
 
 .statHeader {
-  @apply flex items-center gap-3 mb-2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .statLabel {
-  @apply text-sm text-emerald-50;
+  font-size: 0.875rem;
+  color: rgb(236 253 245);
 }
 
 .statValue {
-  @apply text-3xl font-bold;
+  font-size: 1.875rem;
+  font-weight: 700;
 }
 
 .statCompare {
-  @apply text-sm text-emerald-50/80 mt-2;
+  font-size: 0.875rem;
+  color: rgba(236, 253, 245, 0.8);
+  margin-top: 0.5rem;
 }
 
 .positive {
-  @apply text-emerald-50;
+  color: rgb(236 253 245);
 }
 
 .negative {
-  @apply text-red-100;
+  color: rgb(254 226 226);
 }
 
 .mainGrid {
-  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+  display: grid;
+  gap: 2rem;
 }
 
 .leftColumn {
-  @apply lg:col-span-2 space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .rightColumn {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .chartCard {
-  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg;
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .chartHeader {
-  @apply mb-6;
+  margin-bottom: 1.5rem;
 }
 
 .chartTitle {
-  @apply text-xl font-semibold text-gray-900 dark:text-white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
 }
 
 .chartSubtitle {
-  @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
+  font-size: 0.875rem;
+  color: rgb(107 114 128);
+  margin-top: 0.25rem;
 }
 
 .cardHeader {
-  @apply flex items-center justify-between mb-6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
 .cardTitle {
-  @apply text-xl font-semibold text-gray-900 dark:text-white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
 }
 
 .viewAllButton {
-  @apply text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300;
+  font-size: 0.875rem;
+  color: rgb(16 185 129);
+  transition: color 0.2s;
+}
+
+.viewAllButton:hover {
+  color: rgb(4 120 87);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .chartCard {
+    background-color: rgb(31 41 55);
+  }
+
+  .chartTitle,
+  .cardTitle {
+    color: white;
+  }
+
+  .chartSubtitle {
+    color: rgb(156 163 175);
+  }
+
+  .viewAllButton {
+    color: rgb(52 211 153);
+  }
+
+  .viewAllButton:hover {
+    color: rgb(16 185 129);
+  }
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 2fr 1fr;
+  }
 }
 
 .transactionsCard {

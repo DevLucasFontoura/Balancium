@@ -1,72 +1,127 @@
 .container {
-  @apply min-h-screen bg-gray-50;
+  min-height: 100vh;
+  background-color: rgb(249 250 251);
 }
 
 .resourcesSection {
-  @apply max-w-7xl mx-auto px-6 py-20;
-  @apply md:py-20 py-12;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
 }
 
 .title {
-  @apply text-4xl font-bold text-center mb-4;
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .highlight {
-  @apply text-primary;
+  color: rgb(16 185 129);
 }
 
 .subtitle {
-  @apply text-xl text-gray-600 text-center mb-16;
+  font-size: 1.25rem;
+  color: rgb(75 85 99);
+  text-align: center;
+  margin-bottom: 4rem;
 }
 
 .resourcesGrid {
-  @apply grid md:grid-cols-2 gap-8 max-w-5xl mx-auto;
+  display: grid;
+  gap: 2rem;
+  max-width: 64rem;
+  margin: 0 auto;
 }
 
 .resourceCard {
-  @apply bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg 
-         transition-all duration-300 border border-gray-100
-         hover:-translate-y-1;
-  @apply md:p-8 p-6;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(243 244 246);
+  transition: all 0.3s;
+}
+
+.resourceCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-0.25rem);
 }
 
 .resourceIcon {
-  @apply w-12 h-12 text-primary mb-6;
+  width: 3rem;
+  height: 3rem;
+  color: rgb(16 185 129);
+  margin-bottom: 1.5rem;
 }
 
 .resourceTitle {
-  @apply text-xl font-semibold mb-3 text-gray-900;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: rgb(17 24 39);
 }
 
 .resourceDescription {
-  @apply text-gray-600 leading-relaxed;
+  color: rgb(75 85 99);
+  line-height: 1.625;
 }
 
 .ctaSection {
-  @apply mt-16 text-center;
+  margin-top: 4rem;
+  text-align: center;
 }
 
 .ctaButton {
-  @apply px-8 py-3 bg-primary text-white rounded-lg font-medium
-         hover:bg-primary-dark transition-colors duration-200
-         shadow-lg hover:shadow-xl;
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: rgb(16 185 129);
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.ctaButton:hover {
+  background-color: rgb(4 120 87);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
+  .resourcesSection {
+    padding: 3rem 1rem;
+  }
+
   .title {
-    @apply text-3xl px-4;
+    font-size: 1.875rem;
+    padding: 0 1rem;
   }
   
   .subtitle {
-    @apply text-lg mb-12 px-4;
+    font-size: 1.125rem;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
   }
   
   .resourcesGrid {
-    @apply gap-6 px-4;
+    gap: 1.5rem;
+    padding: 0 1rem;
   }
   
   .resourceIcon {
-    @apply w-10 h-10;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .resourceCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .resourcesGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 } 

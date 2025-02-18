@@ -101,144 +101,141 @@ export function DadosDaConta() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.heroCard}>
-        <div className={styles.heroContent}>
-          <Button
-            variant="ghost"
-            className={styles.backButton}
-            onClick={() => router.push('/configuracoes')}
+      <div className={styles.header}>
+        <Button
+          variant="ghost"
+          className={styles.backButton}
+          onClick={() => router.push('/configuracoes')}
+        >
+          <svg 
+            className="w-5 h-5 mr-2" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
           >
-            <svg 
-              className="w-5 h-5 mr-2" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M15 19l-7-7 7-7" 
-              />
-            </svg>
-            Voltar
-          </Button>
-          <div>
-            <h1 className={styles.heroTitle}>Dados da Conta</h1>
-            <p className={styles.heroSubtitle}>Gerencie suas informações pessoais</p>
-          </div>
-        </div>
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M15 19l-7-7 7-7" 
+            />
+          </svg>
+          Voltar para Configurações
+        </Button>
       </div>
 
-      <div className={styles.content}>
-        <Card className={styles.formCard}>
-          <div className={styles.formHeader}>
-            <h2 className={styles.formTitle}>Informações Pessoais</h2>
-            {!isEditing && (
-              <Button variant="outline" onClick={() => setIsEditing(true)}>
-                Editar
-              </Button>
-            )}
+      <Card className={styles.heroCard}>
+        <h1 className={styles.heroTitle}>Dados da Conta</h1>
+        <p className={styles.heroSubtitle}>Gerencie suas informações pessoais</p>
+      </Card>
+
+      <Card className={styles.formCard}>
+        <div className={styles.formHeader}>
+          <h2 className={styles.formTitle}>Informações Pessoais</h2>
+          {!isEditing && (
+            <Button variant="outline" onClick={() => setIsEditing(true)}>
+              Editar
+            </Button>
+          )}
+        </div>
+
+        <div className={styles.formGrid}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Nome Completo</label>
+            <Input
+              type="text"
+              value={userData.name}
+              onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+              disabled={!isEditing}
+              className={styles.input}
+            />
           </div>
 
-          <div className={styles.formGrid}>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Nome Completo</label>
-              <Input
-                type="text"
-                value={userData.name}
-                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                disabled={!isEditing}
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>E-mail</label>
-              <Input
-                type="email"
-                value={userData.email}
-                disabled={true}
-                className={styles.input}
-              />
-              <p className={styles.helpText}>O e-mail não pode ser alterado</p>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Moeda</label>
-              <Select
-                value={userData.settings.currency}
-                onChange={(e) => setUserData({
-                  ...userData,
-                  settings: { ...userData.settings, currency: e.target.value }
-                })}
-                disabled={!isEditing}
-                className={styles.select}
-              >
-                {CURRENCIES.map((currency) => (
-                  <option key={currency.value} value={currency.value}>
-                    {currency.label}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Idioma</label>
-              <Select
-                value={userData.settings.language}
-                onChange={(e) => setUserData({
-                  ...userData,
-                  settings: { ...userData.settings, language: e.target.value }
-                })}
-                disabled={!isEditing}
-                className={styles.select}
-              >
-                {LANGUAGES.map((language) => (
-                  <option key={language.value} value={language.value}>
-                    {language.label}
-                  </option>
-                ))}
-              </Select>
-            </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>E-mail</label>
+            <Input
+              type="email"
+              value={userData.email}
+              disabled={true}
+              className={styles.input}
+            />
+            <p className={styles.helpText}>O e-mail não pode ser alterado</p>
           </div>
 
-          <div className={styles.infoSection}>
-            <div className={styles.infoCard}>
-              <div className={styles.infoItem}>
-                <svg 
-                  className={styles.infoIcon} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" 
-                  />
-                </svg>
-                <div>
-                  <span className={styles.infoLabel}>Conta criada em</span>
-                  <p className={styles.infoValue}>{formatDate(userData.createdAt)}</p>
-                </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Moeda</label>
+            <Select
+              value={userData.settings.currency}
+              onChange={(e) => setUserData({
+                ...userData,
+                settings: { ...userData.settings, currency: e.target.value }
+              })}
+              disabled={!isEditing}
+              className={styles.select}
+            >
+              {CURRENCIES.map((currency) => (
+                <option key={currency.value} value={currency.value}>
+                  {currency.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Idioma</label>
+            <Select
+              value={userData.settings.language}
+              onChange={(e) => setUserData({
+                ...userData,
+                settings: { ...userData.settings, language: e.target.value }
+              })}
+              disabled={!isEditing}
+              className={styles.select}
+            >
+              {LANGUAGES.map((language) => (
+                <option key={language.value} value={language.value}>
+                  {language.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </div>
+
+        <div className={styles.infoSection}>
+          <div className={styles.infoCard}>
+            <div className={styles.infoItem}>
+              <svg 
+                className={styles.infoIcon} 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" 
+                />
+              </svg>
+              <div>
+                <span className={styles.infoLabel}>Conta criada em</span>
+                <p className={styles.infoValue}>{formatDate(userData.createdAt)}</p>
               </div>
             </div>
           </div>
+        </div>
 
-          {isEditing && (
-            <div className={styles.formActions}>
-              <Button variant="primary" onClick={handleSave} disabled={isSaving}>
-                {isSaving ? 'Salvando...' : 'Salvar Alterações'}
-              </Button>
-              <Button variant="outline" onClick={() => setIsEditing(false)}>
-                Cancelar
-              </Button>
-            </div>
-          )}
-        </Card>
-      </div>
+        {isEditing && (
+          <div className={styles.formActions}>
+            <Button variant="primary" onClick={handleSave} disabled={isSaving}>
+              {isSaving ? 'Salvando...' : 'Salvar Alterações'}
+            </Button>
+            <Button variant="outline" onClick={() => setIsEditing(false)}>
+              Cancelar
+            </Button>
+          </div>
+        )}
+      </Card>
     </div>
   );
 }

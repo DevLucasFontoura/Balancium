@@ -1,109 +1,218 @@
 .container {
-  @apply max-w-7xl mx-auto p-8 space-y-8;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .heroCard {
-  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
-         rounded-2xl p-8 text-white shadow-lg;
+  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  border-radius: 1rem;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .heroTitle {
-  @apply text-2xl font-bold mb-2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .heroSubtitle {
-  @apply text-emerald-50;
+  color: rgb(236 253 245);
 }
 
 .content {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .currentPlanCard {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .currentPlanHeader {
-  @apply flex justify-between items-start mb-4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
 .currentPlanTitle {
-  @apply text-xl font-semibold text-gray-900 dark:text-white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
 }
 
 .currentPlanType {
-  @apply text-lg text-emerald-600 dark:text-emerald-400 mt-1;
+  font-size: 1.125rem;
+  color: rgb(16 185 129);
+  margin-top: 0.25rem;
 }
 
 .statusBadge {
-  @apply px-3 py-1 rounded-full text-sm font-medium;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .ativo {
-  @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400;
+  background-color: rgb(209 250 229);
+  color: rgb(4 120 87);
 }
 
 .pendente {
-  @apply bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400;
+  background-color: rgb(254 243 199);
+  color: rgb(146 64 14);
 }
 
 .planInfo {
-  @apply flex justify-between items-center text-gray-600 dark:text-gray-400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgb(75 85 99);
 }
 
 .plansGrid {
-  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  display: grid;
+  gap: 1.5rem;
 }
 
 .planCard {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg 
-         flex flex-col;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .planTitle {
-  @apply text-xl font-semibold text-gray-900 dark:text-white mb-2;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 0.5rem;
 }
 
 .planPrice {
-  @apply text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-4;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: rgb(16 185 129);
+  margin-bottom: 1rem;
 }
 
 .planFeatures {
-  @apply space-y-3 mb-6 flex-grow;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
 }
 
 .featureItem {
-  @apply flex items-center gap-2 text-gray-600 dark:text-gray-400;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(75 85 99);
 }
 
 .planButton {
-  @apply w-full justify-center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .historyCard {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .historyTitle {
-  @apply text-xl font-semibold text-gray-900 dark:text-white mb-4;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 1rem;
 }
 
 .historyTable {
-  @apply overflow-x-auto;
+  overflow-x: auto;
 }
 
 .table {
-  @apply w-full;
+  width: 100%;
 }
 
 .table th {
-  @apply px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(75 85 99);
 }
 
 .table td {
-  @apply px-4 py-2 text-sm text-gray-900 dark:text-white;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: rgb(17 24 39);
 }
 
 .loading {
-  @apply flex justify-center items-center h-64 text-gray-500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 16rem;
+  color: rgb(75 85 99);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .currentPlanCard,
+  .planCard,
+  .historyCard {
+    background-color: rgb(31 41 55);
+  }
+
+  .currentPlanTitle,
+  .planTitle,
+  .historyTitle,
+  .table td {
+    color: white;
+  }
+
+  .currentPlanType {
+    color: rgb(52 211 153);
+  }
+
+  .ativo {
+    background-color: rgba(4, 120, 87, 0.3);
+    color: rgb(52 211 153);
+  }
+
+  .pendente {
+    background-color: rgba(146, 64, 14, 0.3);
+    color: rgb(251 191 36);
+  }
+
+  .planInfo,
+  .featureItem,
+  .table th {
+    color: rgb(156 163 175);
+  }
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .plansGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 } 

@@ -1,100 +1,208 @@
 .container {
-  @apply max-w-7xl mx-auto p-8 space-y-8;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .heroCard {
-  @apply bg-gradient-to-br from-emerald-500 to-emerald-600 
-         rounded-2xl p-8 text-white shadow-lg;
+  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  border-radius: 1rem;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .heroTitle {
-  @apply text-2xl font-bold mb-2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .heroSubtitle {
-  @apply text-emerald-50;
+  color: rgb(236 253 245);
 }
 
 .content {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .exportCard {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .cardTitle {
-  @apply text-xl font-semibold text-gray-900 dark:text-white mb-6;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 1.5rem;
 }
 
 .formGrid {
-  @apply space-y-6;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .formGroup {
-  @apply space-y-2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .label {
-  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(55 65 81);
 }
 
 .select {
-  @apply w-full;
+  width: 100%;
 }
 
 .formatosGrid {
-  @apply grid grid-cols-1 md:grid-cols-3 gap-3;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
 }
 
 .formatoButton {
-  @apply flex items-center gap-2 p-3 rounded-lg border text-left
-         transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(229 231 235);
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.formatoButton:hover {
+  background-color: rgb(249 250 251);
 }
 
 .formatoSelected {
-  @apply bg-emerald-50 border-emerald-500 text-emerald-700
-         dark:bg-emerald-900/30 dark:border-emerald-500 dark:text-emerald-400;
+  background-color: rgb(236 253 245);
+  border-color: rgb(16 185 129);
+  color: rgb(4 120 87);
 }
 
 .formatoIcon {
-  @apply text-xl;
+  font-size: 1.25rem;
 }
 
 .dateRange {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 .datePicker {
-  @apply w-full;
+  width: 100%;
 }
 
 .exportActions {
-  @apply flex justify-end mt-8;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
 }
 
 .historyCard {
-  @apply p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .historyTable {
-  @apply overflow-x-auto;
+  overflow-x: auto;
 }
 
 .table {
-  @apply w-full;
+  width: 100%;
 }
 
 .table th {
-  @apply px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(75 85 99);
 }
 
 .table td {
-  @apply px-4 py-2 text-sm text-gray-900 dark:text-white;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: rgb(17 24 39);
 }
 
 .statusBadge {
-  @apply px-2 py-1 rounded-full text-xs font-medium
-         bg-emerald-100 text-emerald-700
-         dark:bg-emerald-900/30 dark:text-emerald-400;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: rgb(209 250 229);
+  color: rgb(4 120 87);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .exportCard,
+  .historyCard {
+    background-color: rgb(31 41 55);
+  }
+
+  .cardTitle {
+    color: white;
+  }
+
+  .label {
+    color: rgb(209 213 219);
+  }
+
+  .formatoButton {
+    border-color: rgb(75 85 99);
+  }
+
+  .formatoButton:hover {
+    background-color: rgb(55 65 81);
+  }
+
+  .formatoSelected {
+    background-color: rgba(4, 120, 87, 0.3);
+    border-color: rgb(16 185 129);
+    color: rgb(52 211 153);
+  }
+
+  .table th {
+    color: rgb(156 163 175);
+  }
+
+  .table td {
+    color: white;
+  }
+
+  .statusBadge {
+    background-color: rgba(4, 120, 87, 0.3);
+    color: rgb(52 211 153);
+  }
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .formatosGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dateRange {
+    grid-template-columns: repeat(2, 1fr);
+  }
 } 

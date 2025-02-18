@@ -1,89 +1,176 @@
 .container {
-  @apply min-h-screen bg-gradient-to-br from-background via-background to-gray-100;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, rgb(255 255 255), rgb(255 255 255), rgb(243 244 246));
 }
 
 .pricingSection {
-  @apply max-w-7xl mx-auto px-6 py-20;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
 }
 
 .title {
-  @apply text-4xl font-bold text-center mb-4;
-  @apply md:text-4xl text-3xl;
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .subtitle {
-  @apply text-xl text-gray-600 dark:text-gray-300 text-center mb-12;
+  font-size: 1.25rem;
+  color: rgb(75 85 99);
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .plansGrid {
-  @apply grid md:grid-cols-2 lg:grid-cols-3 gap-8;
+  display: grid;
+  gap: 2rem;
 }
 
 .planCard {
-  @apply bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg 
-         border border-gray-100 dark:border-gray-700
-         flex flex-col;
-  @apply md:p-8 p-6;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(243 244 246);
+  display: flex;
+  flex-direction: column;
 }
 
 .highlighted {
-  @apply border-primary/50 shadow-xl;
-  @apply md:scale-105 scale-100;
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .planHeader {
-  @apply text-center mb-8;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .planName {
-  @apply text-2xl font-bold mb-4;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .planPrice {
-  @apply flex items-end justify-center gap-1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
 .price {
-  @apply text-4xl font-bold text-primary;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: rgb(16 185 129);
 }
 
 .period {
-  @apply text-gray-500 mb-1;
+  color: rgb(107 114 128);
+  margin-bottom: 0.25rem;
 }
 
 .featuresList {
-  @apply space-y-4 mb-8 flex-grow;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-grow: 1;
 }
 
 .featureItem {
-  @apply flex items-start gap-2 text-gray-600 dark:text-gray-300;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: rgb(75 85 99);
 }
 
 .checkIcon {
-  @apply w-5 h-5 text-primary flex-shrink-0 mt-0.5;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(16 185 129);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
 }
 
 .planButton {
-  @apply w-full py-3 px-6 rounded-lg text-center font-medium
-         border-2 border-primary text-primary
-         hover:bg-primary hover:text-white
-         transition-colors duration-200;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+  border: 2px solid rgb(16 185 129);
+  color: rgb(16 185 129);
+  transition: all 0.2s;
+}
+
+.planButton:hover {
+  background-color: rgb(16 185 129);
+  color: white;
 }
 
 .highlightedButton {
-  @apply bg-primary text-white hover:bg-primary-dark;
+  background-color: rgb(16 185 129);
+  color: white;
+}
+
+.highlightedButton:hover {
+  background-color: rgb(4 120 87);
 }
 
 @media (max-width: 768px) {
   .pricingSection {
-    @apply py-12 px-4;
+    padding: 3rem 1rem;
   }
 
   .subtitle {
-    @apply text-lg mb-8;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
   }
 
   .price {
-    @apply text-3xl;
+    font-size: 1.875rem;
+  }
+
+  .planCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .plansGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .title {
+    font-size: 2.25rem;
+  }
+
+  .highlighted {
+    transform: scale(1.05);
+  }
+}
+
+@media (min-width: 1024px) {
+  .plansGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .planCard {
+    background-color: rgb(31 41 55);
+    border-color: rgb(55 65 81);
+  }
+
+  .subtitle {
+    color: rgb(209 213 219);
+  }
+
+  .featureItem {
+    color: rgb(209 213 219);
   }
 } 
