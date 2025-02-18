@@ -1,5 +1,5 @@
 .container {
-  @apply min-h-screen bg-gray-50;
+  @apply min-h-screen bg-white flex flex-col;
 }
 
 .contentGrid {
@@ -35,27 +35,31 @@
 }
 
 .formSection {
-  @apply flex items-center justify-center p-8 bg-white lg:bg-gray-50;
+  @apply flex items-center justify-center p-4 bg-white flex-1;
+  @apply md:p-8;
 }
 
 .formContainer {
-  @apply w-full max-w-md -mt-12;
+  @apply w-full max-w-md mx-auto;
+  @apply md:mt-0 mt-8;
 }
 
 .formTitle {
   @apply text-2xl font-bold text-gray-900 text-center mb-2;
+  @apply md:text-2xl text-xl;
 }
 
 .formSubtitle {
-  @apply text-gray-600 text-center mb-8;
+  @apply text-gray-600 text-center mb-6;
+  @apply text-sm md:text-base;
 }
 
 .form {
-  @apply space-y-6;
+  @apply space-y-4;
 }
 
 .inputGroup {
-  @apply space-y-4;
+  @apply space-y-2;
 }
 
 .inputLabel {
@@ -63,14 +67,14 @@
 }
 
 .input {
-  @apply appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg
+  @apply appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg
          text-gray-900 placeholder-gray-400
          focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
          transition-colors duration-200;
 }
 
 .formFooter {
-  @apply space-y-4;
+  @apply space-y-4 mt-6;
 }
 
 .submitButton {
@@ -89,8 +93,38 @@
 }
 
 /* Responsividade */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
+  .container {
+    @apply bg-white justify-center;
+  }
+  
   .formSection {
-    @apply bg-white;
+    @apply px-6 pt-0;
+  }
+  
+  .formContainer {
+    @apply w-full mt-0;
+  }
+  
+  .formSubtitle {
+    @apply text-sm;
+  }
+}
+
+/* Esconde elementos desktop em mobile */
+@media (max-width: 1024px) {
+  .welcomeSection {
+    @apply hidden;
+  }
+}
+
+/* Mantém layout desktop para telas maiores */
+@media (min-width: 1024px) {
+  .container {
+    @apply grid grid-cols-2 bg-gray-50;
+  }
+  
+  .welcomeSection {
+    @apply flex flex-col justify-center px-16 bg-white;
   }
 } 

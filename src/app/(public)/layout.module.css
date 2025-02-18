@@ -5,10 +5,12 @@
 
 .navContainer {
   @apply max-w-7xl mx-auto px-6 py-4;
+  @apply md:px-6 px-4; /* Padding menor em mobile */
 }
 
 .navContent {
   @apply flex items-center justify-between;
+  @apply relative; /* Para posicionamento do menu mobile */
 }
 
 .logoLink {
@@ -90,4 +92,32 @@
 
 .companyLink {
   @apply text-primary hover:text-primary-dark;
+}
+
+/* Menu mobile */
+.mobileMenuButton {
+  @apply md:hidden block p-2 rounded-lg text-gray-600 hover:bg-gray-100;
+}
+
+.mobileMenu {
+  @apply md:hidden absolute top-full right-0 w-full bg-white shadow-lg rounded-lg mt-2 py-2;
+}
+
+.mobileMenuItem {
+  @apply px-4 py-2 text-gray-600 hover:bg-gray-50;
+}
+
+/* Ajustes responsivos do footer */
+@media (max-width: 768px) {
+  .footerGrid {
+    @apply grid-cols-1 gap-8;
+  }
+
+  .brandSection {
+    @apply col-span-1;
+  }
+
+  .footerColumn {
+    @apply space-y-3;
+  }
 } 

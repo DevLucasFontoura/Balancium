@@ -30,21 +30,6 @@ export function Precos() {
       destaque: true,
       botao: "Assinar Premium"
     },
-    {
-      nome: "Empresarial",
-      preco: "R$ 29,90",
-      periodo: "por mês",
-      recursos: [
-        "Todas as features do plano Premium",
-        "Múltiplos usuários",
-        "Relatórios empresariais",
-        "API de integração",
-        "Suporte 24/7",
-        "Treinamento personalizado"
-      ],
-      destaque: false,
-      botao: "Contatar Vendas"
-    }
   ];
 
   return (

@@ -8,6 +8,7 @@
 
 .title {
   @apply text-4xl font-bold text-center mb-4;
+  @apply md:text-4xl text-3xl;
 }
 
 .subtitle {
@@ -22,10 +23,12 @@
   @apply bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg 
          border border-gray-100 dark:border-gray-700
          flex flex-col;
+  @apply md:p-8 p-6;
 }
 
 .highlighted {
-  @apply border-primary/50 shadow-xl scale-105;
+  @apply border-primary/50 shadow-xl;
+  @apply md:scale-105 scale-100;
 }
 
 .planHeader {
@@ -69,4 +72,18 @@
 
 .highlightedButton {
   @apply bg-primary text-white hover:bg-primary-dark;
+}
+
+@media (max-width: 768px) {
+  .pricingSection {
+    @apply py-12 px-4;
+  }
+
+  .subtitle {
+    @apply text-lg mb-8;
+  }
+
+  .price {
+    @apply text-3xl;
+  }
 } 
