@@ -1,7 +1,7 @@
 .container {
   max-width: 80rem;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .loadingContainer {
@@ -23,10 +23,10 @@
 .welcomeHero {
   background: linear-gradient(to right, rgb(16 185 129), rgb(5 150 105));
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1.5rem;
   color: white;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .welcomeContent {
@@ -34,13 +34,13 @@
 }
 
 .welcomeTitle {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
 .welcomeMessage {
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: rgb(236 253 245);
   text-transform: capitalize;
 }
@@ -91,7 +91,7 @@
 
 .mainGrid {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .leftColumn {
@@ -186,9 +186,32 @@
 }
 
 /* Responsividade */
+@media (min-width: 640px) {
+  .container {
+    padding: 2rem;
+  }
+
+  .welcomeHero {
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .welcomeTitle {
+    font-size: 2.25rem;
+  }
+
+  .welcomeMessage {
+    font-size: 1.25rem;
+  }
+}
+
 @media (min-width: 768px) {
   .statsGrid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mainGrid {
+    gap: 2rem;
   }
 }
 
@@ -402,4 +425,23 @@
 
 .chartsContainer > div {
   @apply grid grid-cols-1 md:grid-cols-2 gap-8;
+}
+
+/* Ajustes para os cards */
+.chartCard, .categoriesCard {
+  width: 100%;
+  overflow: hidden;  /* Previne overflow em telas menores */
+}
+
+.categoriesList {
+  overflow-x: auto;  /* Permite scroll horizontal se necessário */
+}
+
+.categoryItem {
+  min-width: 250px;  /* Garante um tamanho mínimo */
+}
+
+.categoryBar {
+  width: 100%;  /* Era fixo em 24, agora é responsivo */
+  max-width: 150px;  /* Limita o tamanho máximo */
 } 

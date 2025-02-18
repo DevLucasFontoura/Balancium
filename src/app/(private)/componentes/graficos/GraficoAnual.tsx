@@ -33,6 +33,19 @@ interface DadosMensais {
 export function GraficoAnual() {
   const [dadosMensais, setDadosMensais] = useState<{ [key: number]: DadosMensais }>({});
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Adicionar detecção de dispositivo móvel
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     async function carregarDados() {
@@ -84,12 +97,40 @@ export function GraficoAnual() {
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ];
 
+  // Função para obter os últimos 3 meses
+  const getUltimos3Meses = () => {
+    const mesAtual = new Date().getMonth(); // 0-11
+    const ultimos3 = [];
+    
+    for (let i = 2; i >= 0; i--) {
+      const indice = ((mesAtual - i) + 12) % 12;
+      ultimos3.push(meses[indice]);
+    }
+    
+    return ultimos3;
+  };
+
+  // Preparar dados com base no dispositivo
+  const labelsFinais = isMobile ? getUltimos3Meses() : meses;
+  const mesAtual = new Date().getMonth() + 1; // 1-12
+
+  const getDadosFiltrados = (dados: number[]) => {
+    if (!isMobile) return dados;
+    
+    const ultimos3 = [];
+    for (let i = 2; i >= 0; i--) {
+      const indice = ((mesAtual - 1 - i) + 12) % 12;
+      ultimos3.push(dados[indice]);
+    }
+    return ultimos3;
+  };
+
   const data = {
-    labels: meses,
+    labels: labelsFinais,
     datasets: [
       {
         label: 'Entradas',
-        data: Object.values(dadosMensais).map(mes => mes.entradas),
+        data: getDadosFiltrados(Object.values(dadosMensais).map(mes => mes.entradas)),
         borderColor: 'rgb(34, 197, 94)',
         backgroundColor: 'rgba(34, 197, 94, 0.1)',
         tension: 0.4,
@@ -97,7 +138,7 @@ export function GraficoAnual() {
       },
       {
         label: 'Saídas',
-        data: Object.values(dadosMensais).map(mes => mes.saidas),
+        data: getDadosFiltrados(Object.values(dadosMensais).map(mes => mes.saidas)),
         borderColor: 'rgb(239, 68, 68)',
         backgroundColor: 'rgba(239, 68, 68, 0.1)',
         tension: 0.4,
@@ -152,6 +193,17 @@ export function GraficoAnual() {
 
   return (
     <div style={{ height: '400px', padding: '20px 0' }}>
+      {isMobile && (
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '10px',
+          fontSize: '0.875rem',
+          color: 'rgb(107 114 128)',
+          padding: '0 10px'
+        }}>
+          Rotacione o dispositivo ou acesse a versão desktop para visualizar todos os meses
+        </div>
+      )}
       <Line data={data} options={options} />
     </div>
   );

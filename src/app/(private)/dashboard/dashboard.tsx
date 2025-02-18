@@ -115,30 +115,21 @@ export function Dashboard() {
 
       {/* Grid Principal */}
       <div className={styles.mainGrid}>
-        {/* Coluna da Esquerda */}
+        {/* Coluna da Esquerda - Agora com width: 100% em telas menores */}
         <div className={styles.leftColumn}>
-          {/* Gráfico Anual */}
           <div className={styles.chartCard}>
             <div className={styles.chartHeader}>
               <h2 className={styles.chartTitle}>Evolução Anual</h2>
               <p className={styles.chartSubtitle}>Comparativo mensal de entradas e saídas</p>
             </div>
-            <GraficoAnual />
-          </div>
-
-          {/* Gráfico de Barras Empilhadas
-          <div className={styles.chartCard}>
-            <div className={styles.chartHeader}>
-              <h2 className={styles.chartTitle}>Composição dos Gastos</h2>
-              <p className={styles.chartSubtitle}>Distribuição mensal por categoria</p>
+            <div className={styles.chartsContainer}>
+              <GraficoAnual />
             </div>
-            <GraficoBarrasEmpilhadas />
-          </div> */}
+          </div>
         </div>
 
-        {/* Coluna da Direita */}
+        {/* Coluna da Direita - Agora com width: 100% em telas menores */}
         <div className={styles.rightColumn}>
-          {/* Top Categorias */}
           <div className={styles.categoriesCard}>
             <h2 className={styles.cardTitle}>Top Categorias</h2>
             <div className={styles.categoriesList}>
