@@ -1,13 +1,13 @@
 .container {
-  @apply min-h-screen bg-white flex flex-col;
+  @apply min-h-screen bg-gray-50;
 }
 
 .contentGrid {
-  @apply grid lg:grid-cols-2 min-h-screen max-w-7xl mx-auto;
+  @apply flex min-h-screen max-w-7xl mx-auto;
 }
 
 .welcomeSection {
-  @apply hidden lg:flex flex-col justify-center px-16 bg-white;
+  @apply hidden lg:flex flex-col justify-center px-16 bg-white flex-1;
 }
 
 .welcomeTitle {
@@ -15,7 +15,7 @@
 }
 
 .highlight {
-  @apply text-primary;
+  @apply text-emerald-500;
 }
 
 .welcomeText {
@@ -31,31 +31,27 @@
 }
 
 .featureIcon {
-  @apply w-5 h-5 text-primary;
+  @apply w-5 h-5 text-emerald-500;
 }
 
 .formSection {
-  @apply flex items-center justify-center p-4 bg-white flex-1;
-  @apply md:p-8;
+  @apply flex items-center justify-center p-8 bg-white lg:bg-gray-50 flex-1;
 }
 
 .formContainer {
-  @apply w-full max-w-md mx-auto;
-  @apply md:mt-0 mt-8;
+  @apply w-full max-w-md;
 }
 
 .formTitle {
   @apply text-2xl font-bold text-gray-900 text-center mb-2;
-  @apply md:text-2xl text-xl;
 }
 
 .formSubtitle {
-  @apply text-gray-600 text-center mb-6;
-  @apply text-sm md:text-base;
+  @apply text-gray-600 text-center mb-8;
 }
 
 .form {
-  @apply space-y-4;
+  @apply space-y-6;
 }
 
 .inputGroup {
@@ -63,25 +59,23 @@
 }
 
 .inputLabel {
-  @apply block text-sm font-medium text-gray-700 mb-1;
+  @apply block text-sm font-medium text-gray-700;
 }
 
 .input {
-  @apply appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg
          text-gray-900 placeholder-gray-400
-         focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
-         transition-colors duration-200;
+         focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent;
 }
 
 .formFooter {
-  @apply space-y-4 mt-6;
+  @apply mt-6 space-y-4;
 }
 
 .submitButton {
-  @apply w-full flex justify-center py-3 px-4 border border-transparent rounded-lg
-         text-sm font-medium text-white bg-primary hover:bg-primary-dark
-         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
-         transition-colors duration-200;
+  @apply w-full py-3 px-4 border border-transparent rounded-lg
+         text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600
+         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500;
 }
 
 .signupText {
@@ -89,42 +83,12 @@
 }
 
 .signupLink {
-  @apply font-medium text-primary hover:text-primary-dark;
+  @apply font-medium text-emerald-500 hover:text-emerald-600;
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
-  .container {
-    @apply bg-white justify-center;
-  }
-  
-  .formSection {
-    @apply px-6 pt-0;
-  }
-  
-  .formContainer {
-    @apply w-full mt-0;
-  }
-  
-  .formSubtitle {
-    @apply text-sm;
-  }
-}
-
-/* Esconde elementos desktop em mobile */
 @media (max-width: 1024px) {
-  .welcomeSection {
-    @apply hidden;
-  }
-}
-
-/* Mantém layout desktop para telas maiores */
-@media (min-width: 1024px) {
-  .container {
-    @apply grid grid-cols-2 bg-gray-50;
-  }
-  
-  .welcomeSection {
-    @apply flex flex-col justify-center px-16 bg-white;
+  .formSection {
+    @apply bg-white;
   }
 } 
