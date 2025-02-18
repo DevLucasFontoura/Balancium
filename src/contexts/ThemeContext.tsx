@@ -1,51 +1,57 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 interface ThemeContextType {
-  theme: 'light' | 'dark';
+  theme: string;
   toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'light',
+  toggleTheme: () => {},
+});
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme as 'light' | 'dark');
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    }
+    const loadTheme = async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
 
-    // Depois verifica se há um usuário logado e carrega suas preferências
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        try {
-          const userDoc = await userRef.get();
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
           const userData = userDoc.data();
-          if (userData?.settings?.theme) {
-            setTheme(userData.settings.theme);
-            document.documentElement.classList.toggle('dark', userData.settings.theme === 'dark');
-          }
-        } catch (error) {
-          console.error('Erro ao carregar tema:', error);
+          setTheme(userData.theme || 'light');
         }
+      } catch (error) {
+        console.error('Erro ao carregar tema:', error);
       }
-    });
+    };
 
-    return () => unsubscribe();
+    loadTheme();
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark');
+  const toggleTheme = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      const userDocRef = doc(db, 'users', user.uid);
+      
+      await setDoc(userDocRef, { theme: newTheme }, { merge: true });
+      setTheme(newTheme);
+      
+    } catch (error) {
+      console.error('Erro ao alterar tema:', error);
+    }
   };
 
   return (
@@ -55,10 +61,4 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-} 
+export const useTheme = () => useContext(ThemeContext); 
