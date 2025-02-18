@@ -35,11 +35,11 @@ export function GraficoBarrasEmpilhadas() {
   const [loading, setLoading] = useState(true);
 
   const cores = [
-    'rgb(34, 197, 94)',  // Verde
-    'rgb(239, 68, 68)',  // Vermelho
-    'rgb(59, 130, 246)', // Azul
-    'rgb(168, 85, 247)', // Roxo
-    'rgb(251, 146, 60)'  // Laranja
+    'rgb(34, 197, 94)',   // Verde
+    'rgb(239, 68, 68)',   // Vermelho
+    'rgb(59, 130, 246)',  // Azul
+    'rgb(168, 85, 247)',  // Roxo
+    'rgb(251, 146, 60)'   // Laranja
   ];
 
   useEffect(() => {
@@ -50,7 +50,23 @@ export function GraficoBarrasEmpilhadas() {
 
         const anoAtual = new Date().getFullYear();
         
-        const q = query(
+        // Primeiro, vamos buscar todas as categorias do usuário
+        const categoriasQuery = query(
+          collection(db, 'categorias'),
+          where('userId', '==', user.uid),
+          where('status', '==', 'ativo')
+        );
+        
+        const categoriasSnapshot = await getDocs(categoriasQuery);
+        const categoriasMap = new Map();
+        
+        categoriasSnapshot.forEach(doc => {
+          const categoria = doc.data();
+          categoriasMap.set(doc.id, categoria.nome);
+        });
+
+        // Agora vamos buscar as transações
+        const transacoesQuery = query(
           collection(db, 'transacoes'),
           where('userId', '==', user.uid),
           where('ano', '==', anoAtual),
@@ -58,18 +74,20 @@ export function GraficoBarrasEmpilhadas() {
           where('status', '==', 'ativo')
         );
 
-        const querySnapshot = await getDocs(q);
+        const transacoesSnapshot = await getDocs(transacoesQuery);
         const dados: DadosMensais = {};
 
-        querySnapshot.forEach((doc) => {
+        transacoesSnapshot.forEach((doc) => {
           const transacao = doc.data();
-          if (!dados[transacao.categoria]) {
-            dados[transacao.categoria] = {};
+          const categoriaNome = categoriasMap.get(transacao.categoria) || 'Outros';
+          
+          if (!dados[categoriaNome]) {
+            dados[categoriaNome] = {};
           }
-          if (!dados[transacao.categoria][transacao.mes]) {
-            dados[transacao.categoria][transacao.mes] = 0;
+          if (!dados[categoriaNome][transacao.mes]) {
+            dados[categoriaNome][transacao.mes] = 0;
           }
-          dados[transacao.categoria][transacao.mes] += transacao.valor;
+          dados[categoriaNome][transacao.mes] += transacao.valor;
         });
 
         setDadosMensais(dados);
@@ -96,6 +114,7 @@ export function GraficoBarrasEmpilhadas() {
       backgroundColor: cores[index % cores.length],
       borderColor: 'white',
       borderWidth: 1,
+      borderRadius: 4,
     }))
   };
 
@@ -105,17 +124,42 @@ export function GraficoBarrasEmpilhadas() {
     scales: {
       x: {
         stacked: true,
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            size: 12
+          }
+        }
       },
       y: {
         stacked: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        },
         ticks: {
           callback: function(value: any) {
             return formatarMoeda(value);
+          },
+          font: {
+            size: 12
           }
         }
       }
     },
     plugins: {
+      legend: {
+        position: 'bottom' as const,
+        labels: {
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          font: {
+            size: 12
+          }
+        }
+      },
       tooltip: {
         callbacks: {
           label: function(context: any) {

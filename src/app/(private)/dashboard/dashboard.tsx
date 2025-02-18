@@ -126,14 +126,14 @@ export function Dashboard() {
             <GraficoAnual />
           </div>
 
-          {/* Gráfico de Barras Empilhadas */}
+          {/* Gráfico de Barras Empilhadas
           <div className={styles.chartCard}>
             <div className={styles.chartHeader}>
               <h2 className={styles.chartTitle}>Composição dos Gastos</h2>
               <p className={styles.chartSubtitle}>Distribuição mensal por categoria</p>
             </div>
             <GraficoBarrasEmpilhadas />
-          </div>
+          </div> */}
         </div>
 
         {/* Coluna da Direita */}
