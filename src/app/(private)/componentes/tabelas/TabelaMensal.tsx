@@ -154,46 +154,104 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
   }
 
   return (
-    <div className="overflow-x-auto -mx-4 sm:mx-0">
-      <div className="min-w-full inline-block align-middle">
-        <div className="overflow-hidden">
+    <div className="space-y-4">
+      {/* Versão Mobile (vertical) */}
+      <div className="md:hidden space-y-4">
+        {transacoes.map((transacao) => {
+          const categoriaInfo = getCategoriaInfo(transacao.categoria);
+          return (
+            <div 
+              key={transacao.id}
+              className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+            >
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    {transacao.descricao}
+                  </h3>
+                  <span 
+                    className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium"
+                    style={{ 
+                      backgroundColor: categoriaInfo.cor,
+                      color: 'white'
+                    }}
+                  >
+                    {categoriaInfo.nome}
+                  </span>
+                </div>
+
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {formatarData(transacao.data)}
+                </div>
+
+                <div className={`text-lg font-semibold ${
+                  transacao.tipo === 'entrada' 
+                    ? 'text-emerald-600 dark:text-emerald-400' 
+                    : 'text-rose-600 dark:text-rose-400'
+                }`}>
+                  {formatarMoeda(transacao.valor)}
+                </div>
+
+                <div className="flex space-x-2 pt-2">
+                  <button
+                    onClick={() => handleEditarTransacao(transacao)}
+                    className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete(transacao.id)}
+                    className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 dark:text-rose-400 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Excluir
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Versão Desktop (tabela) */}
+      <div className="hidden md:block">
+        <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead>
-              <tr className="bg-gray-50 dark:bg-gray-700/50">
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                  Data
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+            <thead className="bg-gray-50 dark:bg-gray-800">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Descrição
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Categoria
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Data
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Valor
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Ações
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
               {transacoes.map((transacao) => {
                 const categoriaInfo = getCategoriaInfo(transacao.categoria);
                 return (
-                  <tr 
-                    key={transacao.id}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                      {formatarData(transacao.data)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
+                  <tr key={transacao.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       {transacao.descricao}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <span 
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium"
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                         style={{ 
                           backgroundColor: categoriaInfo.cor,
                           color: 'white'
@@ -201,6 +259,9 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
                       >
                         {categoriaInfo.nome}
                       </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      {formatarData(transacao.data)}
                     </td>
                     <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
                       transacao.tipo === 'entrada' 
@@ -213,7 +274,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
                       <div className="flex justify-end space-x-2">
                         <button
                           onClick={() => handleEditarTransacao(transacao)}
-                          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
+                          className="inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 transition-colors"
                         >
                           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -222,7 +283,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
                         </button>
                         <button
                           onClick={() => handleDelete(transacao.id)}
-                          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 dark:text-rose-400 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 transition-colors"
+                          className="inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 dark:text-rose-400 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 transition-colors"
                         >
                           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -238,7 +299,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
           </table>
         </div>
       </div>
-      
+
       {transacaoParaEditar && (
         <EditarTransacaoModal
           transacao={transacaoParaEditar}
