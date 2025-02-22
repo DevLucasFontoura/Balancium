@@ -26,7 +26,7 @@ export default function BemVindo() {
             {/* Botões de Ação */}
             <div className="flex flex-col md:flex-row gap-4 max-w-sm mx-auto md:mx-0">
               <Link
-                href="/cadastro"
+                href="/registro"
                 className="w-full md:w-auto px-8 py-3 text-center font-medium rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition-colors"
               >
                 Começar Grátis
@@ -98,7 +98,7 @@ export default function BemVindo() {
             Junte-se a milhares de pessoas que já estão controlando melhor suas finanças.
           </p>
           <Link
-            href="/cadastro"
+            href="/registro"
             className="inline-block px-8 py-3 bg-white text-emerald-600 font-medium rounded-lg hover:bg-emerald-50 transition-colors"
           >
             Criar Conta Gratuita

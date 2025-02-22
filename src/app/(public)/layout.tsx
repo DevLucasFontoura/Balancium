@@ -102,7 +102,7 @@ export default function PublicLayout({
                 Entrar
               </Link>
               <Link
-                href="/cadastro"
+                href="/registro"
                 className="block px-3 py-2 rounded-md text-base font-medium bg-emerald-500 text-white hover:bg-emerald-600"
                 onClick={() => setIsMenuOpen(false)}
               >
