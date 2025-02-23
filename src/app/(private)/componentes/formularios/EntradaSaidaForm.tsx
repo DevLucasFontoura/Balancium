@@ -20,7 +20,15 @@ interface Categoria {
 
 interface FormData {
   descricao: string;
-  valor: number;
+  valor: string;
+  categoria: string;
+  data: string;
+  tipo: 'entrada' | 'saida';
+}
+
+interface FormState {
+  descricao: string;
+  valor: string;
   categoria: string;
   data: string;
   tipo: 'entrada' | 'saida';
@@ -33,12 +41,11 @@ export function EntradaSaidaForm() {
   const [descricoes, setDescricoes] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [tipo, setTipo] = useState<'entrada' | 'saida'>('saida');
   
-  const initialFormState = {
+  const initialFormState: FormState = {
     descricao: '',
     valor: '',
-    tipo: 'entrada' as TipoTransacao,
+    tipo: 'entrada',
     data: new Date().toISOString().split('T')[0],
     categoria: '',
   };
@@ -68,7 +75,6 @@ export function EntradaSaidaForm() {
           }
         });
         const descricoesArray = Array.from(descricaoSet);
-        console.log('Descrições carregadas:', descricoesArray); // Debug
         setDescricoes(descricoesArray);
       } catch (error) {
         console.error('Erro ao carregar descrições:', error);
@@ -105,11 +111,7 @@ export function EntradaSaidaForm() {
         descricao.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-  console.log('Query atual:', searchQuery); // Debug
-  console.log('Descrições filtradas:', filteredDescricoes); // Debug
-
-  const onSubmitForm = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmitForm = async (data: FormData) => {
     setLoading(true);
     setError(null);
 
@@ -119,19 +121,22 @@ export function EntradaSaidaForm() {
         throw new Error('Usuário não autenticado');
       }
 
+      if (!data.descricao || !formData.valor || !data.categoria || !formData.data) {
+        throw new Error('Todos os campos são obrigatórios');
+      }
+
       const valorNumerico = parseFloat(formData.valor.replace(/\./g, '').replace(',', '.'));
 
-      // Ajusta a data para meia-noite no fuso horário local
-      const dataObj = new Date(formData.data);
-      const dataLocal = new Date(dataObj.getTime() - dataObj.getTimezoneOffset() * 60000);
-      const dataISO = dataLocal.toISOString();
+      const [ano, mes, dia] = formData.data.split('-').map(Number);
+      const dataObj = new Date(ano, mes - 1, dia);
+      const dataISO = dataObj.toISOString();
 
       const transacao = {
         userId: user.uid,
-        descricao: formData.descricao,
+        descricao: data.descricao,
         valor: valorNumerico,
         tipo: formData.tipo,
-        categoria: formData.categoria,
+        categoria: data.categoria,
         data: dataISO,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -142,37 +147,42 @@ export function EntradaSaidaForm() {
 
       await addDoc(collection(db, 'transacoes'), transacao);
       
-      setFormData(initialFormState);
-      setSearchQuery('');
+      const novoEstadoInicial: FormState = {
+        ...initialFormState,
+        tipo: formData.tipo
+      };
       
-      toast.success('Transação salva com sucesso!', {
-        duration: 3000,
-        position: 'top-right',
-        style: {
-          background: '#10B981',
-          color: '#FFFFFF',
-          padding: '16px',
-          borderRadius: '8px',
-        },
-        icon: '✅',
+      setFormData(novoEstadoInicial);
+      setSearchQuery('');
+      reset({
+        descricao: '',
+        valor: '',
+        categoria: '',
+        data: novoEstadoInicial.data,
+        tipo: formData.tipo
       });
+      
+      toast.success('Transação salva com sucesso!');
       
     } catch (err) {
       console.error('Erro ao salvar transação:', err);
-      toast.error('Erro ao salvar transação. Tente novamente.', {
-        duration: 3000,
-        position: 'top-right',
-        style: {
-          background: '#EF4444',
-          color: '#FFFFFF',
-          padding: '16px',
-          borderRadius: '8px',
-        },
-        icon: '❌',
-      });
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error('Erro ao salvar transação. Tente novamente.');
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFormSubmit = (data: FormData) => {
+    if (!data.descricao || !formData.valor || !data.categoria || !formData.data) {
+      toast.error('Preencha todos os campos obrigatórios');
+      return;
+    }
+
+    onSubmitForm(data);
   };
 
   const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,13 +196,8 @@ export function EntradaSaidaForm() {
     setFormData({ ...formData, valor: valorFormatado });
   };
 
-  const handleFormSubmit = (data: FormData) => {
-    onSubmitForm({ ...data, tipo });
-    reset();
-  };
-
   return (
-    <form onSubmit={onSubmitForm} className={styles.form}>
+    <form onSubmit={submitForm(handleFormSubmit)} className={styles.form}>
       <div className={styles.formGrid}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Tipo de Transação</label>
@@ -200,7 +205,7 @@ export function EntradaSaidaForm() {
             <button
               type="button"
               className={`${styles.tipoButton} ${formData.tipo === 'entrada' ? styles.tipoButtonEntrada : ''}`}
-              onClick={() => setFormData({ ...formData, tipo: 'entrada' })}
+              onClick={() => setFormData(prev => ({ ...prev, tipo: 'entrada' }))}
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0-16l-4 4m4-4l4 4" />
@@ -210,7 +215,7 @@ export function EntradaSaidaForm() {
             <button
               type="button"
               className={`${styles.tipoButton} ${formData.tipo === 'saida' ? styles.tipoButtonSaida : ''}`}
-              onClick={() => setFormData({ ...formData, tipo: 'saida' })}
+              onClick={() => setFormData(prev => ({ ...prev, tipo: 'saida' }))}
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20V4m0 16l4-4m-4 4l-4-4" />
@@ -225,17 +230,20 @@ export function EntradaSaidaForm() {
           <div className={styles.comboboxContainer}>
             <Combobox
               value={formData.descricao}
-              onChange={(value) => setFormData({ ...formData, descricao: value })}
+              onChange={(value: string) => {
+                setFormData(prev => ({ ...prev, descricao: value }));
+              }}
             >
               <div className={styles.comboboxWrapper}>
                 <Combobox.Input
                   className={styles.input}
+                  {...register('descricao', { required: true })}
                   placeholder="Ex: Salário, Aluguel, Compras..."
-                  displayValue={(descricao: string) => descricao}
+                  displayValue={(descricao: string) => descricao || ''}
                   onChange={(event) => {
                     const value = event.target.value;
                     setSearchQuery(value);
-                    setFormData({ ...formData, descricao: value });
+                    setFormData(prev => ({ ...prev, descricao: value }));
                   }}
                 />
                 <Combobox.Button className={styles.comboboxButton}>
@@ -297,8 +305,9 @@ export function EntradaSaidaForm() {
         <div className={styles.inputGroup}>
           <label className={styles.label}>Categoria</label>
           <select
+            {...register('categoria', { required: true })}
             value={formData.categoria}
-            onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
+            onChange={(e) => setFormData(prev => ({ ...prev, categoria: e.target.value }))}
             className={styles.select}
             required
           >
@@ -330,8 +339,9 @@ export function EntradaSaidaForm() {
           <label className={styles.label}>Data</label>
           <input
             type="date"
+            {...register('data', { required: true })}
             value={formData.data}
-            onChange={(e) => setFormData({ ...formData, data: e.target.value })}
+            onChange={(e) => setFormData(prev => ({ ...prev, data: e.target.value }))}
             className={styles.input}
             required
           />

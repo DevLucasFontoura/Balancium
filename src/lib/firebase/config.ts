@@ -26,16 +26,4 @@ if (!getApps().length) {
 auth = getAuth(app);
 db = getFirestore(app);
 
-// Debug mais detalhado
-if (process.env.NODE_ENV === 'development') {
-  console.log('Firebase Config Completo:', {
-    ...firebaseConfig,
-    apiKey: firebaseConfig.apiKey?.slice(0, 5) + '...' // Oculta a chave por segurança
-  });
-  
-  // Verifica se a autenticação está inicializada
-  console.log('Auth inicializado:', !!auth);
-  console.log('App inicializado:', !!app);
-}
-
 export { app, auth, db }; 
