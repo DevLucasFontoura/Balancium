@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, query, where, orderBy, getDocs, doc, deleteDoc, getDoc } from 'firebase/firestore';
+import { collection, query, where, orderBy, getDocs, doc, deleteDoc, getDoc, writeBatch } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
 import { formatarMoeda } from '@/utils/formatarMoeda';
 import { formatarData } from '@/utils/formatarData';
@@ -119,6 +119,53 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
     }
   }
 
+  async function handleDeleteAll() {
+    const result = await Swal.fire({
+      title: 'Tem certeza?',
+      text: "Você irá excluir todas as transações deste mês. Esta ação não poderá ser revertida!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#059669',
+      cancelButtonColor: '#dc2626',
+      confirmButtonText: 'Sim, excluir todas!',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const q = query(
+          collection(db, 'transacoes'),
+          where('userId', '==', user.uid),
+          where('mes', '==', mes),
+          where('ano', '==', ano),
+          where('status', '==', 'ativo')
+        );
+
+        const querySnapshot = await getDocs(q);
+        
+        // Criar um batch para operações em lote
+        const batch = writeBatch(db);
+        
+        querySnapshot.docs.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+
+        // Executar todas as exclusões de uma vez
+        await batch.commit();
+        
+        toast.success('Todas as transações foram excluídas com sucesso!');
+        await carregarTransacoes();
+        onTransacoesChange?.();
+      } catch (error) {
+        console.error('Erro ao excluir transações:', error);
+        toast.error('Erro ao excluir transações. Tente novamente.');
+      }
+    }
+  }
+
   const handleEditarTransacao = async (transacao: Transacao) => {
     await carregarCategorias();
     setTransacaoParaEditar(transacao);
@@ -155,6 +202,30 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
 
   return (
     <div className="space-y-4">
+      {transacoes.length > 0 && (
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={handleDeleteAll}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-colors dark:hover:bg-rose-600 dark:focus:ring-offset-gray-900"
+          >
+            <svg 
+              className="w-4 h-4 mr-2" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" 
+              />
+            </svg>
+            Excluir Todas
+          </button>
+        </div>
+      )}
+
       {/* Versão Mobile (vertical) */}
       <div className="md:hidden space-y-4">
         {transacoes.map((transacao) => {

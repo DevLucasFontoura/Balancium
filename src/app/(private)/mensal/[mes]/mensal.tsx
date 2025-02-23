@@ -8,6 +8,8 @@ interface MensalProps {
 
 export function Mensal({ mes }: MensalProps) {
   const mesCapitalizado = mes.charAt(0).toUpperCase() + mes.slice(1);
+  const mesNumerico = parseInt(mes, 10);
+  const anoAtual = new Date().getFullYear();
 
   return (
     <div className={styles.container}>
@@ -22,7 +24,10 @@ export function Mensal({ mes }: MensalProps) {
         </div>
 
         <div className={styles.card}>
-          <TabelaMensal mes={mes} />
+          <TabelaMensal 
+            mes={mesNumerico} 
+            ano={anoAtual}
+          />
         </div>
       </div>
     </div>
