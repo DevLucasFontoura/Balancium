@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, query, where, orderBy, getDocs, doc, deleteDoc, getDoc, writeBatch } from 'firebase/firestore';
+import { collection, query, where, orderBy, getDocs, doc, deleteDoc, getDoc, writeBatch, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
 import { formatarMoeda } from '@/utils/formatarMoeda';
 import { formatarData } from '@/utils/formatarData';
@@ -59,8 +59,6 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
     try {
       const user = auth.currentUser;
       if (!user) return;
-
-      console.log('Buscando transações:', { mes, ano, userId: user.uid });
 
       const q = query(
         collection(db, 'transacoes'),
@@ -168,7 +166,43 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
 
   const handleEditarTransacao = async (transacao: Transacao) => {
     await carregarCategorias();
-    setTransacaoParaEditar(transacao);
+    setTransacaoParaEditar({
+      ...transacao,
+      data: transacao.data.split('T')[0] // Garante o formato correto da data
+    });
+  };
+
+  const handleSalvarEdicao = async (transacaoEditada: Transacao) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const transacoesRef = doc(db, 'transacoes', transacaoEditada.id);
+      
+      // Criar data corretamente a partir da string YYYY-MM-DD
+      const dataObj = new Date(transacaoEditada.data + 'T00:00:00');
+      
+      const dadosParaAtualizar = {
+        descricao: transacaoEditada.descricao,
+        categoria: transacaoEditada.categoria,
+        valor: transacaoEditada.valor,
+        data: transacaoEditada.data, // Mantém o formato YYYY-MM-DD
+        tipo: transacaoEditada.tipo,
+        mes: dataObj.getMonth() + 1, // Mês correto baseado na data selecionada
+        ano: dataObj.getFullYear(), // Ano correto baseado na data selecionada
+        updatedAt: serverTimestamp()
+      };
+
+      await updateDoc(transacoesRef, dadosParaAtualizar);
+      
+      await carregarTransacoes();
+      setTransacaoParaEditar(null);
+      onTransacoesChange?.();
+      toast.success('Transação atualizada com sucesso!');
+    } catch (error) {
+      console.error('Erro ao atualizar transação:', error);
+      toast.error('Erro ao atualizar transação');
+    }
   };
 
   useEffect(() => {
@@ -377,11 +411,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
           categorias={categorias}
           isOpen={!!transacaoParaEditar}
           onClose={() => setTransacaoParaEditar(null)}
-          onUpdate={() => {
-            carregarTransacoes();
-            setTransacaoParaEditar(null);
-            onTransacoesChange?.();
-          }}
+          onUpdate={handleSalvarEdicao}
         />
       )}
     </div>

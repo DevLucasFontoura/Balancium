@@ -9,6 +9,15 @@ interface Categoria {
   tipo?: 'entrada' | 'saida';
 }
 
+interface Transacao {
+  id: string;
+  descricao: string;
+  categoria: string;
+  valor: number;
+  data: string;
+  tipo: 'entrada' | 'saida';
+}
+
 interface EditarTransacaoModalProps {
   transacao: {
     id: string;
@@ -20,7 +29,7 @@ interface EditarTransacaoModalProps {
   };
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: () => void;
+  onUpdate: (transacao: Transacao) => void;
   categorias: Record<string, Categoria>;
 }
 
@@ -43,35 +52,30 @@ export function EditarTransacaoModal({
   // Usar todas as categorias disponíveis
   const todasCategorias = Object.values(categorias);
 
-  console.log('Todas as categorias:', todasCategorias.map(cat => cat.nome));
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
       setLoading(true);
       
-      // Ajusta a data para meia-noite no fuso horário local
-      const dataObj = new Date(formData.data);
-      const dataLocal = new Date(dataObj.getTime() - dataObj.getTimezoneOffset() * 60000);
-      const dataISO = dataLocal.toISOString();
-
-      const dados = {
+      // Mantém a data exatamente como o usuário selecionou
+      const dataObj = new Date(formData.data + 'T00:00:00');
+      
+      const dadosAtualizados: Transacao = {
+        id: transacao.id,
         descricao: formData.descricao,
         categoria: formData.categoria,
         valor: Number(formData.valor),
         tipo: formData.tipo,
-        data: dataISO, // Usa a data ajustada
-        mes: dataObj.getMonth() + 1,
-        ano: dataObj.getFullYear(),
-        updatedAt: serverTimestamp(),
+        data: formData.data // Mantém a data no formato YYYY-MM-DD
       };
 
-      await updateDoc(doc(db, 'transacoes', transacao.id), dados);
-      onUpdate();
+      onUpdate(dadosAtualizados);
       onClose();
     } catch (error) {
       console.error('Erro ao atualizar transação:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
