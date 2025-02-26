@@ -103,7 +103,7 @@ export function DadosDaConta() {
     <div className={styles.container}>
       <div className={styles.header}>
         <Button
-          variant="ghost"
+          variant="secondary"
           className={styles.backButton}
           onClick={() => router.push('/configuracoes')}
         >

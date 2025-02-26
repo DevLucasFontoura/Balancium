@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  updateProfile,
+  User,
   UserCredential,
-  AuthError 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+  AuthError
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
@@ -21,8 +23,18 @@ interface SignInData {
 }
 
 export function useAuth() {
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const createUserDocument = async (user: UserCredential['user'], name: string) => {
     try {
@@ -44,44 +56,6 @@ export function useAuth() {
     } catch (err) {
       console.error('Erro ao criar documento do usuário:', err);
       throw err;
-    }
-  };
-
-  const signIn = async ({ email, password }: SignInData): Promise<UserCredential | null> => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      return userCredential;
-    } catch (err) {
-      console.error('Erro detalhado:', err);
-      
-      const firebaseError = err as AuthError;
-      let message = 'Ocorreu um erro ao fazer login';
-      
-      switch (firebaseError.code) {
-        case 'auth/invalid-email':
-          message = 'Email inválido';
-          break;
-        case 'auth/user-disabled':
-          message = 'Usuário desativado';
-          break;
-        case 'auth/user-not-found':
-          message = 'Usuário não encontrado';
-          break;
-        case 'auth/wrong-password':
-          message = 'Senha incorreta';
-          break;
-        default:
-          message = `Erro: ${firebaseError.message}`;
-          break;
-      }
-      
-      setError(message);
-      return null;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -153,10 +127,49 @@ export function useAuth() {
     }
   };
 
+  const signIn = async ({ email, password }: SignInData): Promise<UserCredential | null> => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      return userCredential;
+    } catch (err) {
+      console.error('Erro detalhado:', err);
+      
+      const firebaseError = err as AuthError;
+      let message = 'Ocorreu um erro ao fazer login';
+      
+      switch (firebaseError.code) {
+        case 'auth/invalid-email':
+          message = 'Email inválido';
+          break;
+        case 'auth/user-disabled':
+          message = 'Usuário desativado';
+          break;
+        case 'auth/user-not-found':
+          message = 'Usuário não encontrado';
+          break;
+        case 'auth/wrong-password':
+          message = 'Senha incorreta';
+          break;
+        default:
+          message = `Erro: ${firebaseError.message}`;
+          break;
+      }
+      
+      setError(message);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
-    signUp,
-    signIn,
+    user,
     loading,
-    error
+    error,
+    signUp,
+    signIn
   };
 } 

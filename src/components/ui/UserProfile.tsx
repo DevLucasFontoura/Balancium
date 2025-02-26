@@ -1,6 +1,21 @@
 import { Avatar } from './Avatar';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/useAuth';
 
 export function UserProfile() {
-  return null; // Removendo o componente, já que as informações do usuário estão na Sidebar
+  const { user } = useAuth();
+
+  if (!user) return null;
+
+  return (
+    <div className="flex items-center gap-3">
+      <Avatar 
+        src={user.photoURL || undefined} 
+        alt={user.displayName || 'User'} 
+      />
+      <div>
+        <p className="text-sm font-medium">{user.displayName || 'Usuário'}</p>
+        <p className="text-xs text-gray-500">{user.email}</p>
+      </div>
+    </div>
+  );
 } 

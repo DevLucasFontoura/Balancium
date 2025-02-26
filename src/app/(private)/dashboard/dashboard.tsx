@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { GraficoAnual } from '@/app/(private)/componentes/graficos/GraficoAnual';
-import { GraficoBarrasEmpilhadas } from '@/app/(private)/componentes/graficos/GraficoBarrasEmpilhadas';
 import styles from './dashboard.module.css';
 import { formatarMoeda } from '@/utils/formatarMoeda';
 

@@ -303,7 +303,7 @@ export function Categorias() {
                           </Button>
                         ) : (
                           <Button
-                            variant="ghost"
+                            variant="secondary"
                             onClick={() => iniciarEdicao(categoria)}
                             className={styles.editButton}
                           >
@@ -325,7 +325,7 @@ export function Categorias() {
                       </td>
                       <td>
                         <Button
-                          variant="ghost"
+                          variant="outline"
                           onClick={() => removerCategoria(categoria.id)}
                           className={styles.deleteButton}
                         >

@@ -157,7 +157,7 @@ export function Configuracoes() {
               />
               <div className={styles.confirmButtons}>
                 <Button
-                  variant="destructive"
+                  variant="danger"
                   className="bg-red-600 hover:bg-red-700 text-white"
                   onClick={handleReauthenticate}
                   disabled={isDeleting || !password}
@@ -187,7 +187,7 @@ export function Configuracoes() {
               </p>
             </div>
             <Button
-              variant="destructive"
+              variant="danger"
               className="bg-red-600 hover:bg-red-700 text-white"
               onClick={() => setShowDeleteConfirm(true)}
             >
@@ -201,7 +201,7 @@ export function Configuracoes() {
             </p>
             <div className={styles.confirmButtons}>
               <Button
-                variant="destructive"
+                variant="danger"
                 className="bg-red-600 hover:bg-red-700 text-white"
                 onClick={handleDeleteAccount}
                 disabled={isDeleting}

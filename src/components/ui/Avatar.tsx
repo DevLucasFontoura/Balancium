@@ -1,24 +1,23 @@
 interface AvatarProps {
-  src?: string | null;
-  fallback: string;
+  src?: string;
+  alt?: string;
 }
 
-export function Avatar({ src, fallback }: AvatarProps) {
-  if (src) {
-    return (
-      <img
-        src={src}
-        alt="Profile"
-        className="h-10 w-10 rounded-full"
-      />
-    );
-  }
-
+export function Avatar({ src, alt }: AvatarProps) {
   return (
-    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-      <span className="text-sm font-medium text-primary">
-        {fallback}
-      </span>
+    <div className="relative w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+      {src ? (
+        <img 
+          src={src} 
+          alt={alt || 'Avatar'} 
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-gray-500">
+          {/* Ícone de usuário padrão ou primeira letra do nome */}
+          {alt ? alt[0].toUpperCase() : 'U'}
+        </div>
+      )}
     </div>
   );
 } 

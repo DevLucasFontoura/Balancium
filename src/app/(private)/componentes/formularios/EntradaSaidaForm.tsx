@@ -52,7 +52,7 @@ export function EntradaSaidaForm() {
   
   const [formData, setFormData] = useState(initialFormState);
 
-  const { register, handleSubmit: submitForm, formState: { errors }, reset } = useForm<FormData>();
+  const { register, handleSubmit: submitForm, formState: { errors }, reset, setValue } = useForm<FormData>();
 
   // Carregar descrições existentes do usuário
   useEffect(() => {
@@ -111,6 +111,10 @@ export function EntradaSaidaForm() {
         descricao.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
+  useEffect(() => {
+    setValue('tipo', 'entrada');
+  }, [setValue]);
+
   const onSubmitForm = async (data: FormData) => {
     setLoading(true);
     setError(null);
@@ -121,13 +125,13 @@ export function EntradaSaidaForm() {
         throw new Error('Usuário não autenticado');
       }
 
-      if (!data.descricao || !formData.valor || !data.categoria || !formData.data) {
+      if (!data.descricao || !data.valor || !data.categoria || !data.data) {
         throw new Error('Todos os campos são obrigatórios');
       }
 
-      const valorNumerico = parseFloat(formData.valor.replace(/\./g, '').replace(',', '.'));
+      const valorNumerico = parseFloat(data.valor.replace(/\./g, '').replace(',', '.'));
 
-      const [ano, mes, dia] = formData.data.split('-').map(Number);
+      const [ano, mes, dia] = data.data.split('-').map(Number);
       const dataObj = new Date(ano, mes - 1, dia);
       const dataISO = dataObj.toISOString();
 
@@ -135,7 +139,7 @@ export function EntradaSaidaForm() {
         userId: user.uid,
         descricao: data.descricao,
         valor: valorNumerico,
-        tipo: formData.tipo,
+        tipo: data.tipo,
         categoria: data.categoria,
         data: dataISO,
         createdAt: serverTimestamp(),
@@ -147,20 +151,9 @@ export function EntradaSaidaForm() {
 
       await addDoc(collection(db, 'transacoes'), transacao);
       
-      const novoEstadoInicial: FormState = {
-        ...initialFormState,
-        tipo: formData.tipo
-      };
-      
-      setFormData(novoEstadoInicial);
+      reset(initialFormState);
+      setFormData(initialFormState);
       setSearchQuery('');
-      reset({
-        descricao: '',
-        valor: '',
-        categoria: '',
-        data: novoEstadoInicial.data,
-        tipo: formData.tipo
-      });
       
       toast.success('Transação salva com sucesso!');
       
@@ -177,7 +170,7 @@ export function EntradaSaidaForm() {
   };
 
   const handleFormSubmit = (data: FormData) => {
-    if (!data.descricao || !formData.valor || !data.categoria || !formData.data) {
+    if (!data.descricao || !data.valor || !data.categoria || !data.data) {
       toast.error('Preencha todos os campos obrigatórios');
       return;
     }
@@ -193,7 +186,9 @@ export function EntradaSaidaForm() {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-    setFormData({ ...formData, valor: valorFormatado });
+    
+    setFormData(prev => ({ ...prev, valor: valorFormatado }));
+    setValue('valor', valorFormatado);
   };
 
   return (
@@ -205,7 +200,10 @@ export function EntradaSaidaForm() {
             <button
               type="button"
               className={`${styles.tipoButton} ${formData.tipo === 'entrada' ? styles.tipoButtonEntrada : ''}`}
-              onClick={() => setFormData(prev => ({ ...prev, tipo: 'entrada' }))}
+              onClick={() => {
+                setFormData(prev => ({ ...prev, tipo: 'entrada' }));
+                setValue('tipo', 'entrada');
+              }}
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0-16l-4 4m4-4l4 4" />
@@ -215,7 +213,10 @@ export function EntradaSaidaForm() {
             <button
               type="button"
               className={`${styles.tipoButton} ${formData.tipo === 'saida' ? styles.tipoButtonSaida : ''}`}
-              onClick={() => setFormData(prev => ({ ...prev, tipo: 'saida' }))}
+              onClick={() => {
+                setFormData(prev => ({ ...prev, tipo: 'saida' }));
+                setValue('tipo', 'saida');
+              }}
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20V4m0 16l4-4m-4 4l-4-4" />

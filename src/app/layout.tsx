@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { FirebaseProvider } from '@/providers/FirebaseProvider';
-import { SessionProvider } from '@/components/providers/SessionProvider';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 
@@ -22,12 +21,10 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={inter.className}>
         <ThemeProvider>
-          <SessionProvider>
-            <FirebaseProvider>
-              <Toaster position="top-right" />
-              {children}
-            </FirebaseProvider>
-          </SessionProvider>
+          <FirebaseProvider>
+            <Toaster position="top-right" />
+            {children}
+          </FirebaseProvider>
         </ThemeProvider>
       </body>
     </html>

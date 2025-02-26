@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -111,7 +111,7 @@ export function GraficoDistribuicao({ periodo }: { periodo: 'month' | 'year' }) 
     carregarDados();
   }, [periodo]);
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
     animation: {
@@ -128,7 +128,7 @@ export function GraficoDistribuicao({ periodo }: { periodo: 'month' | 'year' }) 
         titleFont: {
           size: 13,
           family: 'Inter',
-          weight: '500'
+          weight: 500
         },
         bodyFont: {
           size: 12,
@@ -148,7 +148,6 @@ export function GraficoDistribuicao({ periodo }: { periodo: 'month' | 'year' }) 
         beginAtZero: true,
         grid: {
           color: 'rgba(0, 0, 0, 0.06)',
-          drawBorder: false,
           lineWidth: 1
         },
         ticks: {
@@ -158,7 +157,9 @@ export function GraficoDistribuicao({ periodo }: { periodo: 'month' | 'year' }) 
             family: 'Inter'
           },
           color: 'rgba(0, 0, 0, 0.6)',
-          callback: (value: any) => `R$ ${value}`
+          callback: function(this: any, tickValue: string | number) {
+            return `R$ ${tickValue}`;
+          }
         },
         border: {
           display: false
@@ -173,7 +174,7 @@ export function GraficoDistribuicao({ periodo }: { periodo: 'month' | 'year' }) 
           font: {
             size: 12,
             family: 'Inter',
-            weight: '500'
+            weight: 500
           },
           color: 'rgba(0, 0, 0, 0.75)'
         },

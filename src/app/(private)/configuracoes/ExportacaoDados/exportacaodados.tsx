@@ -24,8 +24,8 @@ const FORMATOS_EXPORTACAO = [
 export function ExportacaoDados() {
   const [tipoRelatorio, setTipoRelatorio] = useState('transacoes');
   const [formato, setFormato] = useState('excel');
-  const [dataInicio, setDataInicio] = useState<Date | null>(null);
-  const [dataFim, setDataFim] = useState<Date | null>(null);
+  const [dataInicio, setDataInicio] = useState<Date | undefined>(undefined);
+  const [dataFim, setDataFim] = useState<Date | undefined>(undefined);
   const [exportando, setExportando] = useState(false);
   const [ultimasExportacoes, setUltimasExportacoes] = useState([
     {
@@ -111,17 +111,15 @@ export function ExportacaoDados() {
               <div className={styles.formGroup}>
                 <label className={styles.label}>Data Inicial</label>
                 <DatePicker
-                  selected={dataInicio}
-                  onChange={setDataInicio}
-                  className={styles.datePicker}
+                  date={dataInicio}
+                  onChange={(date: Date | undefined) => setDataInicio(date)}
                 />
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Data Final</label>
                 <DatePicker
-                  selected={dataFim}
-                  onChange={setDataFim}
-                  className={styles.datePicker}
+                  date={dataFim}
+                  onChange={(date: Date | undefined) => setDataFim(date)}
                 />
               </div>
             </div>
@@ -162,7 +160,12 @@ export function ExportacaoDados() {
                       <span className={styles.statusBadge}>{exp.status}</span>
                     </td>
                     <td>
-                      <Button variant="ghost" size="sm">Download</Button>
+                      <Button 
+                        variant="secondary"
+                        size="sm"
+                      >
+                        Download
+                      </Button>
                     </td>
                   </tr>
                 ))}

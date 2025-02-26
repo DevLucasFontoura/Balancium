@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
-import { ResumoAnual as IResumoAnual } from '@/app/tipos';
+import { ResumoAnual as IResumoAnual, ResumoMensal } from '@/app/tipos';
 
 export function ResumoAnual() {
   const [resumo, setResumo] = useState<IResumoAnual>({
@@ -31,19 +31,31 @@ export function ResumoAnual() {
         const querySnapshot = await getDocs(q);
         let totalEntradas = 0;
         let totalSaidas = 0;
-        const transacoesPorMes: { [key: number]: { entradas: number; saidas: number } } = {};
+        const transacoesPorMes: { [key: string]: ResumoMensal } = {};
 
         querySnapshot.forEach((doc) => {
           const transacao = doc.data();
+          const mesKey = transacao.mes.toString();
+          
+          if (!transacoesPorMes[mesKey]) {
+            transacoesPorMes[mesKey] = {
+              totalEntradas: 0,
+              totalSaidas: 0,
+              saldo: 0
+            };
+          }
+
           if (transacao.tipo === 'entrada') {
             totalEntradas += transacao.valor;
-            transacoesPorMes[transacao.mes] = transacoesPorMes[transacao.mes] || { entradas: 0, saidas: 0 };
-            transacoesPorMes[transacao.mes].entradas += transacao.valor;
+            transacoesPorMes[mesKey].totalEntradas += transacao.valor;
           } else {
             totalSaidas += transacao.valor;
-            transacoesPorMes[transacao.mes] = transacoesPorMes[transacao.mes] || { entradas: 0, saidas: 0 };
-            transacoesPorMes[transacao.mes].saidas += transacao.valor;
+            transacoesPorMes[mesKey].totalSaidas += transacao.valor;
           }
+          
+          transacoesPorMes[mesKey].saldo = 
+            transacoesPorMes[mesKey].totalEntradas - 
+            transacoesPorMes[mesKey].totalSaidas;
         });
 
         setResumo({
