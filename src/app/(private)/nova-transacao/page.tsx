@@ -1,15 +1,13 @@
 import { EntradaSaidaForm } from '../componentes/formularios/EntradaSaidaForm';
 
-export default function NovaTransacaoPage() {
+export default function NovaTransacao() {
   return (
-    <div className="max-w-7xl mx-auto p-8">
-      <div className="mb-8 bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-2xl p-8 text-white shadow-xl">
-        <h1 className="text-3xl font-bold mb-2">Nova Transação</h1>
-        <p className="text-emerald-50">
-          Registre suas entradas e saídas de forma simples e organizada
-        </p>
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="bg-emerald-500 rounded-lg shadow-md p-6 mb-6">
+        <h1 className="text-2xl font-semibold text-white mb-2">Nova Transação</h1>
+        <p className="text-white text-lg">Registre suas entradas e saídas de forma simples e organizada</p>
       </div>
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
+      <div className="bg-white rounded-lg shadow-md p-6">
         <EntradaSaidaForm />
       </div>
     </div>

@@ -116,6 +116,7 @@ export function EntradaSaidaForm() {
   }, [setValue]);
 
   const onSubmitForm = async (data: FormData) => {
+    console.log('onSubmitForm iniciado com data:', data);
     setLoading(true);
     setError(null);
 
@@ -130,6 +131,7 @@ export function EntradaSaidaForm() {
       }
 
       const valorNumerico = parseFloat(data.valor.replace(/\./g, '').replace(',', '.'));
+      console.log('Valor numérico convertido:', valorNumerico);
 
       const [ano, mes, dia] = data.data.split('-').map(Number);
       const dataObj = new Date(ano, mes - 1, dia);
@@ -149,13 +151,46 @@ export function EntradaSaidaForm() {
         ano: dataObj.getFullYear(),
       };
 
+      console.log('Salvando transação:', transacao);
       await addDoc(collection(db, 'transacoes'), transacao);
+      console.log('Transação salva com sucesso');
       
-      reset(initialFormState);
-      setFormData(initialFormState);
+      const novoFormData = {
+        ...initialFormState,
+        data: new Date().toISOString().split('T')[0],
+        tipo: data.tipo
+      };
+
+      console.log('Resetando formulário com:', novoFormData);
+      
+      // Reset all form states
+      setFormData(novoFormData);
       setSearchQuery('');
       
+      // Reset react-hook-form
+      reset(novoFormData);
+
+      // Reset Combobox value
+      const comboboxInput = document.querySelector('.headlessui-combobox-input') as HTMLInputElement;
+      if (comboboxInput) {
+        comboboxInput.value = '';
+      }
+
+      // Reset valor input
+      const valorInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+      if (valorInput) {
+        valorInput.value = '';
+      }
+
+      // Atualizar todos os campos manualmente
+      setValue('descricao', '');
+      setValue('valor', '');
+      setValue('categoria', '');
+      setValue('data', novoFormData.data);
+      setValue('tipo', novoFormData.tipo);
+      
       toast.success('Transação salva com sucesso!');
+      console.log('Formulário resetado com sucesso');
       
     } catch (err) {
       console.error('Erro ao salvar transação:', err);
@@ -169,13 +204,21 @@ export function EntradaSaidaForm() {
     }
   };
 
-  const handleFormSubmit = (data: FormData) => {
+  const handleFormSubmit = async (data: FormData) => {
+    console.log('handleFormSubmit called with data:', data);
+    
     if (!data.descricao || !data.valor || !data.categoria || !data.data) {
       toast.error('Preencha todos os campos obrigatórios');
       return;
     }
 
-    onSubmitForm(data);
+    try {
+      console.log('Iniciando submissão do formulário...');
+      await onSubmitForm(data);
+      console.log('Formulário submetido com sucesso');
+    } catch (error) {
+      console.error('Erro na submissão do formulário:', error);
+    }
   };
 
   const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,7 +235,14 @@ export function EntradaSaidaForm() {
   };
 
   return (
-    <form onSubmit={submitForm(handleFormSubmit)} className={styles.form}>
+    <form 
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log('Form submit event triggered');
+        submitForm(handleFormSubmit)(e);
+      }} 
+      className={styles.form}
+    >
       <div className={styles.formGrid}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Tipo de Transação</label>
@@ -233,6 +283,7 @@ export function EntradaSaidaForm() {
               value={formData.descricao}
               onChange={(value: string) => {
                 setFormData(prev => ({ ...prev, descricao: value }));
+                setValue('descricao', value);
               }}
             >
               <div className={styles.comboboxWrapper}>
@@ -245,6 +296,7 @@ export function EntradaSaidaForm() {
                     const value = event.target.value;
                     setSearchQuery(value);
                     setFormData(prev => ({ ...prev, descricao: value }));
+                    setValue('descricao', value);
                   }}
                 />
                 <Combobox.Button className={styles.comboboxButton}>
