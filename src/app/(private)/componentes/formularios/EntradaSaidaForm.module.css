@@ -249,7 +249,8 @@
 }
 
 .categoriasEmptyText {
-  @apply text-sm text-gray-500 dark:text-gray-400;
+  font-size: 0.875rem;
+  color: #6B7280;
 }
 
 .categoriasLink {
@@ -291,6 +292,10 @@
   }
 
   .comboboxEmpty {
+    color: #9CA3AF;
+  }
+
+  .categoriasEmptyText {
     color: #9CA3AF;
   }
 } 
