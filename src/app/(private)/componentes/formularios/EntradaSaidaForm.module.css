@@ -1,124 +1,251 @@
 .form {
-  @apply space-y-8;
+  width: 100%;
+  margin: 0;
 }
 
 .formGrid {
-  @apply grid grid-cols-1 gap-4 sm:gap-6;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .inputGroup {
-  @apply space-y-2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .inputGroup {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .tipoButtons {
+    grid-column: 2;
+  }
 }
 
 .label {
-  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.5;
+  padding-top: 0.5rem;
 }
 
 .input {
-  @apply w-full text-sm sm:text-base px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 
-         rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:text-white 
-         transition-colors;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  background-color: #F9FAFB;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #10B981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .select {
-  @apply w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 
-         rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:text-white 
-         appearance-none cursor-pointer transition-colors;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  background-color: #F9FAFB;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #10B981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .tipoButtons {
-  @apply flex flex-col sm:flex-row gap-2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .tipoButtons {
+    flex-direction: row;
+  }
 }
 
 .tipoButton {
-  @apply flex items-center justify-center px-4 py-2.5 rounded-lg border border-gray-300 
-         dark:border-gray-600 text-sm font-medium transition-all duration-200 
-         hover:bg-gray-50 dark:hover:bg-gray-700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #D1D5DB;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
-.tipoButtonActive {
-  @apply bg-emerald-500 text-white border-emerald-500 hover:bg-emerald-600;
+.tipoButton:hover {
+  background-color: #F9FAFB;
 }
 
 .tipoButtonEntrada {
-  @apply bg-emerald-500 text-white border-emerald-500 hover:bg-emerald-600;
+  background-color: #10B981;
+  color: white;
+  border-color: #10B981;
+}
+
+.tipoButtonEntrada:hover {
+  background-color: #059669;
 }
 
 .tipoButtonSaida {
-  @apply bg-rose-500 text-white border-rose-500 hover:bg-rose-600;
+  background-color: #EF4444;
+  color: white;
+  border-color: #EF4444;
+}
+
+.tipoButtonSaida:hover {
+  background-color: #DC2626;
 }
 
 .valorInput {
-  @apply relative;
+  position: relative;
 }
 
 .valorPrefix {
-  @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-900 dark:text-white text-base;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #111827;
+  font-size: 1rem;
 }
 
 .valorInput input {
-  @apply pl-10;
+  padding-left: 2.5rem;
 }
 
 .error {
-  @apply p-4 text-sm text-red-800 bg-red-100 dark:bg-red-900/50 dark:text-red-200 rounded-lg mt-6;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #991B1B;
+  background-color: #FEE2E2;
+  border-radius: 0.5rem;
 }
 
 .actions {
-  @apply flex justify-end space-x-4 mt-8;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .cancelButton {
-  @apply px-6 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 
-         dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+  padding: 0.625rem 1.5rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: #F9FAFB;
 }
 
 .submitButton {
-  @apply px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 
-         transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 
-         focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed;
+  padding: 0.625rem 1.5rem;
+  background-color: #059669;
+  color: white;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #047857;
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .loadingSpinner {
-  @apply flex items-center justify-center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .comboboxContainer {
-  @apply relative w-full;
+  position: relative;
+  width: 100%;
 }
 
 .comboboxWrapper {
-  @apply relative w-full;
+  position: relative;
+  width: 100%;
 }
 
 .comboboxButton {
-  @apply absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-right: 0.75rem;
+  pointer-events: none;
 }
 
 .comboboxOptions {
-  @apply absolute z-50 w-full mt-1 max-h-60 overflow-auto bg-white dark:bg-gray-700 
-         rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 
-         focus:outline-none sm:text-sm;
+  position: absolute;
+  z-index: 50;
+  width: 100%;
+  margin-top: 0.25rem;
+  max-height: 15rem;
+  overflow: auto;
+  background-color: white;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .comboboxOption {
-  @apply cursor-default select-none relative py-2 pl-3 pr-9 text-gray-900 dark:text-white;
+  cursor: default;
+  user-select: none;
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  padding-right: 2.25rem;
+  color: #111827;
 }
 
 .comboboxOptionActive {
-  @apply text-white bg-emerald-600;
+  color: white;
+  background-color: #10B981;
 }
 
 .comboboxEmpty {
-  @apply relative cursor-default select-none py-2 px-4 text-gray-700 dark:text-gray-300;
-}
-
-.comboboxWrapper .input {
-  @apply w-full pr-10;
+  position: relative;
+  cursor: default;
+  user-select: none;
+  padding: 0.5rem 1rem;
+  color: #6B7280;
 }
 
 .categoriasEmpty {
-  @apply mt-2 space-y-2;
+  margin-top: 0.5rem;
 }
 
 .categoriasEmptyText {
@@ -126,6 +253,44 @@
 }
 
 .categoriasLink {
-  @apply flex items-center text-sm text-emerald-600 hover:text-emerald-700 
-         dark:text-emerald-400 dark:hover:text-emerald-500 font-medium transition-colors;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #10B981;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.categoriasLink:hover {
+  color: #059669;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .label {
+    color: #D1D5DB;
+  }
+
+  .input, .select {
+    background-color: #374151;
+    border-color: #4B5563;
+    color: white;
+  }
+
+  .valorPrefix {
+    color: white;
+  }
+
+  .comboboxOptions {
+    background-color: #374151;
+    border-color: #4B5563;
+  }
+
+  .comboboxOption {
+    color: white;
+  }
+
+  .comboboxEmpty {
+    color: #9CA3AF;
+  }
 } 
