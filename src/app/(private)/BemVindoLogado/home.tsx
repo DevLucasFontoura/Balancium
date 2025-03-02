@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import styles from './home.module.css';
 import { ResumoAnual } from '../componentes/resumos/ResumoAnual';
+import { financialTips } from './data/financialTips';
 
 interface UserData {
   name: string;
@@ -19,6 +20,7 @@ interface UserData {
 export function Home() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [randomTips, setRandomTips] = useState<typeof financialTips>([]);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -40,6 +42,16 @@ export function Home() {
     };
 
     loadUserData();
+  }, []);
+
+  useEffect(() => {
+    // Função para selecionar 3 dicas aleatórias
+    const getRandomTips = () => {
+      const shuffled = [...financialTips].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 3);
+    };
+
+    setRandomTips(getRandomTips());
   }, []);
 
   if (loading) {
@@ -121,27 +133,15 @@ export function Home() {
       <section className={styles.tipsSection}>
         <h2 className={styles.sectionTitle}>Dicas para Você</h2>
         <div className={styles.tipsGrid}>
-          <div className={styles.tipCard}>
-            <div className={styles.tipIcon}>💡</div>
-            <h3 className={styles.tipTitle}>Sabia que?</h3>
-            <p className={styles.tipDescription}>
-              Definir metas financeiras aumenta em 42% suas chances de sucesso financeiro.
-            </p>
-          </div>
-          <div className={styles.tipCard}>
-            <div className={styles.tipIcon}>📊</div>
-            <h3 className={styles.tipTitle}>Análise Personalizada</h3>
-            <p className={styles.tipDescription}>
-              Confira seus relatórios mensais para insights personalizados sobre seus gastos.
-            </p>
-          </div>
-          <div className={styles.tipCard}>
-            <div className={styles.tipIcon}>🎯</div>
-            <h3 className={styles.tipTitle}>Próximo Objetivo</h3>
-            <p className={styles.tipDescription}>
-              Configure suas metas financeiras e acompanhe seu progresso.
-            </p>
-          </div>
+          {randomTips.map((tip, index) => (
+            <div key={index} className={styles.tipCard}>
+              <div className={styles.tipIcon}>{tip.icon}</div>
+              <h3 className={styles.tipTitle}>{tip.title}</h3>
+              <p className={styles.tipDescription}>
+                {tip.description}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
     </div>
