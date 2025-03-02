@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
+import styles from './EditarTransacaoModal.module.css';
 
 interface Categoria {
   id: string;
@@ -99,6 +100,42 @@ export function EditarTransacaoModal({
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Tipo de Transação
+            </label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                className={`flex items-center justify-center px-4 py-2 rounded-lg border transition-colors flex-1 ${
+                  formData.tipo === 'entrada'
+                    ? 'bg-emerald-500 text-white border-emerald-500 hover:bg-emerald-600'
+                    : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
+                onClick={() => setFormData(prev => ({ ...prev, tipo: 'entrada' }))}
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0-16l-4 4m4-4l4 4" />
+                </svg>
+                Entrada
+              </button>
+              <button
+                type="button"
+                className={`flex items-center justify-center px-4 py-2 rounded-lg border transition-colors flex-1 ${
+                  formData.tipo === 'saida'
+                    ? 'bg-rose-500 text-white border-rose-500 hover:bg-rose-600'
+                    : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
+                onClick={() => setFormData(prev => ({ ...prev, tipo: 'saida' }))}
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20V4m0 16l4-4m-4 4l-4-4" />
+                </svg>
+                Saída
+              </button>
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Descrição
