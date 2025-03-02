@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { auth, db } from '@/lib/firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import styles from './planoassinatura.module.css';
+import { useRouter } from 'next/navigation';
 
 interface UserPlan {
   type: 'free' | 'pro' | 'enterprise';
@@ -54,9 +55,10 @@ const PLANOS = {
   }
 };
 
-export function PlanoAssinatura() {
+export default function PlanoAssinatura() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -93,6 +95,26 @@ export function PlanoAssinatura() {
 
   return (
     <div className={styles.container}>
+      <button
+        onClick={() => router.push('/configuracoes')}
+        className={styles.backButton}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-4 h-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+          />
+        </svg>
+        Voltar
+      </button>
       {/* Hero Verde */}
       <div className={styles.heroCard}>
         <h1 className={styles.heroTitle}>Plano e Assinatura</h1>

@@ -7,6 +7,20 @@
   gap: 2rem;
 }
 
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: rgb(75 85 99);
+  transition: color 0.2s;
+  margin-bottom: 1rem;
+}
+
+.backButton:hover {
+  color: rgb(17 24 39);
+}
+
 .heroCard {
   background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
   border-radius: 1rem;
@@ -207,6 +221,14 @@
   .featureItem,
   .table th {
     color: rgb(156 163 175);
+  }
+
+  .backButton {
+    color: rgb(156 163 175);
+  }
+
+  .backButton:hover {
+    color: white;
   }
 }
 
