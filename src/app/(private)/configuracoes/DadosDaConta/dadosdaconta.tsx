@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
 import { auth, db } from '@/lib/firebase/config';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { format } from 'date-fns';
@@ -19,23 +18,7 @@ interface UserData {
   createdAt: string;
   updatedAt: string;
   uid: string;
-  settings: {
-    currency: string;
-    language: string;
-  };
 }
-
-const CURRENCIES = [
-  { value: 'BRL', label: 'Real Brasileiro (R$)' },
-  { value: 'USD', label: 'Dólar Americano ($)' },
-  { value: 'EUR', label: 'Euro (€)' }
-];
-
-const LANGUAGES = [
-  { value: 'pt-BR', label: 'Português (Brasil)' },
-  { value: 'en', label: 'English' },
-  { value: 'es', label: 'Español' }
-];
 
 export function DadosDaConta() {
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -67,10 +50,6 @@ export function DadosDaConta() {
         const userRef = doc(db, 'users', user.uid);
         const updateData = {
           name: userData.name,
-          settings: {
-            currency: userData.settings.currency,
-            language: userData.settings.language
-          },
           updatedAt: new Date().toISOString()
         };
         await updateDoc(userRef, updateData);
@@ -160,44 +139,6 @@ export function DadosDaConta() {
               className={styles.input}
             />
             <p className={styles.helpText}>O e-mail não pode ser alterado</p>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Moeda</label>
-            <Select
-              value={userData.settings.currency}
-              onChange={(e) => setUserData({
-                ...userData,
-                settings: { ...userData.settings, currency: e.target.value }
-              })}
-              disabled={!isEditing}
-              className={styles.select}
-            >
-              {CURRENCIES.map((currency) => (
-                <option key={currency.value} value={currency.value}>
-                  {currency.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Idioma</label>
-            <Select
-              value={userData.settings.language}
-              onChange={(e) => setUserData({
-                ...userData,
-                settings: { ...userData.settings, language: e.target.value }
-              })}
-              disabled={!isEditing}
-              className={styles.select}
-            >
-              {LANGUAGES.map((language) => (
-                <option key={language.value} value={language.value}>
-                  {language.label}
-                </option>
-              ))}
-            </Select>
           </div>
         </div>
 
