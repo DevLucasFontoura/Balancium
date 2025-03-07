@@ -9,7 +9,7 @@ import styles from './planoassinatura.module.css';
 import { useRouter } from 'next/navigation';
 
 interface UserPlan {
-  type: 'free' | 'pro' | 'enterprise';
+  type: 'free' | 'pro';
   features: string[];
   startDate: string;
   status: 'active' | 'inactive' | 'pending';
@@ -28,29 +28,22 @@ const PLANOS = {
     recursos: [
       'Controle básico de despesas',
       'Relatórios mensais',
-      'Até 100 transações/mês'
+      'Até 100 transações/mês',
+      'Exportação de dados básica',
+      'Suporte por email'
     ]
   },
   pro: {
-    nome: 'Profissional',
-    preco: 'R$ 29,90/mês',
+    nome: 'Pro',
+    preco: 'R$ 9,90/mês',
     recursos: [
       'Transações ilimitadas',
       'Relatórios avançados',
       'Suporte prioritário',
-      'Exportação de dados',
-      'Integrações bancárias'
-    ]
-  },
-  enterprise: {
-    nome: 'Empresarial',
-    preco: 'R$ 99,90/mês',
-    recursos: [
-      'Tudo do plano Pro',
-      'API dedicada',
-      'Suporte 24/7',
-      'Múltiplos usuários',
-      'Personalização avançada'
+      'Exportação de dados avançada',
+      'Integrações bancárias',
+      'Categorias personalizadas ilimitadas',
+      'Backup automático'
     ]
   }
 };
@@ -168,28 +161,6 @@ export default function PlanoAssinatura() {
             </Card>
           ))}
         </div>
-
-        {/* Histórico de Pagamentos - Apenas para planos pagos */}
-        {userData?.plan?.type !== 'free' && (
-          <Card className={styles.historyCard}>
-            <h3 className={styles.historyTitle}>Histórico de Pagamentos</h3>
-            <div className={styles.historyTable}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Valor</th>
-                    <th>Status</th>
-                    <th>Fatura</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Histórico será implementado quando houver pagamentos */}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        )}
       </div>
     </div>
   );

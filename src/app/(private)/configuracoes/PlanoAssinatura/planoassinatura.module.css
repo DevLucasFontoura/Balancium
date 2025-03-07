@@ -97,16 +97,23 @@
 
 .plansGrid {
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
+  max-width: 100%;
 }
 
 .planCard {
-  padding: 1.5rem;
+  padding: 2rem;
   background-color: white;
   border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.planCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .planTitle {
@@ -191,15 +198,12 @@
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
   .currentPlanCard,
-  .planCard,
-  .historyCard {
+  .planCard {
     background-color: rgb(31 41 55);
   }
 
   .currentPlanTitle,
-  .planTitle,
-  .historyTitle,
-  .table td {
+  .planTitle {
     color: white;
   }
 
@@ -218,8 +222,7 @@
   }
 
   .planInfo,
-  .featureItem,
-  .table th {
+  .featureItem {
     color: rgb(156 163 175);
   }
 
@@ -235,6 +238,7 @@
 /* Responsividade */
 @media (min-width: 768px) {
   .plansGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    max-width: none;
   }
 } 
