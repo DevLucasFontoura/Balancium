@@ -9,7 +9,7 @@ import styles from './planoassinatura.module.css';
 import { useRouter } from 'next/navigation';
 
 interface UserPlan {
-  type: 'free' | 'pro';
+  type: 'free' | 'plus' | 'premium';
   features: string[];
   startDate: string;
   status: 'active' | 'inactive' | 'pending';
@@ -24,29 +24,81 @@ interface UserData {
 const PLANOS = {
   free: {
     nome: 'Gratuito',
-    preco: 'R$ 0,00',
-    recursos: [
-      'Controle básico de despesas',
-      'Relatórios mensais',
-      'Até 100 transações/mês',
-      'Exportação de dados básica',
-      'Suporte por email'
-    ]
+    preco: 'R$ 0,00'
   },
-  pro: {
-    nome: 'Pro',
-    preco: 'R$ 9,90/mês',
-    recursos: [
-      'Transações ilimitadas',
-      'Relatórios avançados',
-      'Suporte prioritário',
-      'Exportação de dados avançada',
-      'Integrações bancárias',
-      'Categorias personalizadas ilimitadas',
-      'Backup automático'
-    ]
+  plus: {
+    nome: 'Plus',
+    preco: 'R$ 9,90/mês'
+  },
+  premium: {
+    nome: 'Premium',
+    preco: 'R$ 19,90/mês'
   }
 };
+
+const RECURSOS = [
+  {
+    nome: 'Armazenamento Ilimitado',
+    free: true,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Suporte por email',
+    free: true,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Controle Básico',
+    free: true,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Relatórios Mensais',
+    free: true,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Categorias Básicas',
+    free: true,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Editar Transações',
+    free: false,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Editar Categorias',
+    free: false,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Criar Categorias',
+    free: false,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Exportar Dados',
+    free: false,
+    plus: true,
+    premium: true
+  },
+  {
+    nome: 'Anexar Arquivos',
+    free: false,
+    plus: false,
+    premium: true
+  },
+  
+];
 
 export default function PlanoAssinatura() {
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -77,15 +129,6 @@ export default function PlanoAssinatura() {
     return <div className={styles.loading}>Carregando...</div>;
   }
 
-  // Formata a data de início do plano
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    });
-  };
-
   return (
     <div className={styles.container}>
       <button
@@ -108,10 +151,10 @@ export default function PlanoAssinatura() {
         </svg>
         Voltar
       </button>
-      {/* Hero Verde */}
+
       <div className={styles.heroCard}>
         <h1 className={styles.heroTitle}>Plano e Assinatura</h1>
-        <p className={styles.heroSubtitle}>Gerencie seu plano e pagamentos</p>
+        <p className={styles.heroSubtitle}>Escolha o melhor plano para você</p>
       </div>
 
       <div className={styles.content}>
@@ -130,36 +173,47 @@ export default function PlanoAssinatura() {
               </span>
             </div>
           </div>
-          <div className={styles.planInfo}>
-            <p>Início do plano: {userData?.plan ? formatDate(userData.plan.startDate) : ''}</p>
-          </div>
         </Card>
 
-        {/* Grade de Planos */}
-        <div className={styles.plansGrid}>
-          {Object.entries(PLANOS).map(([key, plano]) => (
-            <Card key={key} className={styles.planCard}>
-              <h3 className={styles.planTitle}>{plano.nome}</h3>
-              <p className={styles.planPrice}>{plano.preco}</p>
-              <ul className={styles.planFeatures}>
-                {plano.recursos.map((recurso, index) => (
-                  <li key={index} className={styles.featureItem}>
-                    <svg className="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    {recurso}
-                  </li>
-                ))}
-              </ul>
-              <Button 
-                variant={userData?.plan?.type === key ? 'outline' : 'primary'}
-                className={styles.planButton}
-                disabled={userData?.plan?.type === key}
-              >
-                {userData?.plan?.type === key ? 'Plano Atual' : 'Escolher Plano'}
-              </Button>
-            </Card>
-          ))}
+        {/* Tabela de Comparação */}
+        <div className={styles.comparisonTable}>
+          {/* Cabeçalho dos Planos */}
+          <div className={styles.plansHeader}>
+            <div className={styles.featureHeader}>
+              <h2>Recursos</h2>
+            </div>
+            {Object.entries(PLANOS).map(([key, plano]) => (
+              <div key={key} className={styles.planColumn}>
+                <h3 className={styles.planColumnTitle}>{plano.nome}</h3>
+                <p className={styles.planColumnPrice}>{plano.preco}</p>
+                <Button 
+                  variant={userData?.plan?.type === key ? 'outline' : 'primary'}
+                  className={`${styles.planButton} ${key === 'premium' ? styles.premiumButton : ''}`}
+                  disabled={userData?.plan?.type === key}
+                >
+                  {userData?.plan?.type === key ? 'Plano Atual' : 'Escolher Plano'}
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          {/* Lista de Recursos */}
+          <div className={styles.featuresList}>
+            {RECURSOS.map((recurso, index) => (
+              <div key={index} className={styles.featureRow}>
+                <div className={styles.featureName}>{recurso.nome}</div>
+                <div className={`${styles.featureCheck} ${recurso.free ? styles.checkMark : styles.xMark}`}>
+                  {recurso.free ? '✓' : '×'}
+                </div>
+                <div className={`${styles.featureCheck} ${recurso.plus ? styles.checkMark : styles.xMark}`}>
+                  {recurso.plus ? '✓' : '×'}
+                </div>
+                <div className={`${styles.featureCheck} ${recurso.premium ? styles.checkMark : styles.xMark}`}>
+                  {recurso.premium ? '✓' : '×'}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

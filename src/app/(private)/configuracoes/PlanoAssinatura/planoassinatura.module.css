@@ -1,10 +1,8 @@
 .container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  max-width: 100%;
+  padding: 1rem 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .backButton {
@@ -27,6 +25,7 @@
   padding: 2rem;
   color: white;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
 .heroTitle {
@@ -40,6 +39,9 @@
 }
 
 .content {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -97,12 +99,13 @@
 
 .plansGrid {
   display: grid;
-  gap: 2rem;
-  max-width: 100%;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
 }
 
 .planCard {
-  padding: 2rem;
+  position: relative;
+  padding: 1.5rem;
   background-color: white;
   border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -195,6 +198,93 @@
   color: rgb(75 85 99);
 }
 
+.comparisonTable {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.plansHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: rgb(249 250 251);
+  border-bottom: 1px solid rgb(229 231 235);
+}
+
+.featureHeader {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+}
+
+.planColumn {
+  text-align: center;
+}
+
+.planColumnTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 0.5rem;
+}
+
+.planColumnPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(16 185 129);
+  margin-bottom: 1rem;
+}
+
+.featuresList {
+  padding: 2rem;
+}
+
+.featureRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgb(229 231 235);
+  align-items: center;
+}
+
+.featureRow:last-child {
+  border-bottom: none;
+}
+
+.featureName {
+  font-size: 0.875rem;
+  color: rgb(75 85 99);
+}
+
+.featureCheck {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.checkMark {
+  color: rgb(16 185 129); /* Verde */
+}
+
+.xMark {
+  color: rgb(239 68 68); /* Vermelho */
+}
+
+/* Estilo para o símbolo de check (✓) */
+.featureCheck:has(✓),
+.featureCheck:contains("✓") {
+  color: rgb(16 185 129);
+}
+
+/* Estilo para o símbolo X (×) */
+.featureCheck:has(×),
+.featureCheck:contains("×") {
+  color: rgb(239 68 68);
+}
+
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
   .currentPlanCard,
@@ -233,12 +323,57 @@
   .backButton:hover {
     color: white;
   }
+
+  .comparisonTable {
+    background-color: rgb(31 41 55);
+  }
+
+  .plansHeader {
+    background-color: rgb(17 24 39);
+    border-bottom-color: rgb(55 65 81);
+  }
+
+  .featureHeader,
+  .planColumnTitle {
+    color: white;
+  }
+
+  .featureRow {
+    border-bottom-color: rgb(55 65 81);
+  }
+
+  .featureName {
+    color: rgb(156 163 175);
+  }
 }
 
 /* Responsividade */
 @media (min-width: 768px) {
   .plansGrid {
     grid-template-columns: repeat(2, 1fr);
-    max-width: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .plansGrid {
+    grid-width: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .plansHeader,
+  .featureRow {
+    grid-template-columns: 2fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .featureHeader,
+  .planColumn:not(:nth-child(2)),
+  .featureCheck:not(:nth-child(2)) {
+    display: none;
+  }
+
+  .planColumn:nth-child(2) {
+    text-align: right;
   }
 } 
