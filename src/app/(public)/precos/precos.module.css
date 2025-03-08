@@ -23,6 +23,211 @@
   margin-bottom: 3rem;
 }
 
+.comparisonTable {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.plansHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 2rem;
+  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  color: white;
+  position: relative;
+}
+
+.featureHeader {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.planColumn {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.planColumn:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.planColumnTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.planColumnPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.planButton {
+  width: 100%;
+  max-width: 180px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  background-color: white;
+  color: rgb(16 185 129);
+  border: none;
+  cursor: pointer;
+}
+
+.planButton:hover {
+  background-color: rgb(243 244 246);
+}
+
+.planButton:disabled {
+  background-color: rgb(229 231 235);
+  cursor: not-allowed;
+  color: rgb(107 114 128);
+}
+
+.featuresList {
+  padding: 2rem;
+  background-color: white;
+}
+
+.featureRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 0;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgb(229 231 235);
+  align-items: center;
+}
+
+.featureRow > div {
+  padding: 0 1rem;
+}
+
+.featureRow > div:not(:last-child) {
+  border-right: 1px solid rgb(229 231 235);
+}
+
+.featureName {
+  font-size: 1.1rem;
+  color: rgb(75 85 99);
+}
+
+.featureCheck {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.checkMark {
+  color: rgb(16 185 129);
+}
+
+.xMark {
+  color: rgb(239 68 68);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: rgb(17 24 39);
+  }
+
+  .title {
+    color: white;
+  }
+
+  .subtitle {
+    color: rgb(209 213 219);
+  }
+
+  .comparisonTable {
+    background-color: rgb(31 41 55);
+  }
+
+  .plansHeader {
+    background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  }
+
+  .featuresList {
+    background-color: rgb(31 41 55);
+  }
+
+  .featureRow {
+    border-bottom-color: rgb(55 65 81);
+  }
+
+  .featureRow > div:not(:last-child) {
+    border-right-color: rgb(55 65 81);
+  }
+
+  .featureName {
+    color: rgb(156 163 175);
+  }
+
+  .planButton {
+    background-color: white;
+    color: rgb(16 185 129);
+  }
+
+  .planButton:hover {
+    background-color: rgb(243 244 246);
+  }
+
+  .planButton:disabled {
+    background-color: rgb(75 85 99);
+    color: rgb(156 163 175);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .pricingSection {
+    padding: 3rem 1rem;
+  }
+
+  .title {
+    font-size: 1.875rem;
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+  }
+
+  .plansHeader,
+  .featureRow {
+    grid-template-columns: 2fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .featureHeader,
+  .planColumn:not(:nth-child(2)),
+  .featureCheck:not(:nth-child(2)) {
+    display: none;
+  }
+
+  .planColumn:nth-child(2) {
+    text-align: right;
+  }
+
+  .featureRow > div:not(:last-child) {
+    border-right: none;
+  }
+}
+
 .plansGrid {
   display: grid;
   gap: 2rem;
@@ -72,14 +277,6 @@
   margin-bottom: 0.25rem;
 }
 
-.featuresList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-grow: 1;
-}
-
 .featureItem {
   display: flex;
   align-items: flex-start;
@@ -95,22 +292,6 @@
   margin-top: 0.125rem;
 }
 
-.planButton {
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  font-weight: 500;
-  border: 2px solid rgb(16 185 129);
-  color: rgb(16 185 129);
-  transition: all 0.2s;
-}
-
-.planButton:hover {
-  background-color: rgb(16 185 129);
-  color: white;
-}
-
 .highlightedButton {
   background-color: rgb(16 185 129);
   color: white;
@@ -118,25 +299,6 @@
 
 .highlightedButton:hover {
   background-color: rgb(4 120 87);
-}
-
-@media (max-width: 768px) {
-  .pricingSection {
-    padding: 3rem 1rem;
-  }
-
-  .subtitle {
-    font-size: 1.125rem;
-    margin-bottom: 2rem;
-  }
-
-  .price {
-    font-size: 1.875rem;
-  }
-
-  .planCard {
-    padding: 1.5rem;
-  }
 }
 
 @media (min-width: 768px) {
@@ -156,21 +318,5 @@
 @media (min-width: 1024px) {
   .plansGrid {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .planCard {
-    background-color: rgb(31 41 55);
-    border-color: rgb(55 65 81);
-  }
-
-  .subtitle {
-    color: rgb(209 213 219);
-  }
-
-  .featureItem {
-    color: rgb(209 213 219);
   }
 } 

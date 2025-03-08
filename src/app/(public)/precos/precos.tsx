@@ -1,37 +1,6 @@
 import styles from './precos.module.css';
 
 export function Precos() {
-  const planos = [
-    {
-      nome: "Grátis",
-      preco: "R$ 0",
-      periodo: "para sempre",
-      recursos: [
-        "Dashboard básico",
-        "Controle de receitas e despesas",
-        "Categorização simples",
-        "Relatórios mensais",
-      ],
-      destaque: false,
-      botao: "Começar Grátis"
-    },
-    {
-      nome: "Premium",
-      preco: "R$ 9,90",
-      periodo: "por mês",
-      recursos: [
-        "Todas as features do plano Grátis",
-        "Relatórios avançados",
-        "Metas financeiras",
-        "Categorias personalizadas",
-        "Alertas personalizados",
-        "Suporte prioritário"
-      ],
-      destaque: true,
-      botao: "Assinar Premium"
-    },
-  ];
-
   return (
     <div className={styles.container}>
       <section className={styles.pricingSection}>
@@ -40,36 +9,82 @@ export function Precos() {
           Escolha o plano ideal para suas necessidades
         </p>
         
-        <div className={styles.plansGrid}>
-          {planos.map((plano, index) => (
-            <div 
-              key={index} 
-              className={`${styles.planCard} ${plano.destaque ? styles.highlighted : ''}`}
-            >
-              <div className={styles.planHeader}>
-                <h3 className={styles.planName}>{plano.nome}</h3>
-                <div className={styles.planPrice}>
-                  <span className={styles.price}>{plano.preco}</span>
-                  <span className={styles.period}>/{plano.periodo}</span>
-                </div>
-              </div>
-              
-              <ul className={styles.featuresList}>
-                {plano.recursos.map((recurso, idx) => (
-                  <li key={idx} className={styles.featureItem}>
-                    <svg className={styles.checkIcon} viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {recurso}
-                  </li>
-                ))}
-              </ul>
-              
-              <button className={`${styles.planButton} ${plano.destaque ? styles.highlightedButton : ''}`}>
-                {plano.botao}
-              </button>
+        <div className={styles.comparisonTable}>
+          <div className={styles.plansHeader}>
+            <div className={styles.featureHeader}>Recursos</div>
+            <div className={styles.planColumn}>
+              <div className={styles.planColumnTitle}>Gratuito</div>
+              <div className={styles.planColumnPrice}>R$ 0,00</div>
+              <button className={styles.planButton}>Escolher Plano</button>
             </div>
-          ))}
+            <div className={styles.planColumn}>
+              <div className={styles.planColumnTitle}>Plus</div>
+              <div className={styles.planColumnPrice}>R$ 9,90/mês</div>
+              <button className={styles.planButton}>Escolher Plano</button>
+            </div>
+            <div className={styles.planColumn}>
+              <div className={styles.planColumnTitle}>Premium</div>
+              <div className={styles.planColumnPrice}>R$ 19,90/mês</div>
+              <button className={styles.planButton}>Escolher Plano</button>
+            </div>
+          </div>
+
+          <div className={styles.featuresList}>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Dashboard Básico</div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Controle de Receitas e Despesas</div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Categorização Simples</div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Dashboard Completo</div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Edição de Transações</div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Gerenciamento de Categorias</div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Exportação de Dados</div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Armazenamento Ilimitado</div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+            <div className={styles.featureRow}>
+              <div className={styles.featureName}>Anexos em Transações</div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.xMark}>×</span></div>
+              <div className={styles.featureCheck}><span className={styles.checkMark}>✓</span></div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

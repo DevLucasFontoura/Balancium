@@ -150,8 +150,25 @@
 
 .planButton {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 180px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  background-color: white;
+  color: rgb(16 185 129);
+  border: none;
+  cursor: pointer;
+}
+
+.planButton:hover {
+  background-color: rgb(243 244 246);
+}
+
+.planButton:disabled {
+  background-color: rgb(229 231 235);
+  cursor: not-allowed;
+  color: rgb(107 114 128);
 }
 
 .historyCard {
@@ -208,55 +225,73 @@
 .plansHeader {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 1rem;
   padding: 2rem;
-  background-color: rgb(249 250 251);
-  border-bottom: 1px solid rgb(229 231 235);
+  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  color: white;
+  position: relative;
 }
 
 .featureHeader {
   font-size: 1.25rem;
   font-weight: 600;
-  color: rgb(17 24 39);
+  color: white;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .planColumn {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.planColumn:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .planColumnTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: rgb(17 24 39);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
   margin-bottom: 0.5rem;
 }
 
 .planColumnPrice {
   font-size: 1.5rem;
   font-weight: 700;
-  color: rgb(16 185 129);
-  margin-bottom: 1rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1;
 }
 
 .featuresList {
   padding: 2rem;
+  background-color: white;
 }
 
 .featureRow {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 1rem;
+  gap: 0;
   padding: 1rem 0;
   border-bottom: 1px solid rgb(229 231 235);
   align-items: center;
 }
 
-.featureRow:last-child {
-  border-bottom: none;
+.featureRow > div {
+  padding: 0 1rem;
+}
+
+.featureRow > div:not(:last-child) {
+  border-right: 1px solid rgb(229 231 235);
 }
 
 .featureName {
-  font-size: 0.875rem;
+  font-size: 1.1rem;
   color: rgb(75 85 99);
 }
 
@@ -329,12 +364,11 @@
   }
 
   .plansHeader {
-    background-color: rgb(17 24 39);
-    border-bottom-color: rgb(55 65 81);
+    background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
   }
 
-  .featureHeader,
-  .planColumnTitle {
+  .planColumnTitle,
+  .planColumnPrice {
     color: white;
   }
 
@@ -343,6 +377,24 @@
   }
 
   .featureName {
+    color: rgb(156 163 175);
+  }
+
+  .planColumn {
+    background-color: rgb(31 41 55);
+  }
+
+  .planButton {
+    background-color: white;
+    color: rgb(16 185 129);
+  }
+
+  .planButton:hover {
+    background-color: rgb(243 244 246);
+  }
+
+  .planButton:disabled {
+    background-color: rgb(75 85 99);
     color: rgb(156 163 175);
   }
 }
