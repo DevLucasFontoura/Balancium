@@ -1,10 +1,12 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import styles from './recursos.module.css';
 
 export function Recursos() {
   const recursos = [
     {
       title: 'Dashboard Intuitivo',
-      description: 'Visualize suas finanças de forma clara e objetiva em um painel simples',
+      description: 'Visualize suas finanças de forma clara e objetiva com gráficos interativos e análises em tempo real.',
       icon: (
         <svg className={styles.resourceIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -14,7 +16,7 @@ export function Recursos() {
     },
     {
       title: 'Controle Mensal',
-      description: 'Registre e acompanhe suas receitas e despesas mês a mês',
+      description: 'Acompanhe suas receitas e despesas detalhadamente por mês.',
       icon: (
         <svg className={styles.resourceIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -23,8 +25,8 @@ export function Recursos() {
       )
     },
     {
-      title: 'Relatórios Básicos',
-      description: 'Acompanhe sua evolução financeira através de relatórios simples',
+      title: 'Relatórios',
+      description: 'Análise detalhada da sua evolução financeira com projeções e comparativos mensais.',
       icon: (
         <svg className={styles.resourceIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -34,7 +36,7 @@ export function Recursos() {
     },
     {
       title: 'Categorização',
-      description: 'Organize suas transações em categorias para melhor controle',
+      description: 'Crie e edite categorias para organizar suas transações.',
       icon: (
         <svg className={styles.resourceIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -44,24 +46,85 @@ export function Recursos() {
     }
   ];
 
+  const beneficios = [
+    {
+      title: 'Economia de Tempo',
+      description: 'Automatize suas finanças e economize horas de trabalho manual'
+    },
+    {
+      title: 'Decisões Informadas',
+      description: 'Tome decisões financeiras baseadas em dados reais e análises precisas'
+    },
+    {
+      title: 'Organização Total',
+      description: 'Mantenha todos os seus dados financeiros organizados em um só lugar'
+    }
+  ];
+
   return (
     <div className={styles.container}>
-      <section className={styles.resourcesSection}>
+      <section className={styles.heroSection}>
         <h1 className={styles.title}>
           Recursos do <span className={styles.highlight}>Balancium</span>
         </h1>
         <p className={styles.subtitle}>
-          Ferramentas essenciais para seu controle financeiro
+          Ferramentas poderosas para transformar sua gestão financeira
         </p>
-        
+      </section>
+      
+      <section className={styles.resourcesSection}>
         <div className={styles.resourcesGrid}>
           {recursos.map((recurso, index) => (
             <div key={index} className={styles.resourceCard}>
-              {recurso.icon}
+              <div className={styles.iconWrapper}>
+                {recurso.icon}
+              </div>
               <h3 className={styles.resourceTitle}>{recurso.title}</h3>
               <p className={styles.resourceDescription}>{recurso.description}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className={styles.demoSection}>
+        <div className={styles.demoContent}>
+          <div className={styles.demoImage}>
+            <Image
+              src="/img_relatorios.png"
+              alt="Relatórios do Balancium"
+              width={600}
+              height={400}
+              className={styles.dashboardPreview}
+            />
+          </div>
+          <div className={styles.demoText}>
+            <h2>Experimente na Prática</h2>
+            <p>
+              Veja como o Balancium pode transformar sua gestão financeira com uma 
+              interface moderna e recursos poderosos.
+            </p>
+            <div className={styles.benefitsGrid}>
+              {beneficios.map((beneficio, index) => (
+                <div key={index} className={styles.benefitItem}>
+                  <h4>{beneficio.title}</h4>
+                  <p>{beneficio.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.ctaSection}>
+        <h2>Comece a usar agora mesmo</h2>
+        <p>Junte-se a milhares de usuários que já transformaram suas finanças</p>
+        <div className={styles.ctaButtons}>
+          <Link href="/cadastro" className={styles.primaryButton}>
+            Criar Conta Grátis
+          </Link>
+          <Link href="/como-funciona" className={styles.secondaryButton}>
+            Saiba Mais
+          </Link>
         </div>
       </section>
     </div>
