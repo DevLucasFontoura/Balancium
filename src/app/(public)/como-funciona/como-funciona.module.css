@@ -1,88 +1,128 @@
 .container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 5rem 1.5rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(19, 186, 130, 0.1) 0%, rgba(13, 140, 97, 0.05) 100%);
 }
 
 .heroSection {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 5rem 1.5rem;
   text-align: center;
+  padding: 6rem 2rem 4rem;
+  background: radial-gradient(circle at center, rgba(19, 186, 130, 0.1) 0%, transparent 70%);
 }
 
 .title {
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #1a202c;
   margin-bottom: 1.5rem;
-  background-clip: text;
-  color: transparent;
-  background-image: linear-gradient(to right, rgb(17 24 39), rgb(75 85 99));
+  line-height: 1.2;
 }
 
 .highlight {
-  color: rgb(16 185 129);
+  color: #13ba82;
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  background: rgba(19, 186, 130, 0.2);
+  z-index: -1;
+  transform: translateY(0.5rem);
 }
 
 .subtitle {
   font-size: 1.25rem;
-  color: rgb(75 85 99);
+  color: #4a5568;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .stepsSection {
+  padding: 4rem 2rem;
   max-width: 80rem;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
 }
 
 .stepsGrid {
   display: grid;
   gap: 2rem;
-  margin-bottom: 5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .stepCard {
-  background-color: white;
-  border-radius: 1rem;
+  background: white;
+  border-radius: 24px;
   padding: 2rem;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+  align-items: flex-start;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.stepCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
 .stepNumber {
-  color: rgba(16, 185, 129, 0.2);
-  font-size: 1.125rem;
-  font-weight: 500;
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgba(19, 186, 130, 0.1);
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  left: 1.5rem;
+  line-height: 1;
 }
 
 .iconWrapper {
-  margin-bottom: 1.5rem;
+  width: 64px;
+  height: 64px;
+  background: rgba(19, 186, 130, 0.1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.stepCard:hover .iconWrapper {
+  background: rgba(19, 186, 130, 0.2);
+  transform: scale(1.05);
 }
 
 .stepIcon {
-  width: 3rem;
-  height: 3rem;
+  width: 32px;
+  height: 32px;
   stroke-width: 1.5;
-  color: #1a1a1a;
+  color: #13ba82;
 }
 
 .stepTitle {
   font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: rgb(17 24 39);
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.75rem;
+  margin-top: 4.5rem;
 }
 
 .stepDescription {
-  color: rgb(75 85 99);
+  color: #4a5568;
+  line-height: 1.6;
   font-size: 0.875rem;
+  text-align: left;
 }
 
 .stepProgress {
@@ -90,67 +130,171 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 0.25rem;
-  background-color: rgb(243 244 246);
+  height: 4px;
+  background: rgba(19, 186, 130, 0.1);
+  overflow: hidden;
 }
 
 .progressLine {
   height: 100%;
-  background-color: rgba(16, 185, 129, 0.3);
+  background: #13ba82;
   width: 0;
   animation: progress 2s ease-out forwards;
 }
 
 .featuresSection {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 5rem 1.5rem;
+  padding: 4rem 2rem;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.featuresSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(19, 186, 130, 0.2), transparent);
 }
 
 .featureGrid {
+  max-width: 80rem;
+  margin: 0 auto;
   display: grid;
   gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .featureCard {
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(8px);
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgb(243 244 246);
-  transition: all 0.3s;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(19, 186, 130, 0.1);
+  border-radius: 24px;
+  transition: all 0.3s ease;
 }
 
 .featureCard:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: #13ba82;
+}
+
+.featureIcon {
+  width: 48px;
+  height: 48px;
+  color: #13ba82;
+  margin-bottom: 1rem;
 }
 
 .featureCard h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a202c;
   margin-bottom: 0.75rem;
-  color: rgb(16 185 129);
 }
 
 .featureCard p {
-  color: rgb(75 85 99);
+  color: #4a5568;
+  line-height: 1.6;
+  font-size: 0.875rem;
+}
+
+.demoSection {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, rgba(19, 186, 130, 0.05) 0%, rgba(13, 140, 97, 0.02) 100%);
+}
+
+.demoContent {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.demoText h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.demoText p {
+  color: #4a5568;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.demoList {
+  list-style: none;
+  padding: 0;
+}
+
+.demoList li {
+  color: #4a5568;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.demoList li::before {
+  content: '✓';
+  color: #13ba82;
+  font-weight: bold;
+}
+
+.demoImage {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.dashboardImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 24px;
 }
 
 .ctaSection {
   text-align: center;
-  max-width: 42rem;
-  margin: 0 auto;
+  padding: 6rem 2rem;
+  background: white;
+  position: relative;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(19, 186, 130, 0.2), transparent);
 }
 
 .ctaTitle {
-  font-size: 1.875rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a202c;
   margin-bottom: 1rem;
 }
 
 .ctaText {
-  color: rgb(75 85 99);
+  color: #4a5568;
+  font-size: 1.125rem;
   margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ctaButtons {
@@ -160,30 +304,35 @@
 }
 
 .primaryButton {
-  padding: 0.75rem 1.5rem;
-  background-color: rgb(16 185 129);
+  padding: 1rem 2rem;
+  background: #13ba82;
   color: white;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
 }
 
 .primaryButton:hover {
-  background-color: rgb(4 120 87);
+  background: #15ce8f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(19, 186, 130, 0.2);
 }
 
 .secondaryButton {
-  padding: 0.75rem 1.5rem;
-  border: 1px solid rgb(16 185 129);
-  color: rgb(16 185 129);
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.2s;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: #13ba82;
+  border: 2px solid #13ba82;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
 }
 
 .secondaryButton:hover {
-  background-color: rgb(16 185 129);
-  color: white;
+  background: rgba(19, 186, 130, 0.1);
+  transform: translateY(-2px);
 }
 
 @keyframes progress {
@@ -191,41 +340,45 @@
   to { width: 100%; }
 }
 
-/* Hover effects */
-.stepCard:hover {
-  transform: translateY(-0.25rem);
-}
-
-.stepCard:hover .stepNumber {
-  color: rgba(16, 185, 129, 0.4);
-}
-
-/* Responsividade */
 @media (max-width: 768px) {
   .title {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
   }
-  
-  .stepsGrid {
+
+  .demoContent {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
-  
-  .featureGrid {
-    grid-template-columns: 1fr;
+
+  .demoText {
+    text-align: center;
   }
-  
+
+  .demoText h2 {
+    font-size: 2rem;
+  }
+
   .ctaButtons {
     flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .heroSection {
+    padding: 4rem 1rem 2rem;
+  }
+
+  .stepsSection,
+  .featuresSection,
+  .demoSection,
+  .ctaSection {
+    padding: 3rem 1rem;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .stepsGrid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .featureGrid {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 

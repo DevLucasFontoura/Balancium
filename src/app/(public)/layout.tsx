@@ -34,6 +34,9 @@ export default function PublicLayout({
               <Link href="/precos" className="text-gray-600 hover:text-emerald-500">
                 Preços
               </Link>
+              <Link href="/como-funciona" className="text-gray-600 hover:text-emerald-500">
+                Como funciona
+              </Link>
               <Link href="/login" className="text-gray-600 hover:text-emerald-500">
                 Entrar
               </Link>

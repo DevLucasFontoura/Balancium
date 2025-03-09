@@ -76,7 +76,7 @@ export function BemVindo() {
             <div className={styles.heroImage}>
               <div className={styles.imageContainer}>
                 <Image
-                  src="/img_dashboard.png"
+                  src="/img_inicial.png"
                   alt="Preview do Dashboard do Balancium"
                   fill
                   style={{ 
