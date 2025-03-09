@@ -20,7 +20,7 @@
 }
 
 .heroCard {
-  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  background: linear-gradient(135deg, #13ba82 0%, #0d8c61 100%);
   border-radius: 1rem;
   padding: 2rem;
   color: white;
@@ -36,6 +36,27 @@
 
 .heroSubtitle {
   color: rgb(236 253 245);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.active {
+  background: rgba(255, 255, 255, 0.9);
+  color: #13ba82;
+}
+
+.pending {
+  background: #FFD700;
+  color: #1a202c;
 }
 
 .content {
@@ -48,187 +69,65 @@
 }
 
 .currentPlanCard {
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 2rem !important;
+  background: white !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 25px -5px rgba(19, 186, 130, 0.1) !important;
+  border: 1px solid rgba(19, 186, 130, 0.1) !important;
 }
 
 .currentPlanHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
 }
 
 .currentPlanTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: rgb(17 24 39);
+  color: #1a202c;
+  margin-bottom: 0.75rem;
 }
 
 .currentPlanType {
-  font-size: 1.125rem;
-  color: rgb(16 185 129);
-  margin-top: 0.25rem;
-}
-
-.statusBadge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.ativo {
-  background-color: rgb(209 250 229);
-  color: rgb(4 120 87);
-}
-
-.pendente {
-  background-color: rgb(254 243 199);
-  color: rgb(146 64 14);
-}
-
-.planInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: rgb(75 85 99);
-}
-
-.plansGrid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
-}
-
-.planCard {
-  position: relative;
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.planCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.planTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: rgb(17 24 39);
-  margin-bottom: 0.5rem;
-}
-
-.planPrice {
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: rgb(16 185 129);
-  margin-bottom: 1rem;
+  color: #13ba82;
+  margin-bottom: 0.25rem;
 }
 
-.planFeatures {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  flex-grow: 1;
+.currentPlanPrice {
+  font-size: 1.125rem;
+  color: #4a5568;
 }
 
-.featureItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgb(75 85 99);
+.planStatus {
+  text-align: right;
 }
 
-.planButton {
-  width: 100%;
-  max-width: 180px;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.2s;
-  background-color: white;
-  color: rgb(16 185 129);
-  border: none;
-  cursor: pointer;
-}
-
-.planButton:hover {
-  background-color: rgb(243 244 246);
-}
-
-.planButton:disabled {
-  background-color: rgb(229 231 235);
-  cursor: not-allowed;
-  color: rgb(107 114 128);
-}
-
-.historyCard {
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-.historyTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: rgb(17 24 39);
-  margin-bottom: 1rem;
-}
-
-.historyTable {
-  overflow-x: auto;
-}
-
-.table {
-  width: 100%;
-}
-
-.table th {
-  padding: 0.5rem 1rem;
-  text-align: left;
+.planStartDate {
   font-size: 0.875rem;
-  font-weight: 500;
-  color: rgb(75 85 99);
-}
-
-.table td {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: rgb(17 24 39);
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 16rem;
-  color: rgb(75 85 99);
+  color: #718096;
+  margin-top: 0.5rem;
 }
 
 .comparisonTable {
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(19, 186, 130, 0.1);
 }
 
 .plansHeader {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   padding: 2rem;
-  background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+  background: linear-gradient(135deg, #13ba82 0%, #0d8c61 100%);
   color: white;
   position: relative;
+  gap: 1rem;
 }
 
 .featureHeader {
@@ -237,7 +136,7 @@
   color: white;
   padding-top: 1rem;
   padding-right: 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0.9;
 }
 
 .planColumn {
@@ -245,54 +144,147 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
+  position: relative;
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.planColumn:hover {
+  transform: translateY(-4px);
+}
+
+.popularPlan {
+  background: rgba(255, 255, 255, 0.1);
+  margin: -0.5rem;
+  padding: 2rem 1rem;
   position: relative;
 }
 
-.planColumn:not(:last-child) {
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+.planTag {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #13ba82;
+  padding: 0.25rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.popularPlan .planTag {
+  background: #FFD700;
+  color: #1a202c;
 }
 
 .planColumnTitle {
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
-  margin-bottom: 0.5rem;
+  margin: 1rem 0 0.5rem;
 }
 
 .planColumnPrice {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
   color: white;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.25rem;
   line-height: 1;
+}
+
+.planPeriod {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.planButton {
+  width: 100% !important;
+  max-width: 200px !important;
+  padding: 0.875rem 1.5rem !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  text-align: center !important;
+  background: white !important;
+  color: #13ba82 !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+
+.planButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.planButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.primaryButton {
+  background: #FFD700 !important;
+  color: #1a202c !important;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #ffd900 !important;
 }
 
 .featuresList {
   padding: 2rem;
-  background-color: white;
+}
+
+.featureGroup {
+  margin-bottom: 2.5rem;
+}
+
+.featureGroup:last-child {
+  margin-bottom: 0;
+}
+
+.featureGroupTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #13ba82;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(19, 186, 130, 0.1);
 }
 
 .featureRow {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 0;
+  gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid rgb(229 231 235);
   align-items: center;
+  border-bottom: 1px solid rgba(19, 186, 130, 0.1);
 }
 
-.featureRow > div {
-  padding: 0 1rem;
-}
-
-.featureRow > div:not(:last-child) {
-  border-right: 1px solid rgb(229 231 235);
+.featureRow:last-child {
+  border-bottom: none;
 }
 
 .featureName {
-  font-size: 1.1rem;
-  color: rgb(75 85 99);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.featureName span:first-child {
+  font-weight: 500;
+  color: #1a202c;
+}
+
+.featureDescription {
+  font-size: 0.875rem;
+  color: #718096;
 }
 
 .featureCheck {
@@ -301,131 +293,167 @@
 }
 
 .checkMark {
-  color: rgb(16 185 129); /* Verde */
+  color: #13ba82;
+  font-weight: bold;
 }
 
 .xMark {
-  color: rgb(239 68 68); /* Vermelho */
+  color: #dc2626;
+  font-weight: bold;
 }
 
-/* Estilo para o símbolo de check (✓) */
-.featureCheck:has(✓),
-.featureCheck:contains("✓") {
-  color: rgb(16 185 129);
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .heroCard {
+    padding: 1.5rem;
+  }
+
+  .heroTitle {
+    font-size: 1.25rem;
+  }
+
+  .plansHeader {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  .featureHeader {
+    display: none;
+  }
+
+  .planColumn {
+    padding: 1rem;
+  }
+
+  .popularPlan {
+    margin: 0;
+    padding: 1rem;
+    order: -1;
+  }
+
+  .featureRow {
+    grid-template-columns: 2fr 1fr;
+    padding: 0.75rem 0;
+  }
+
+  .featureCheck:nth-child(3),
+  .featureCheck:nth-child(4) {
+    display: none;
+  }
+
+  .currentPlanCard {
+    padding: 1.5rem !important;
+  }
+
+  .currentPlanHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .planStatus {
+    text-align: left;
+  }
 }
 
-/* Estilo para o símbolo X (×) */
-.featureCheck:has(×),
-.featureCheck:contains("×") {
-  color: rgb(239 68 68);
+@media (min-width: 769px) and (max-width: 1024px) {
+  .plansHeader {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .planColumn {
+    padding: 1rem;
+  }
+
+  .planColumnPrice {
+    font-size: 2rem;
+  }
 }
 
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
-  .currentPlanCard,
-  .planCard {
-    background-color: rgb(31 41 55);
-  }
-
-  .currentPlanTitle,
-  .planTitle {
-    color: white;
-  }
-
-  .currentPlanType {
-    color: rgb(52 211 153);
-  }
-
-  .ativo {
-    background-color: rgba(4, 120, 87, 0.3);
-    color: rgb(52 211 153);
-  }
-
-  .pendente {
-    background-color: rgba(146, 64, 14, 0.3);
-    color: rgb(251 191 36);
-  }
-
-  .planInfo,
-  .featureItem {
-    color: rgb(156 163 175);
+  .container {
+    background: transparent;
   }
 
   .backButton {
-    color: rgb(156 163 175);
+    color: #a0aec0;
   }
 
   .backButton:hover {
-    color: white;
+    color: #e2e8f0;
+  }
+
+  .heroCard {
+    background: linear-gradient(135deg, #13ba82 0%, #0d8c61 100%);
   }
 
   .comparisonTable {
-    background-color: rgb(31 41 55);
+    background: #1a202c;
+    border-color: rgba(19, 186, 130, 0.2);
   }
 
   .plansHeader {
-    background: linear-gradient(to bottom right, rgb(16 185 129), rgb(5 150 105));
+    background: linear-gradient(135deg, #13ba82 0%, #0d8c61 100%);
   }
 
-  .planColumnTitle,
-  .planColumnPrice {
-    color: white;
+  .featureName span:first-child {
+    color: #e2e8f0;
+  }
+
+  .featureDescription {
+    color: #718096;
+  }
+
+  .featureGroupTitle {
+    color: #13ba82;
+    border-bottom-color: rgba(19, 186, 130, 0.2);
   }
 
   .featureRow {
-    border-bottom-color: rgb(55 65 81);
+    border-bottom-color: rgba(19, 186, 130, 0.1);
   }
 
-  .featureName {
-    color: rgb(156 163 175);
-  }
-
-  .planColumn {
-    background-color: rgb(31 41 55);
+  .xMark {
+    color: #ef4444;
   }
 
   .planButton {
-    background-color: white;
-    color: rgb(16 185 129);
-  }
-
-  .planButton:hover {
-    background-color: rgb(243 244 246);
+    background: #2d3748 !important;
+    color: #13ba82 !important;
   }
 
   .planButton:disabled {
-    background-color: rgb(75 85 99);
-    color: rgb(156 163 175);
-  }
-}
-
-/* Responsividade */
-@media (min-width: 768px) {
-  .plansGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .plansGrid {
-    grid-width: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .plansHeader,
-  .featureRow {
-    grid-template-columns: 2fr 1fr;
-    gap: 0.5rem;
+    background: rgba(45, 55, 72, 0.7) !important;
   }
 
-  .featureHeader,
-  .planColumn:not(:nth-child(2)),
-  .featureCheck:not(:nth-child(2)) {
-    display: none;
+  .primaryButton {
+    background: #FFD700 !important;
+    color: #1a202c !important;
   }
 
-  .planColumn:nth-child(2) {
-    text-align: right;
+  .currentPlanCard {
+    background: #1a202c !important;
+    border-color: rgba(19, 186, 130, 0.2) !important;
+  }
+
+  .currentPlanTitle {
+    color: #e2e8f0;
+  }
+
+  .currentPlanType {
+    color: #13ba82;
+  }
+
+  .currentPlanPrice {
+    color: #a0aec0;
+  }
+
+  .planStartDate {
+    color: #718096;
   }
 } 
