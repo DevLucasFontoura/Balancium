@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { db } from '@/lib/firebase/config';
-import { doc, setDoc } from 'firebase/firestore';
 import styles from './registroUser.module.css';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase/config';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { databases } from '@/lib/appwrite';
+import { DATABASES, COLLECTIONS } from '@/lib/appwrite';
+import { ID } from 'appwrite';
 
 interface FormData {
   name: string;
@@ -18,6 +18,7 @@ interface FormData {
 
 export function Registro() {
   const router = useRouter();
+  const { signUp } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -30,49 +31,28 @@ export function Registro() {
     setIsLoading(true);
 
     try {
-      // Criar conta de autenticação
-      const authResult = await createUserWithEmailAndPassword(
-        auth, 
-        formData.email, 
-        formData.password
-      );
+      // Create user account and sign in
+      const newUser = await signUp(formData.email, formData.password, formData.name);
       
-      if (authResult && authResult.user) {
-        // Criar documento do usuário no Firestore
-        const userData = {
-          name: formData.name,
-          email: formData.email,
-          uid: authResult.user.uid,
-          createdAt: new Date().toISOString(),
-          settings: {
-            currency: 'BRL',
-            language: 'pt-BR'
-          },
-          plan: {
-            type: 'free',
-            features: [
-              'Controle básico de despesas',
-              'Relatórios mensais',
-              'Até 100 transações/mês'
-            ],
-            startDate: new Date().toISOString(),
-            status: 'active'
-          }
-        };
+      // Create user preferences
+      await databases.createDocument(
+        DATABASES.MAIN,
+        COLLECTIONS.USER_PREFERENCES,
+        ID.unique(),
+        {
+          userId: newUser.$id,
+          currency: 'BRL',
+          language: 'pt-BR',
+          theme: 'system',
+          email: formData.email
+        }
+      );
 
-        await setDoc(doc(db, 'users', authResult.user.uid), userData);
-        toast.success('Conta criada com sucesso!');
-        router.push('/BemVindoLogado');
-      }
+      toast.success('Conta criada com sucesso!');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error('Erro ao criar conta:', error);
-      if (error.code === 'auth/email-already-in-use') {
-        toast.error('Este e-mail já está em uso.');
-      } else if (error.code === 'auth/weak-password') {
-        toast.error('A senha deve ter pelo menos 6 caracteres.');
-      } else {
-        toast.error('Erro ao criar conta. Tente novamente.');
-      }
+      toast.error(error.message || 'Erro ao criar conta. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
@@ -87,113 +67,63 @@ export function Registro() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentGrid}>
-        {/* Lado esquerdo - Mensagem */}
-        <div className={styles.welcomeSection}>
-          <h1 className={styles.welcomeTitle}>
-            Comece sua jornada no
-            <span className={styles.highlight}> Balancium</span>
-          </h1>
-          <p className={styles.welcomeText}>
-            Junte-se a milhares de pessoas que já controlam suas finanças de forma simples
-          </p>
-          <div className={styles.features}>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M5 13l4 4L19 7" />
-              </svg>
-              <span>Cadastro gratuito</span>
-            </div>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span>Comece em segundos</span>
-            </div>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span>Sem custos ocultos</span>
-            </div>
-          </div>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h1 className={styles.title}>Criar Conta</h1>
+        
+        <div className={styles.inputGroup}>
+          <label htmlFor="name">Nome</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
         </div>
 
-        {/* Lado direito - Formulário */}
-        <div className={styles.formSection}>
-          <div className={styles.formContainer}>
-            <h2 className={styles.formTitle}>
-              Crie sua conta
-            </h2>
-            <p className={styles.formSubtitle}>
-              Preencha os dados abaixo para começar
-            </p>
-            
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.inputGroup}>
-                <div>
-                  <label htmlFor="name" className={styles.inputLabel}>Nome completo</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    className={styles.input}
-                    placeholder="João Silva"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className={styles.inputLabel}>Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    className={styles.input}
-                    placeholder="seu@email.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="password" className={styles.inputLabel}>Senha</label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    required
-                    className={styles.input}
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className={styles.formFooter}>
-                <button 
-                  type="submit" 
-                  className={styles.submitButton}
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Criando conta...' : 'Criar conta gratuitamente'}
-                </button>
-                <p className={styles.loginText}>
-                  Já tem uma conta?{' '}
-                  <Link href="/login" className={styles.loginLink}>
-                    Fazer login
-                  </Link>
-                </p>
-              </div>
-            </form>
-          </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
         </div>
-      </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={styles.button}
+        >
+          {isLoading ? 'Criando conta...' : 'Criar Conta'}
+        </button>
+
+        <p className={styles.loginLink}>
+          Já tem uma conta?{' '}
+          <Link href="/login">
+            Faça login
+          </Link>
+        </p>
+      </form>
     </div>
   );
 } 

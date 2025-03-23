@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase/config';
+import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar } from '@/components/ui/Sidebar';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 
@@ -12,22 +12,16 @@ export default function PrivateLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, loading } = useAuth();
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user) {
-        router.push('/login');
-      } else {
-        setIsLoading(false);
-      }
-    });
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [loading, user, router]);
 
-    return () => unsubscribe();
-  }, [router]);
-
-  if (isLoading) {
+  if (loading) {
     return <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-600"></div>
     </div>;

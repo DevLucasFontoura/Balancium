@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { auth, db } from '@/lib/firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
+import { account, databases } from '@/lib/appwrite';
+import { DATABASES, COLLECTIONS } from '@/lib/appwrite';
 
 interface UserData {
   name: string;
@@ -97,10 +97,14 @@ export function Sidebar() {
 
   useEffect(() => {
     const loadUserData = async () => {
-      const user = auth.currentUser;
+      const user = await account.get();
       if (user) {
         try {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          const userDoc = await databases.getDocument(
+            DATABASES.MAIN,
+            COLLECTIONS.USERS,
+            user.$id
+          );
           if (userDoc.exists()) {
             setUserData(userDoc.data() as UserData);
           }
@@ -115,7 +119,7 @@ export function Sidebar() {
 
   const handleLogout = async () => {
     try {
-      await auth.signOut();
+      await account.deleteSession('current');
       router.push('/bem-vindo');
     } catch (error) {
       console.error('Erro ao fazer logout:', error);

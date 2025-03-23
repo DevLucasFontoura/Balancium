@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase/config';
 import { TipoTransacao } from '@/app/tipos';
 import { Combobox } from '@headlessui/react';
 import toast from 'react-hot-toast';
@@ -11,11 +9,15 @@ import styles from './EntradaSaidaForm.module.css';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { account, databases } from '@/lib/appwrite';
+import { ID, Query, Models } from 'appwrite';
+import { DATABASES, COLLECTIONS } from '@/lib/appwrite';
 
 interface Categoria {
-  id: string;
-  nome: string;
-  cor: string;
+  $id: string;
+  name: string;
+  color: string;
+  type: 'income' | 'expense';
 }
 
 interface FormData {
@@ -57,21 +59,23 @@ export function EntradaSaidaForm() {
   // Carregar descrições existentes do usuário
   useEffect(() => {
     const carregarDescricoes = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
       try {
-        const q = query(
-          collection(db, 'transacoes'),
-          where('userId', '==', user.uid),
-          where('status', '==', 'ativo')
+        const user = await account.get();
+        if (!user) return;
+
+        const response = await databases.listDocuments(
+          DATABASES.MAIN,
+          COLLECTIONS.TRANSACTIONS,
+          [
+            Query.equal('userId', user.$id),
+            Query.equal('status', 'ativo')
+          ]
         );
-        const querySnapshot = await getDocs(q);
+
         const descricaoSet = new Set<string>();
-        querySnapshot.forEach((doc) => {
-          const transacao = doc.data();
-          if (transacao.descricao) {
-            descricaoSet.add(transacao.descricao);
+        response.documents.forEach((doc: Models.Document) => {
+          if (doc.description) {
+            descricaoSet.add(doc.description);
           }
         });
         const descricoesArray = Array.from(descricaoSet);
@@ -89,16 +93,17 @@ export function EntradaSaidaForm() {
   }, []);
 
   const carregarCategorias = async () => {
-    const user = auth.currentUser;
-    if (!user) return;
-
     try {
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
+      const user = await account.get();
+      if (!user) return;
+
+      const response = await databases.listDocuments(
+        DATABASES.MAIN,
+        COLLECTIONS.CATEGORIES,
+        [Query.equal('userId', user.$id)]
+      );
       
-      if (docSnap.exists() && docSnap.data().categorias) {
-        setCategorias(docSnap.data().categorias);
-      }
+      setCategorias(response.documents as unknown as Categoria[]);
     } catch (error) {
       console.error('Erro ao carregar categorias:', error);
       toast.error('Erro ao carregar categorias');
@@ -121,7 +126,7 @@ export function EntradaSaidaForm() {
     setError(null);
 
     try {
-      const user = auth.currentUser;
+      const user = await account.get();
       if (!user) {
         throw new Error('Usuário não autenticado');
       }
@@ -138,21 +143,26 @@ export function EntradaSaidaForm() {
       const dataISO = dataObj.toISOString();
 
       const transacao = {
-        userId: user.uid,
-        descricao: data.descricao,
-        valor: valorNumerico,
-        tipo: data.tipo,
-        categoria: data.categoria,
-        data: dataISO,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
+        userId: user.$id,
+        description: data.descricao,
+        amount: valorNumerico.toString(), // Appwrite não suporta números, então salvamos como string
+        type: data.tipo === 'entrada' ? 'income' : 'expense',
+        categoryId: data.categoria,
+        date: dataISO,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         status: 'ativo',
-        mes: dataObj.getMonth() + 1,
-        ano: dataObj.getFullYear(),
+        month: dataObj.getMonth() + 1,
+        year: dataObj.getFullYear(),
       };
 
       console.log('Salvando transação:', transacao);
-      await addDoc(collection(db, 'transacoes'), transacao);
+      await databases.createDocument(
+        DATABASES.MAIN,
+        COLLECTIONS.TRANSACTIONS,
+        ID.unique(),
+        transacao
+      );
       console.log('Transação salva com sucesso');
       
       const novoFormData = {
@@ -249,189 +259,137 @@ export function EntradaSaidaForm() {
           <div className={styles.tipoButtons}>
             <button
               type="button"
-              className={`${styles.tipoButton} ${formData.tipo === 'entrada' ? styles.tipoButtonEntrada : ''}`}
+              className={`${styles.tipoButton} ${formData.tipo === 'entrada' ? styles.active : ''}`}
               onClick={() => {
                 setFormData(prev => ({ ...prev, tipo: 'entrada' }));
                 setValue('tipo', 'entrada');
               }}
             >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0-16l-4 4m4-4l4 4" />
-              </svg>
               Entrada
             </button>
             <button
               type="button"
-              className={`${styles.tipoButton} ${formData.tipo === 'saida' ? styles.tipoButtonSaida : ''}`}
+              className={`${styles.tipoButton} ${formData.tipo === 'saida' ? styles.active : ''}`}
               onClick={() => {
                 setFormData(prev => ({ ...prev, tipo: 'saida' }));
                 setValue('tipo', 'saida');
               }}
             >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20V4m0 16l4-4m-4 4l-4-4" />
-              </svg>
               Saída
             </button>
           </div>
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Descrição</label>
-          <div className={styles.comboboxContainer}>
-            <Combobox
-              value={formData.descricao}
-              onChange={(value: string) => {
-                setFormData(prev => ({ ...prev, descricao: value }));
-                setValue('descricao', value);
-              }}
-            >
-              <div className={styles.comboboxWrapper}>
-                <Combobox.Input
-                  className={styles.input}
-                  {...register('descricao', { required: true })}
-                  placeholder="Ex: Salário, Aluguel, Compras..."
-                  displayValue={(descricao: string) => descricao || ''}
-                  onChange={(event) => {
-                    const value = event.target.value;
-                    setSearchQuery(value);
-                    setFormData(prev => ({ ...prev, descricao: value }));
-                    setValue('descricao', value);
-                  }}
-                />
-                <Combobox.Button className={styles.comboboxButton}>
-                  <svg
-                    className="h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M7 7l3-3 3 3m0 6l-3 3-3-3"
-                    />
-                  </svg>
-                </Combobox.Button>
-              </div>
+          <label htmlFor="descricao" className={styles.label}>
+            Descrição
+          </label>
+          <Combobox
+            value={searchQuery}
+            onChange={(value: string) => {
+              setSearchQuery(value);
+              setFormData(prev => ({ ...prev, descricao: value }));
+              setValue('descricao', value);
+            }}
+          >
+            <div className={styles.comboboxContainer}>
+              <Combobox.Input
+                className={styles.input}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                displayValue={(item: string) => item}
+                placeholder="Digite a descrição"
+                {...register('descricao', { required: true })}
+              />
               <Combobox.Options className={styles.comboboxOptions}>
-                {filteredDescricoes.length > 0 ? (
-                  filteredDescricoes.map((descricao) => (
-                    <Combobox.Option
-                      key={descricao}
-                      value={descricao}
-                      className={({ active }) =>
-                        `${styles.comboboxOption} ${
-                          active ? styles.comboboxOptionActive : ''
-                        }`
-                      }
-                    >
-                      {descricao}
-                    </Combobox.Option>
-                  ))
-                ) : (
-                  <div className={styles.comboboxEmpty}>
-                    Nenhuma sugestão encontrada
-                  </div>
-                )}
+                {filteredDescricoes.map((descricao) => (
+                  <Combobox.Option
+                    key={descricao}
+                    value={descricao}
+                    className={({ active }) =>
+                      `${styles.comboboxOption} ${active ? styles.active : ''}`
+                    }
+                  >
+                    {descricao}
+                  </Combobox.Option>
+                ))}
               </Combobox.Options>
-            </Combobox>
-          </div>
+            </div>
+          </Combobox>
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Valor</label>
-          <div className={styles.valorInput}>
-            <span className={styles.valorPrefix}>R$</span>
-            <input
-              type="text"
-              value={formData.valor}
-              onChange={handleValorChange}
-              className={styles.input}
-              placeholder="0,00"
-              required
-            />
-          </div>
+          <label htmlFor="valor" className={styles.label}>
+            Valor
+          </label>
+          <Input
+            type="text"
+            id="valor"
+            name="valor"
+            placeholder="0,00"
+            className={styles.input}
+            onChange={(e) => {
+              handleValorChange(e);
+              register('valor').onChange(e);
+            }}
+          />
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Categoria</label>
+          <label htmlFor="categoria" className={styles.label}>
+            Categoria
+          </label>
           <select
+            id="categoria"
             {...register('categoria', { required: true })}
-            value={formData.categoria}
-            onChange={(e) => setFormData(prev => ({ ...prev, categoria: e.target.value }))}
             className={styles.select}
-            required
+            value={formData.categoria}
+            onChange={(e) => {
+              setFormData(prev => ({ ...prev, categoria: e.target.value }));
+            }}
           >
             <option value="">Selecione uma categoria</option>
-            {categorias.map((categoria) => (
-              <option 
-                key={categoria.id} 
-                value={categoria.id}
-                style={{ backgroundColor: categoria.cor }}
-              >
-                {categoria.nome}
-              </option>
-            ))}
+            {categorias
+              .filter(cat => 
+                (formData.tipo === 'entrada' && cat.type === 'income') || 
+                (formData.tipo === 'saida' && cat.type === 'expense')
+              )
+              .map((categoria) => (
+                <option 
+                  key={categoria.$id} 
+                  value={categoria.$id}
+                  style={{ backgroundColor: categoria.color }}
+                >
+                  {categoria.name}
+                </option>
+              ))}
           </select>
-          <div className={styles.categoriasEmpty}>
-            <a 
-              href="/configuracoes/Categorias"
-              className={styles.categoriasLink}
-            >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Gerenciar categorias
-            </a>
-          </div>
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Data</label>
-          <input
+          <label htmlFor="data" className={styles.label}>
+            Data
+          </label>
+          <Input
             type="date"
+            id="data"
             {...register('data', { required: true })}
-            value={formData.data}
-            onChange={(e) => setFormData(prev => ({ ...prev, data: e.target.value }))}
             className={styles.input}
-            required
+            value={formData.data}
+            onChange={(e) => {
+              setFormData(prev => ({ ...prev, data: e.target.value }));
+            }}
           />
         </div>
       </div>
 
-      {error && (
-        <div className={styles.error}>
-          {error}
-        </div>
-      )}
-
-      <div className={styles.actions}>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className={styles.cancelButton}
-        >
-          Cancelar
-        </button>
-        <button
+      <div className={styles.buttonContainer}>
+        <Button
           type="submit"
           disabled={loading}
           className={styles.submitButton}
         >
-          {loading ? (
-            <span className={styles.loadingSpinner}>
-              <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Salvando...
-            </span>
-          ) : (
-            'Salvar Transação'
-          )}
-        </button>
+          {loading ? 'Salvando...' : 'Salvar'}
+        </Button>
       </div>
     </form>
   );
