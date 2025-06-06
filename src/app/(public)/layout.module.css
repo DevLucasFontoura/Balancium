@@ -31,6 +31,10 @@
   width: 2rem;
   height: 2rem;
   color: rgb(16 185 129);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2310B981'%3E%3Cpath d='M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z'/%3E%3Cpath fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .logoText {
@@ -149,10 +153,45 @@
   padding: 0.5rem;
   border-radius: 0.5rem;
   color: rgb(75 85 99);
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
 }
 
 .mobileMenuButton:hover {
   background-color: rgb(243 244 246);
+}
+
+.menuIcon {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transition: transform 0.2s ease-in-out;
+}
+
+.menuIcon::before {
+  top: 0;
+}
+
+.menuIcon::after {
+  bottom: 0;
+}
+
+.menuIconOpen::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menuIconOpen::after {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 .mobileMenu {
@@ -230,5 +269,181 @@
 
   .footerColumn {
     gap: 0.75rem;
+  }
+}
+
+/* New styles from layout.tsx */
+.container {
+  min-height: 100vh;
+  background-color: rgb(249 250 251);
+}
+
+.nav {
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navInner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+}
+
+.desktopNav {
+  display: none;
+}
+
+.desktopNavLink {
+  color: rgb(75 85 99);
+}
+
+.desktopNavLink:hover {
+  color: rgb(16 185 129);
+}
+
+.ctaButton {
+  background-color: rgb(16 185 129);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.ctaButton:hover {
+  background-color: rgb(5 150 105);
+}
+
+.mobileNav {
+  border-top: 1px solid rgb(229 231 235);
+}
+
+.mobileNavContent {
+  padding: 0.5rem 0.5rem 0.75rem;
+}
+
+.mobileNavLink {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgb(55 65 81);
+}
+
+.mobileNavLink:hover {
+  color: rgb(16 185 129);
+  background-color: rgb(249 250 251);
+}
+
+.mobileCtaButton {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: rgb(16 185 129);
+  color: white;
+}
+
+.mobileCtaButton:hover {
+  background-color: rgb(5 150 105);
+}
+
+.main {
+  margin-top: auto;
+}
+
+.footer {
+  background-color: white;
+  border-top: 1px solid rgb(229 231 235);
+  margin-top: auto;
+}
+
+.footerInner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.footerBrand {
+  grid-column: span 2;
+}
+
+.footerBrandInner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footerBrandText {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: rgb(75 85 99);
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footerColumnTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footerColumnLink {
+  font-size: 1rem;
+  color: rgb(75 85 99);
+}
+
+.footerColumnLink:hover {
+  color: rgb(16 185 129);
+}
+
+.footerBottom {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgb(229 231 235);
+  text-align: center;
+}
+
+.footerCopyright {
+  font-size: 0.875rem;
+  color: rgb(75 85 99);
+}
+
+@media (min-width: 768px) {
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .footerGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .footerBrand {
+    grid-column: span 1;
   }
 } 
