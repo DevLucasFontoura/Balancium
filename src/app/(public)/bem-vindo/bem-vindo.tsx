@@ -29,10 +29,7 @@ export function BemVindo() {
             <div className={styles.heroImage}>
               <div className={styles.imageContainer}>
                 <Image src={CONSTANTES.IMAGEM_INICIAL_BEM_VINDO} alt="Preview do Dashboard do Balancium" fill
-                  style={{ 
-                    objectFit: 'contain',
-                    padding: '1.5rem'
-                  }}
+                  style={{ objectFit: 'contain', padding: '1.5rem' }}
                   priority
                   quality={100}
                 />

@@ -1,21 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { CategorizationIcon } from '@/components/icons/CategorizationIcon';
+import { DashboardIcon } from '@/components/icons/DashboardIcon';
+import { ReportsIcon } from '@/components/icons/ReportsIcon';
+import { CONSTANTES } from '@/constants/constantes';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import styles from './login.module.css';
-import { CONSTANTES } from '@/constants/constantes';
-import { DashboardIcon } from '@/components/icons/DashboardIcon';
-import { CategorizationIcon } from '@/components/icons/CategorizationIcon';
-import { ReportsIcon } from '@/components/icons/ReportsIcon';
+import { useState } from 'react';
+import Link from 'next/link';
 
 export function Login() {
   const router = useRouter();
   const { signIn, loading, error } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: CONSTANTES.LABEL_BLANK,
+    password: CONSTANTES.LABEL_BLANK
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -1,14 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { db } from '@/lib/firebase/config';
+import { CategorizationIcon } from '@/components/icons/CategorizationIcon';
+import { DashboardIcon } from '@/components/icons/DashboardIcon';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { ReportsIcon } from '@/components/icons/ReportsIcon';
+import { CONSTANTES } from '@/constants/constantes';
 import { doc, setDoc } from 'firebase/firestore';
 import styles from './registroUser.module.css';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
+import { useRouter } from 'next/navigation';
+import { db } from '@/lib/firebase/config';
 import { toast } from 'react-hot-toast';
+import { useState } from 'react';
+import Link from 'next/link';
 
 interface FormData {
   name: string;
@@ -20,9 +24,9 @@ export function Registro() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    password: ''
+    name: CONSTANTES.LABEL_BLANK,
+    email: CONSTANTES.LABEL_BLANK,
+    password: CONSTANTES.LABEL_BLANK
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,7 +34,6 @@ export function Registro() {
     setIsLoading(true);
 
     try {
-      // Criar conta de autenticação
       const authResult = await createUserWithEmailAndPassword(
         auth, 
         formData.email, 
@@ -38,40 +41,32 @@ export function Registro() {
       );
       
       if (authResult && authResult.user) {
-        // Criar documento do usuário no Firestore
         const userData = {
           name: formData.name,
           email: formData.email,
           uid: authResult.user.uid,
           createdAt: new Date().toISOString(),
-          settings: {
-            currency: 'BRL',
-            language: 'pt-BR'
-          },
+          settings: { currency: CONSTANTES.LABEL_BRL, language: CONSTANTES.LABEL_PT_BR },
           plan: {
-            type: 'free',
-            features: [
-              'Controle básico de despesas',
-              'Relatórios mensais',
-              'Até 100 transações/mês'
-            ],
+            type: CONSTANTES.LABEL_FREE,
+            features: [ CONSTANTES.FEATURE_FREE_01, CONSTANTES.FEATURE_FREE_02, CONSTANTES.FEATURE_FREE_03 ],
             startDate: new Date().toISOString(),
-            status: 'active'
+            status: CONSTANTES.LABEL_ACTIVE
           }
         };
 
-        await setDoc(doc(db, 'users', authResult.user.uid), userData);
-        toast.success('Conta criada com sucesso!');
-        router.push('/BemVindoLogado');
+        await setDoc(doc(db, CONSTANTES.LABEL_USERS, authResult.user.uid), userData);
+        toast.success(CONSTANTES.CONTA_CRIADA_COM_SUCESSO);
+        router.push(CONSTANTES.ROUTE_BEM_VINDO_LOGADO);
       }
     } catch (error: any) {
-      console.error('Erro ao criar conta:', error);
+      console.error(CONSTANTES.ERRO_AO_CRIAR_CONTA, error);
       if (error.code === 'auth/email-already-in-use') {
-        toast.error('Este e-mail já está em uso.');
+        toast.error(CONSTANTES.ESTE_EMAIL_JA_ESTA_EM_USO);
       } else if (error.code === 'auth/weak-password') {
-        toast.error('A senha deve ter pelo menos 6 caracteres.');
+        toast.error(CONSTANTES.SENHA_DEVE_TER_PELO_MENOS_6_CARACTERES);
       } else {
-        toast.error('Erro ao criar conta. Tente novamente.');
+        toast.error(CONSTANTES.ERRO_AO_CRIAR_CONTA);
       }
     } finally {
       setIsLoading(false);
@@ -88,107 +83,73 @@ export function Registro() {
   return (
     <div className={styles.container}>
       <div className={styles.contentGrid}>
-        {/* Lado esquerdo - Mensagem */}
         <div className={styles.welcomeSection}>
-          <h1 className={styles.welcomeTitle}>
-            Comece sua jornada no
-            <span className={styles.highlight}> Balancium</span>
-          </h1>
-          <p className={styles.welcomeText}>
-            Junte-se a milhares de pessoas que já controlam suas finanças de forma simples
-          </p>
+          <h1 className={styles.welcomeTitle}> {CONSTANTES.TITULO_REGISTRO} <span className={styles.highlight}> {CONSTANTES.TITULO_REGISTRO_PARTE_02}</span> </h1>
+          <p className={styles.welcomeText}> {CONSTANTES.DESCRICAO_REGISTRO} </p>
           <div className={styles.features}>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M5 13l4 4L19 7" />
-              </svg>
-              <span>Cadastro gratuito</span>
-            </div>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span>Comece em segundos</span>
-            </div>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span>Sem custos ocultos</span>
-            </div>
+            <div className={styles.featureItem}> <DashboardIcon className={styles.featureIcon} /> <span>{CONSTANTES.FEATURE_DASHBOARD_INTUITIVO}</span> </div>
+            <div className={styles.featureItem}> <CategorizationIcon className={styles.featureIcon} /> <span>{CONSTANTES.FEATURE_CATEGORIZACAO_AUTOMATICO}</span> </div>
+            <div className={styles.featureItem}> <ReportsIcon className={styles.featureIcon} /> <span>{CONSTANTES.FEATURE_RELATORIOS_DETALHADOS}</span> </div>
           </div>
         </div>
 
-        {/* Lado direito - Formulário */}
         <div className={styles.formSection}>
           <div className={styles.formContainer}>
-            <h2 className={styles.formTitle}>
-              Crie sua conta
-            </h2>
-            <p className={styles.formSubtitle}>
-              Preencha os dados abaixo para começar
-            </p>
+            <h2 className={styles.formTitle}> {CONSTANTES.TITULO_FORM_REGISTRO} </h2>
+            <p className={styles.formSubtitle}> {CONSTANTES.DESCRICAO_FORM_REGISTRO} </p>
             
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.inputGroup}>
-                <div>
-                  <label htmlFor="name" className={styles.inputLabel}>Nome completo</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    className={styles.input}
-                    placeholder="João Silva"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className={styles.inputLabel}>Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    className={styles.input}
-                    placeholder="seu@email.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="password" className={styles.inputLabel}>Senha</label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    required
-                    className={styles.input}
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                </div>
+                <label htmlFor={CONSTANTES.LABEL_NOME} className={styles.inputLabel}> {CONSTANTES.LABEL_NOME_COMPLETO} </label>
+                <input
+                  id={CONSTANTES.LABEL_NOME}
+                  name={CONSTANTES.LABEL_NOME}
+                  type={CONSTANTES.LABEL_TEXT}
+                  required
+                  className={styles.input}
+                  placeholder={CONSTANTES.PLACEHOLDER_NOME}
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label htmlFor={CONSTANTES.LABEL_EMAIL} className={styles.inputLabel}> {CONSTANTES.LABEL_EMAIL} </label>
+                <input
+                  id={CONSTANTES.LABEL_EMAIL}
+                  name={CONSTANTES.LABEL_EMAIL}
+                  type={CONSTANTES.LABEL_EMAIL}
+                  required
+                  className={styles.input}
+                  placeholder={CONSTANTES.PLACEHOLDER_EMAIL}
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label htmlFor={CONSTANTES.LABEL_PASSWORD} className={styles.inputLabel}> {CONSTANTES.LABEL_SENHA} </label>
+                <input
+                  id={CONSTANTES.LABEL_PASSWORD}
+                  name={CONSTANTES.LABEL_PASSWORD}
+                  type={CONSTANTES.LABEL_PASSWORD}
+                  required
+                  className={styles.input}
+                  placeholder={CONSTANTES.PLACEHOLDER_PASSWORD}
+                  value={formData.password}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className={styles.formFooter}>
                 <button 
-                  type="submit" 
+                  type={CONSTANTES.LABEL_SUBMIT} 
                   className={styles.submitButton}
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Criando conta...' : 'Criar conta gratuitamente'}
+                  {isLoading ? CONSTANTES.BOTAO_REGISTRO_ENTRANDO : CONSTANTES.BOTAO_REGISTRO}
                 </button>
-                <p className={styles.loginText}>
-                  Já tem uma conta?{' '}
-                  <Link href="/login" className={styles.loginLink}>
-                    Fazer login
-                  </Link>
-                </p>
+                <p className={styles.loginText}> {CONSTANTES.BOTAO_REGISTRO_JA_TEM_CONTA} <Link href={CONSTANTES.ROUTE_LOGIN} className={styles.loginLink}> {CONSTANTES.BOTAO_REGISTRO_FAZER_LOGIN} </Link> </p>
               </div>
             </form>
           </div>

@@ -8,6 +8,15 @@ export const CONSTANTES = {
     PLACEHOLDER_EMAIL: 'seu@email.com',
     LABEL_SENHA: 'Senha',
     LABEL_BLANK: '',
+    LABEL_BRL: 'BRL',
+    LABEL_PT_BR: 'pt-BR',
+    LABEL_FREE: 'free',
+    LABEL_ACTIVE: 'active',
+    LABEL_USER: 'user',
+    LABEL_USERS: 'users',
+    LABEL_NOME: 'name',
+    LABEL_TEXT: 'text' as const,
+
 
 
     // -------------------------- COMUNS --------------------------
@@ -18,13 +27,18 @@ export const CONSTANTES = {
     BOTAO_PRONTO_PARA_COMECAR: 'Começar Gratuitamente',
     BOTAO_VER_PRECOS: 'Ver Planos',
 
+    // -------------------------- ERROS --------------------------
+    ERRO_AO_CRIAR_CONTA: 'Erro ao criar conta. Tente novamente.',
+    ESTE_EMAIL_JA_ESTA_EM_USO: 'Este e-mail já está em uso.',
+    SENHA_DEVE_TER_PELO_MENOS_6_CARACTERES: 'A senha deve ter pelo menos 6 caracteres.',
+
     // -------------------------- ROUTES --------------------------
     ROUTE_RECUPERAR_SENHA: '/recuperar-senha',
     ROUTE_COMO_FUNCIONA: '/como-funciona',
     ROUTE_PRIVACIDADE: '/privacidade',
     ROUTE_BEM_VINDO: '/bem-vindo',
     ROUTE_BEM_VINDO_LOGADO: '/BemVindoLogado',
-    ROUTE_CADASTRO: '/cadastro',
+    ROUTE_CADASTRO: '/registro',
     ROUTE_RECURSOS: '/recursos',
     ROUTE_CONTATO: '/contato',
     ROUTE_PRECOS: '/precos',
@@ -123,11 +137,30 @@ export const CONSTANTES = {
     BOTAO_BEM_VINDO_LOGIN_RECUPERAR_SENHA: 'Recuperar Senha',
     BOTAO_BEM_VINDO_LOGIN_ENTRANDO: 'Entrando...',
     BOTAO_BEM_VINDO_LOGIN_AINDA_NAO_TEM_CONTA: 'Ainda não tem uma conta?',
+    BOTAO_BEM_VINDO_LOGIN_JA_TEM_CONTA: 'Já tem uma conta?',
+    BOTAO_BEM_VINDO_LOGIN_FAZER_LOGIN: 'Fazer login',
     TITULO_FORM_LOGIN: 'Entre na sua conta',
     DESCRICAO_FORM_LOGIN: 'Insira suas credenciais para acessar',
     FEATURE_DASHBOARD_INTUITIVO: 'Dashboard Intuitivo',
     FEATURE_CATEGORIZACAO_AUTOMATICO: 'Categorização Automática',
     FEATURE_RELATORIOS_DETALHADOS: 'Relatórios Detalhados',
+
+    // -------------------------- PAGINA REGISTRO --------------------------
+    TITULO_FORM_REGISTRO: 'Crie sua conta',
+    DESCRICAO_FORM_REGISTRO: 'Preencha os dados abaixo para começar',
+    LABEL_NOME_COMPLETO: 'Nome completo',
+    PLACEHOLDER_NOME: 'Seu Nome',
+    CONTA_CRIADA_COM_SUCESSO: 'Conta criada com sucesso!',
+    FEATURE_FREE_01: 'Controle básico de despesas',
+    FEATURE_FREE_02: 'Relatórios mensais',
+    FEATURE_FREE_03: 'Até 100 transações/mês',
+    TITULO_REGISTRO: 'Comece sua jornada no',
+    TITULO_REGISTRO_PARTE_02: 'Balancium',
+    DESCRICAO_REGISTRO: 'Junte-se a milhares de pessoas que já controlam suas finanças de forma simples',
+    BOTAO_REGISTRO: 'Criar Conta Gratuita',
+    BOTAO_REGISTRO_ENTRANDO: 'Criando conta...',
+    BOTAO_REGISTRO_JA_TEM_CONTA: 'Já tem uma conta?',
+    BOTAO_REGISTRO_FAZER_LOGIN: 'Fazer login',
 
 
 
