@@ -16,6 +16,8 @@ export const CONSTANTES = {
     LABEL_USERS: 'users',
     LABEL_NOME: 'name',
     LABEL_TEXT: 'text' as const,
+    LABEL_CHECK: '✓',
+    LABEL_X: '×',
 
 
 
@@ -162,6 +164,55 @@ export const CONSTANTES = {
     BOTAO_REGISTRO_JA_TEM_CONTA: 'Já tem uma conta?',
     BOTAO_REGISTRO_FAZER_LOGIN: 'Fazer login',
 
+    // -------------------------- PAGINA PRECOS --------------------------
+    TITULO_PAGINA_PRECOS_01: 'Planos e Preços',
+    TITULO_PAGINA_PRECOS_02: 'Balancium',
+    DESCRICAO_PAGINA_PRECOS: 'Escolha o plano ideal para suas necessidades e comece a transformar suas finanças hoje',
+    TAG_POPULAR: 'Mais Popular',
+    TAG_BASICO: 'Básico',
+    TAG_COMPLETO: 'Completo',
+    TITULO_RECURSOS: 'Recursos',
+    // FREE
+    TITULO_GRATUTITO: 'Gratuito',
+    VALOR_GRATUITO: 'R$ 0,00',
+    PERIODO_GRATUITO: 'para sempre',
+    BOTAO_GRATUITO: 'Começar Agora',
+    // PLUS
+    TITULO_PLUS: 'Plus',
+    VALOR_PLUS: 'R$ 9,90',
+    PERIODO_PLUS: 'por mês',
+    BOTAO_ESCOLHER_PLUS: 'Escolher Plus',
+    // PREMIUM
+    TITULO_PREMIUM: 'Premium',
+    VALOR_PREMIUM: 'R$ 19,90',
+    PERIODO_PREMIUM: 'por mês',
+    BOTAO_ESCOLHER_PREMIUM: 'Escolher Premium',
+    // RECURSOS BASICOS
+    TITULO_RECURSOS_BASICOS: 'Recursos Básicos',
+    ITEM_RECURSOS_BASICOS_01_TITULO: 'Armazenamento Ilimitado',
+    ITEM_RECURSOS_BASICOS_01_DESCRICAO: 'Sem limites para seus dados',
+    ITEM_RECURSOS_BASICOS_02_TITULO: 'Suporte por email',
+    ITEM_RECURSOS_BASICOS_02_DESCRICAO: 'Atendimento via email',
+    ITEM_RECURSOS_BASICOS_03_TITULO: 'Controle Básico',
+    ITEM_RECURSOS_BASICOS_03_DESCRICAO: 'Gestão de receitas e despesas',
+    ITEM_RECURSOS_BASICOS_04_TITULO: 'Relatórios Mensais',
+    ITEM_RECURSOS_BASICOS_04_DESCRICAO: 'Resumo mensal das suas finanças',
+    ITEM_RECURSOS_BASICOS_05_TITULO: 'Categorias Básicas',
+    ITEM_RECURSOS_BASICOS_05_DESCRICAO: 'Categorias predefinidas',
+    // RECURSOS PLUS
+    TITULO_RECURSOS_PLUS: 'Recursos Plus',
+    ITEM_RECURSOS_PLUS_01_TITULO: 'Editar Transações',
+    ITEM_RECURSOS_PLUS_01_DESCRICAO: 'Edição completa de lançamentos',
+    ITEM_RECURSOS_PLUS_02_TITULO: 'Editar Categorias',
+    ITEM_RECURSOS_PLUS_02_DESCRICAO: 'Personalização de categorias',
+    ITEM_RECURSOS_PLUS_03_TITULO: 'Criar Categorias',
+    ITEM_RECURSOS_PLUS_03_DESCRICAO: 'Criação de novas categorias',
+    // RECURSOS PREMIUM
+    TITULO_RECURSOS_PREMIUM: 'Recursos Premium',
+    ITEM_RECURSOS_PREMIUM_01_TITULO: 'Exportar Dados',
+    ITEM_RECURSOS_PREMIUM_01_DESCRICAO: 'Exportação de relatórios',
+    ITEM_RECURSOS_PREMIUM_02_TITULO: 'Anexar Arquivos',
+    ITEM_RECURSOS_PREMIUM_02_DESCRICAO: 'Anexe comprovantes às transações',
 
 
 
