@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import styles from './login.module.css';
+import { CONSTANTES } from '@/constants/constantes';
+import { DashboardIcon } from '@/components/icons/DashboardIcon';
+import { CategorizationIcon } from '@/components/icons/CategorizationIcon';
+import { ReportsIcon } from '@/components/icons/ReportsIcon';
 
 export function Login() {
   const router = useRouter();
@@ -18,7 +22,7 @@ export function Login() {
     e.preventDefault();
     const result = await signIn(formData);
     if (result) {
-      router.push('/BemVindoLogado');
+      router.push(CONSTANTES.ROUTE_BEM_VINDO_LOGADO);
     }
   };
 
@@ -33,57 +37,34 @@ export function Login() {
     <div className={styles.container}>
       <div className={styles.contentGrid}>
         <div className={styles.welcomeSection}>
-          <h1 className={styles.welcomeTitle}>
-            Bem-vindo de volta ao{' '}
-            <span className={styles.highlight}>Balancium</span>
-          </h1>
-          <p className={styles.welcomeText}>
-            Continue gerenciando suas finanças de forma simples e eficiente
-          </p>
+
+          <h1 className={styles.welcomeTitle}> {CONSTANTES.TITULO_BEM_VINDO_LOGIN} <span className={styles.highlight}>{CONSTANTES.TITULO_BEM_VINDO_LOGIN_PARTE_02}</span> </h1>
+
+          <p className={styles.welcomeText}> {CONSTANTES.DESCRICAO_BEM_VINDO_LOGIN} </p>
+
           <div className={styles.features}>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} viewBox="0 0 20 20" fill="currentColor">
-                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
-                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
-              </svg>
-              <span>Dashboard intuitivo</span>
-            </div>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-              </svg>
-              <span>Controle em tempo real</span>
-            </div>
-            <div className={styles.featureItem}>
-              <svg className={styles.featureIcon} viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clipRule="evenodd" />
-              </svg>
-              <span>Relatórios mensais</span>
-            </div>
+            <div className={styles.featureItem}> <DashboardIcon className={styles.featureIcon} /> <span> {CONSTANTES.FEATURE_DASHBOARD_INTUITIVO} </span> </div>
+            <div className={styles.featureItem}> <CategorizationIcon className={styles.featureIcon} /> <span> {CONSTANTES.FEATURE_CATEGORIZACAO_AUTOMATICO} </span> </div>
+            <div className={styles.featureItem}> <ReportsIcon className={styles.featureIcon} /> <span> {CONSTANTES.FEATURE_RELATORIOS_DETALHADOS} </span> </div>
           </div>
         </div>
 
         <div className={styles.formSection}>
           <div className={styles.formContainer}>
-            <h2 className={styles.formTitle}>
-              Entre na sua conta
-            </h2>
-            <p className={styles.formSubtitle}>
-              Insira suas credenciais para acessar
-            </p>
+
+            <h2 className={styles.formTitle}> {CONSTANTES.TITULO_FORM_LOGIN} </h2>
+            <p className={styles.formSubtitle}> {CONSTANTES.DESCRICAO_FORM_LOGIN} </p>
 
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
-                <label htmlFor="email" className={styles.inputLabel}>
-                  Email
-                </label>
+                <label htmlFor={CONSTANTES.LABEL_EMAIL} className={styles.inputLabel}> {CONSTANTES.LABEL_EMAIL} </label>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id={CONSTANTES.LABEL_EMAIL}
+                  name={CONSTANTES.LABEL_EMAIL}
+                  type={CONSTANTES.LABEL_EMAIL}
                   required
                   className={styles.input}
-                  placeholder="seu@email.com"
+                  placeholder={CONSTANTES.PLACEHOLDER_EMAIL}
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -91,34 +72,34 @@ export function Login() {
 
               <div className={styles.inputGroup}>
                 <label htmlFor="password" className={styles.inputLabel}>
-                  Senha
+                  {CONSTANTES.LABEL_SENHA}
                 </label>
                 <input
-                  id="password"
-                  name="password"
-                  type="password"
+                  id={CONSTANTES.LABEL_PASSWORD}
+                  name={CONSTANTES.LABEL_PASSWORD}
+                  type={CONSTANTES.LABEL_PASSWORD}
                   required
                   className={styles.input}
-                  placeholder="••••••••"
+                  placeholder={CONSTANTES.PLACEHOLDER_PASSWORD}
                   value={formData.password}
                   onChange={handleChange}
                 />
               </div>
 
+              {error && ( <div className={styles.errorMessage}> {error} </div> )}
+
               <div className={styles.formFooter}>
                 <button 
-                  type="submit" 
+                  type={CONSTANTES.LABEL_SUBMIT} 
                   className={styles.submitButton}
                   disabled={loading}
                 >
-                  {loading ? 'Entrando...' : 'Entrar'}
+                  {loading ? CONSTANTES.BOTAO_BEM_VINDO_LOGIN_ENTRANDO : CONSTANTES.BOTAO_BEM_VINDO_LOGIN_ENTRAR}
                 </button>
 
                 <p className={styles.signupText}>
-                  Ainda não tem uma conta?{' '}
-                  <Link href="/registro" className={styles.signupLink}>
-                    Criar conta
-                  </Link>
+                  {CONSTANTES.BOTAO_BEM_VINDO_LOGIN_AINDA_NAO_TEM_CONTA}
+                  <Link href={CONSTANTES.ROUTE_CADASTRO} className={styles.signupLink}> {CONSTANTES.BOTAO_BEM_VINDO_LOGIN_CRIAR_CONTA} </Link>
                 </p>
               </div>
             </form>

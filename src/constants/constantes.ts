@@ -1,5 +1,15 @@
 export const CONSTANTES = {
 
+    // -------------------------- PAGINA LABELS --------------------------
+    LABEL_PASSWORD: 'password' as const,
+    LABEL_SUBMIT: 'submit' as const,
+    PLACEHOLDER_PASSWORD: '••••••••',
+    LABEL_EMAIL: 'email' as const,
+    PLACEHOLDER_EMAIL: 'seu@email.com',
+    LABEL_SENHA: 'Senha',
+    LABEL_BLANK: '',
+
+
     // -------------------------- COMUNS --------------------------
     DIREITO_DE_AUTOR: 'Balancium. Todos os direitos reservados.',
     BALANCIUM: 'Balancium',
@@ -13,6 +23,7 @@ export const CONSTANTES = {
     ROUTE_COMO_FUNCIONA: '/como-funciona',
     ROUTE_PRIVACIDADE: '/privacidade',
     ROUTE_BEM_VINDO: '/bem-vindo',
+    ROUTE_BEM_VINDO_LOGADO: '/BemVindoLogado',
     ROUTE_CADASTRO: '/cadastro',
     ROUTE_RECURSOS: '/recursos',
     ROUTE_CONTATO: '/contato',
@@ -102,9 +113,21 @@ export const CONSTANTES = {
     LISTA_EXPERIMENTE_NOSSA_PLATAFORMA_04: 'Suporte dedicado',
 
 
-    
-
-
+    // -------------------------- PAGINA LOGIN --------------------------
+    TITULO_BEM_VINDO_LOGIN: 'Bem-vindo de volta ao',
+    TITULO_BEM_VINDO_LOGIN_PARTE_02: 'Balancium',
+    DESCRICAO_BEM_VINDO_LOGIN: 'Continue gerenciando suas finanças de forma simples e eficiente', 
+    BOTAO_BEM_VINDO_LOGIN_ENTRAR: 'Entrar',
+    BOTAO_BEM_VINDO_LOGIN_CRIAR_CONTA: 'Criar Conta',
+    BOTAO_BEM_VINDO_LOGIN_ESQUECEU_SENHA: 'Esqueceu sua senha?',
+    BOTAO_BEM_VINDO_LOGIN_RECUPERAR_SENHA: 'Recuperar Senha',
+    BOTAO_BEM_VINDO_LOGIN_ENTRANDO: 'Entrando...',
+    BOTAO_BEM_VINDO_LOGIN_AINDA_NAO_TEM_CONTA: 'Ainda não tem uma conta?',
+    TITULO_FORM_LOGIN: 'Entre na sua conta',
+    DESCRICAO_FORM_LOGIN: 'Insira suas credenciais para acessar',
+    FEATURE_DASHBOARD_INTUITIVO: 'Dashboard Intuitivo',
+    FEATURE_CATEGORIZACAO_AUTOMATICO: 'Categorização Automática',
+    FEATURE_RELATORIOS_DETALHADOS: 'Relatórios Detalhados',
 
 
 
