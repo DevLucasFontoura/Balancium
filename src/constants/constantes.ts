@@ -171,7 +171,7 @@ export const CONSTANTES = {
     TAG_POPULAR: 'Mais Popular',
     TAG_BASICO: 'Básico',
     TAG_COMPLETO: 'Completo',
-    TITULO_RECURSOS: 'Recursos',
+    TITULO_RECURSOS_CARD: 'Recursos',
     // FREE
     TITULO_GRATUTITO: 'Gratuito',
     VALOR_GRATUITO: 'R$ 0,00',
@@ -214,7 +214,29 @@ export const CONSTANTES = {
     ITEM_RECURSOS_PREMIUM_02_TITULO: 'Anexar Arquivos',
     ITEM_RECURSOS_PREMIUM_02_DESCRICAO: 'Anexe comprovantes às transações',
 
+    // -------------------------- PAGINA RECURSOS --------------------------
 
+    TITULO_RECURSOS_01: 'Recursos do',
+    TITULO_RECURSOS_02: 'Balancium',
+    DESCRICAO_RECURSOS: 'Ferramentas poderosas para transformar sua gestão financeira',
+
+    // RECURSOS CARD
+    TITULO_RECURSO_CARD_01: 'Dashboard Intuitivo',
+    DESCRICAO_RECURSO_CARD_01: 'Visualize suas finanças de forma clara e objetiva com gráficos interativos e análises em tempo real.',
+    TITULO_RECURSO_CARD_02: 'Controle Mensal',
+    DESCRICAO_RECURSO_CARD_02: 'Acompanhe suas receitas e despesas detalhadamente por mês.',
+    TITULO_RECURSO_CARD_03: 'Relatórios',
+    DESCRICAO_RECURSO_CARD_03: 'Análise detalhada da sua evolução financeira com projeções e comparativos mensais.',
+    TITULO_RECURSO_CARD_04: 'Categorização',
+    DESCRICAO_RECURSO_CARD_04: 'Crie e edite categorias para organizar suas transações.',
+
+    // BENEFICIOS CARD
+    TITULO_BENEFICIOS_CARD_01: 'Economia de Tempo',
+    DESCRICAO_BENEFICIOS_CARD_01: 'Automatize suas finanças e economize horas de trabalho manual',
+    TITULO_BENEFICIOS_CARD_02: 'Decisões Informadas',
+    DESCRICAO_BENEFICIOS_CARD_02: 'Tome decisões financeiras baseadas em dados reais e análises precisas',
+    TITULO_BENEFICIOS_CARD_03: 'Organização Total',
+    DESCRICAO_BENEFICIOS_CARD_03: 'Mantenha todos os seus dados financeiros organizados em um só lugar',
 
 
 

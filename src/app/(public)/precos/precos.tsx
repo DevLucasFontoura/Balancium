@@ -13,7 +13,7 @@ export function Precos() {
         
         <div className={styles.comparisonTable}>
           <div className={styles.plansHeader}>
-            <div className={styles.featureHeader}>{CONSTANTES.TITULO_RECURSOS}</div>
+            <div className={styles.featureHeader}>{CONSTANTES.TITULO_RECURSOS_CARD}</div>
             <div className={styles.planColumn}>
               <div className={styles.planTag}>{CONSTANTES.TAG_BASICO}</div>
               <div className={styles.planColumnTitle}>{CONSTANTES.TITULO_GRATUTITO}</div>
