@@ -14,23 +14,18 @@ export function BemVindo() {
       {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
+          <h1 className={styles.title}>
+            <span>Controle suas finanças</span>
+            <span>com simplicidade e eficiência</span>
+          </h1>
           <div className={styles.heroGrid}>
-
             <div className={styles.textContent}>
-              <h1 className={styles.title}>{CONSTANTES.TITULO_BEM_VINDO} </h1> <p className={styles.subtitle}>{CONSTANTES.SUBTITULO_BEM_VINDO} </p>
-
-              <div className={styles.features}>
-                <div className={styles.feature}> <div className={`${styles.featureIcon} ${styles.featureIcon1}`} /> <span>{CONSTANTES.CARD_BEM_VINDO_01}</span> </div>
-                <div className={styles.feature}> <div className={`${styles.featureIcon} ${styles.featureIcon2}`} /> <span>{CONSTANTES.CARD_BEM_VINDO_02}</span> </div>
-                <div className={styles.feature}> <div className={`${styles.featureIcon} ${styles.featureIcon3}`} /> <span>{CONSTANTES.CARD_BEM_VINDO_03}</span> </div>
-              </div>
-
+              <p className={styles.subtitle}>{CONSTANTES.SUBTITULO_BEM_VINDO}</p>
               <div className={styles.buttonGroup}>
-                <Link href={CONSTANTES.ROUTE_CADASTRO} className="btn-primary"> {CONSTANTES.COMECAR_GRATIS}</Link>
-                <Link href={CONSTANTES.ROUTE_COMO_FUNCIONA} className={styles.secondaryButton}> {CONSTANTES.SAIBA_MAIS} </Link>
+                <Link href={CONSTANTES.ROUTE_CADASTRO} className="btn-primary">{CONSTANTES.COMECAR_GRATIS}</Link>
+                <Link href={CONSTANTES.ROUTE_COMO_FUNCIONA} className={styles.secondaryButton}>{CONSTANTES.SAIBA_MAIS}</Link>
               </div>
             </div>
-
             <div className={styles.heroImage}>
               <div className={styles.imageContainer}>
                 <Image src={CONSTANTES.IMAGEM_INICIAL_BEM_VINDO} alt="Preview do Dashboard do Balancium" fill
