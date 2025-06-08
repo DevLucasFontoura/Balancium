@@ -6,6 +6,7 @@ import { auth, db } from '@/lib/firebase/config';
 import { GraficoAnual } from '@/app/(private)/componentes/graficos/GraficoAnual';
 import styles from './dashboard.module.css';
 import { formatarMoeda } from '@/utils/formatarMoeda';
+import { TodasCategorias } from './TodasCategorias';
 
 interface Categoria {
   id: string;
@@ -28,6 +29,9 @@ export function Dashboard() {
   });
   const [loading, setLoading] = useState(true);
   const [categorias, setCategorias] = useState<Record<string, Categoria>>({});
+  const [totaisCategorias, setTotaisCategorias] = useState<{ [key: string]: number }>({});
+  const [anoSelecionado, setAnoSelecionado] = useState(new Date().getFullYear());
+  const anosDisponiveis = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
 
   useEffect(() => {
     async function carregarDados() {
@@ -46,13 +50,11 @@ export function Dashboard() {
           setCategorias(categoriasMap);
         }
 
-        const anoAtual = new Date().getFullYear();
-        
-        // Carregar transações
+        // Carregar transações do ano selecionado
         const qAno = query(
           collection(db, 'transacoes'),
           where('userId', '==', user.uid),
-          where('ano', '==', anoAtual),
+          where('ano', '==', anoSelecionado),
           where('status', '==', 'ativo')
         );
 
@@ -75,11 +77,12 @@ export function Dashboard() {
             cor: categorias[categoriaId]?.cor || '#gray'
           }))
           .sort((a, b) => b.valor - a.valor)
-          .slice(0, 5);
+          .slice(0, 7);
 
         setData({
           categoriasMaisGastos
         });
+        setTotaisCategorias(categoriasGastos);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
       } finally {
@@ -88,7 +91,7 @@ export function Dashboard() {
     }
 
     carregarDados();
-  }, [categorias]);
+  }, [categorias, anoSelecionado]);
 
   if (loading) {
     return (
@@ -107,8 +110,22 @@ export function Dashboard() {
             Dashboard
           </h1>
           <p className={styles.welcomeMessage}>
-            Visão geral do ano de {new Date().getFullYear()}
+            Visão geral do ano de {anoSelecionado}
           </p>
+        </div>
+        {/* Seletor de Ano estilizado */}
+        <div className="flex items-center gap-2 mt-4">
+          <label htmlFor="ano-select" className="font-medium text-gray-800 dark:text-gray-100">Ano:</label>
+          <select
+            id="ano-select"
+            value={anoSelecionado}
+            onChange={e => setAnoSelecionado(Number(e.target.value))}
+            className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500"
+          >
+            {anosDisponiveis.map(ano => (
+              <option key={ano} value={ano}>{ano}</option>
+            ))}
+          </select>
         </div>
       </section>
 
@@ -122,7 +139,7 @@ export function Dashboard() {
               <p className={styles.chartSubtitle}>Comparativo mensal de entradas e saídas</p>
             </div>
             <div className={styles.chartsContainer}>
-              <GraficoAnual />
+              <GraficoAnual ano={anoSelecionado} />
             </div>
           </div>
         </div>
@@ -153,6 +170,11 @@ export function Dashboard() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* NOVO: Todas as Categorias */}
+      <div style={{ marginTop: '2rem' }}>
+        <TodasCategorias categorias={categorias} totais={totaisCategorias} />
       </div>
     </div>
   );

@@ -30,7 +30,11 @@ interface DadosMensais {
   saidas: number;
 }
 
-export function GraficoAnual() {
+interface GraficoAnualProps {
+  ano?: number;
+}
+
+export function GraficoAnual({ ano }: GraficoAnualProps) {
   const [dadosMensais, setDadosMensais] = useState<{ [key: number]: DadosMensais }>({});
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -53,12 +57,11 @@ export function GraficoAnual() {
         const user = auth.currentUser;
         if (!user) return;
 
-        const anoAtual = new Date().getFullYear();
-        
+        const anoFiltro = ano || new Date().getFullYear();
         const q = query(
           collection(db, 'transacoes'),
           where('userId', '==', user.uid),
-          where('ano', '==', anoAtual),
+          where('ano', '==', anoFiltro),
           where('status', '==', 'ativo')
         );
 
@@ -90,7 +93,7 @@ export function GraficoAnual() {
     }
 
     carregarDados();
-  }, []);
+  }, [ano]);
 
   const meses = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',

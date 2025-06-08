@@ -218,6 +218,14 @@
 @media (min-width: 1024px) {
   .mainGrid {
     grid-template-columns: 2fr 1fr;
+    align-items: stretch;
+  }
+  .chartCard,
+  .categoriesCard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }
 
