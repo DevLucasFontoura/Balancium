@@ -21,6 +21,7 @@ export const CONSTANTES = {
     LABEL_X: '×',
     LABEL_USUARIO: 'Usuário',
     LABEL_OLA: 'Olá',
+    PLACEHOLDER_CARREGANDO: 'Carregando...',
 
 
 
@@ -54,6 +55,7 @@ export const CONSTANTES = {
     ROUTE_NOVA_TRANSACAO: '/nova-transacao',
     ROUTE_RELATORIOS: '/relatorios',
     ROUTE_DASHBOARD: '/dashboard',
+    ROUTE_CONFIGURACOES: '/configuracoes',
 
     // -------------------------- PAGINA LAYOUT --------------------------
     DESCRICAO_DO_PRODUTO: 'Controle suas finanças com simplicidade e eficiência',
@@ -343,6 +345,8 @@ export const CONSTANTES = {
 
     // DICAS PARA VOCÊ
     TITULO_DICAS_PARA_VOCE: 'Dicas para Você',
+
+    // -------------------------- SIDE BAR --------------------------
     
 
 

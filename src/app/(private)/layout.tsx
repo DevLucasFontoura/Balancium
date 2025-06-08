@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase/config';
-import { Sidebar } from '@/components/ui/Sidebar';
+import { Sidebar } from '@/components/SideBar/Sidebar';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 
 export default function PrivateLayout({
