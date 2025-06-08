@@ -19,6 +19,8 @@ export const CONSTANTES = {
     LABEL_TEXT: 'text' as const,
     LABEL_CHECK: '✓',
     LABEL_X: '×',
+    LABEL_USUARIO: 'Usuário',
+    LABEL_OLA: 'Olá',
 
 
 
@@ -34,13 +36,14 @@ export const CONSTANTES = {
     ERRO_AO_CRIAR_CONTA: 'Erro ao criar conta. Tente novamente.',
     ESTE_EMAIL_JA_ESTA_EM_USO: 'Este e-mail já está em uso.',
     SENHA_DEVE_TER_PELO_MENOS_6_CARACTERES: 'A senha deve ter pelo menos 6 caracteres.',
+    ERRO_AO_CARREGAR_DADOS_DO_USUARIO: 'Erro ao carregar dados do usuário.',
 
     // -------------------------- ROUTES --------------------------
     ROUTE_RECUPERAR_SENHA: '/recuperar-senha',
     ROUTE_COMO_FUNCIONA: '/como-funciona',
     ROUTE_PRIVACIDADE: '/privacidade',
     ROUTE_BEM_VINDO: '/bem-vindo',
-    ROUTE_BEM_VINDO_LOGADO: '/BemVindoLogado',
+    ROUTE_BEM_VINDO_LOGADO: '/BemVindo',
     ROUTE_CADASTRO: '/registro',
     ROUTE_RECURSOS: '/recursos',
     ROUTE_CONTATO: '/contato',
@@ -48,6 +51,9 @@ export const CONSTANTES = {
     ROUTE_TERMOS: '/termos',
     ROUTE_LOGIN: '/login',
     ROUTE_AJUDA: '/ajuda',
+    ROUTE_NOVA_TRANSACAO: '/nova-transacao',
+    ROUTE_RELATORIOS: '/relatorios',
+    ROUTE_DASHBOARD: '/dashboard',
 
     // -------------------------- PAGINA LAYOUT --------------------------
     DESCRICAO_DO_PRODUTO: 'Controle suas finanças com simplicidade e eficiência',
@@ -258,11 +264,86 @@ export const CONSTANTES = {
     CAMINHO_IMAGEM_RELATORIOS: '/img_relatorios.png',
     DESCRICAO_IMAGEM_RELATORIOS: 'Relatórios do Balancium',
 
+    // -------------------------- PAGINA BEM VINDOS LOGADO --------------------------
 
+    // FINANCIAL TIPS
+    DICA_FINANCIAL_01_ICON: '💡',
+    DICA_FINANCIAL_01_TITLE: 'Regra 50/30/20',
+    DICA_FINANCIAL_01_DESCRIPTION: 'Divida seu salário: 50% para necessidades básicas, 30% para desejos e 20% para poupança e investimentos.',
+    DICA_FINANCIAL_02_ICON: '🎯',
+    DICA_FINANCIAL_02_TITLE: 'Metas SMART',
+    DICA_FINANCIAL_02_DESCRIPTION: 'Estabeleça metas financeiras Específicas, Mensuráveis, Atingíveis, Relevantes e Temporais.',
+    DICA_FINANCIAL_03_ICON: '💰',
+    DICA_FINANCIAL_03_TITLE: 'Fundo de Emergência',
+    DICA_FINANCIAL_03_DESCRIPTION: 'Mantenha um fundo de emergência equivalente a 6-12 meses de despesas básicas.',
+    DICA_FINANCIAL_04_ICON: '📊',
+    DICA_FINANCIAL_04_TITLE: 'Diversificação',
+    DICA_FINANCIAL_04_DESCRIPTION: 'Não coloque todos os ovos na mesma cesta: diversifique seus investimentos para reduzir riscos.',
+    DICA_FINANCIAL_05_ICON: '🏦',
+    DICA_FINANCIAL_05_TITLE: 'Juros Compostos',
+    DICA_FINANCIAL_05_DESCRIPTION: 'Comece a investir cedo: o poder dos juros compostos aumenta significativamente com o tempo.',
+    DICA_FINANCIAL_06_ICON: '📱',
+    DICA_FINANCIAL_06_TITLE: 'Automatize Finanças',
+    DICA_FINANCIAL_06_DESCRIPTION: 'Configure transferências automáticas para investimentos e poupança assim que receber seu salário.',
+    DICA_FINANCIAL_07_ICON: '🛒',
+    DICA_FINANCIAL_07_TITLE: 'Lista de Compras',
+    DICA_FINANCIAL_07_DESCRIPTION: 'Faça uma lista antes de ir às compras e evite decisões por impulso.',
+    DICA_FINANCIAL_08_ICON: '💳',
+    DICA_FINANCIAL_08_TITLE: 'Cartão de Crédito',
+    DICA_FINANCIAL_08_DESCRIPTION: 'Use o cartão de crédito como ferramenta de pagamento, não como extensão da sua renda.',
+    DICA_FINANCIAL_09_ICON: '📝',
+    DICA_FINANCIAL_09_TITLE: 'Registre Gastos',
+    DICA_FINANCIAL_09_DESCRIPTION: 'Anote todos os seus gastos por 30 dias para identificar padrões e áreas de melhoria.',
+    DICA_FINANCIAL_10_ICON: '🎓',
+    DICA_FINANCIAL_10_TITLE: 'Educação Financeira',
+    DICA_FINANCIAL_10_DESCRIPTION: 'Invista em conhecimento financeiro: leia livros, participe de cursos e acompanhe notícias econômicas.',
+    DICA_FINANCIAL_11_ICON: '🏷️',
+    DICA_FINANCIAL_11_TITLE: 'Comparação de Preços',
+    DICA_FINANCIAL_11_DESCRIPTION: 'Pesquise preços em diferentes lugares antes de fazer compras significativas.',
+    DICA_FINANCIAL_12_ICON: '🎪',
+    DICA_FINANCIAL_12_TITLE: 'Lazer Consciente',
+    DICA_FINANCIAL_12_DESCRIPTION: 'Procure alternativas gratuitas ou de baixo custo para entretenimento e lazer.',
+    DICA_FINANCIAL_13_ICON: '🎁',
+    DICA_FINANCIAL_13_TITLE: 'Presente Inteligente',
+    DICA_FINANCIAL_13_DESCRIPTION: 'Planeje compras de presentes com antecedência e aproveite promoções sazonais.',
+    DICA_FINANCIAL_14_ICON: '🏠',
+    DICA_FINANCIAL_14_TITLE: 'Custos Fixos',
+    DICA_FINANCIAL_14_DESCRIPTION: 'Revise regularmente seus custos fixos e busque alternativas mais econômicas.',
+    DICA_FINANCIAL_15_ICON: '📈',
+    DICA_FINANCIAL_15_TITLE: 'Renda Extra',
+    DICA_FINANCIAL_15_DESCRIPTION: 'Considere desenvolver uma fonte de renda adicional para acelerar suas metas financeiras.',
+    DICA_FINANCIAL_16_ICON: '🔄',
+    DICA_FINANCIAL_16_TITLE: 'Revisão Mensal',
+    DICA_FINANCIAL_16_DESCRIPTION: 'Faça uma revisão mensal do seu orçamento e ajuste conforme necessário.',
+    DICA_FINANCIAL_17_ICON: '🎯',
+    DICA_FINANCIAL_17_TITLE: 'Pequenas Economias',
+    DICA_FINANCIAL_17_DESCRIPTION: 'Pequenas economias diárias podem resultar em grandes valores ao longo do ano.',
+    DICA_FINANCIAL_18_ICON: '📅',
+    DICA_FINANCIAL_18_TITLE: 'Planejamento Anual',
+    DICA_FINANCIAL_18_DESCRIPTION: 'Crie um calendário financeiro anual incluindo despesas sazonais e datas importantes.',
+    DICA_FINANCIAL_19_ICON: '🤝',
+    DICA_FINANCIAL_19_TITLE: 'Negocie Sempre',
+    DICA_FINANCIAL_19_DESCRIPTION: 'Não tenha medo de negociar preços, especialmente em compras de alto valor.',
+    DICA_FINANCIAL_20_ICON: '🌱',
+    DICA_FINANCIAL_20_TITLE: 'Investimento Verde',
+    DICA_FINANCIAL_20_DESCRIPTION: 'Considere investimentos sustentáveis que beneficiam tanto seu bolso quanto o planeta.',
 
+    //BEM VINDO LOGADO
+    DESCRICAO_BEM_VINDO_LOGADO: 'Que bom ter você de volta! Vamos organizar suas finanças?',
+    
+    // ACOES RAPIDAS
+    TITULO_ACOES_RAPIDAS: 'Ações Rápidas',
+    DESCRICAO_ACOES_RAPIDAS: 'Registre rapidamente suas receitas e despesas',
+    TITULO_ACOES_RAPIDAS_NOVA_TRANSACAO: 'Nova Transação',
+    DESCRICAO_ACOES_RAPIDAS_NOVA_TRANSACAO: 'Registre rapidamente suas receitas e despesas',
+    TITULO_ACOES_RAPIDAS_RELATORIOS: 'Relatórios',
+    DESCRICAO_ACOES_RAPIDAS_RELATORIOS: 'Visualize seus relatórios mensais',
+    TITULO_ACOES_RAPIDAS_DASHBOARD: 'Dashboard',
+    DESCRICAO_ACOES_RAPIDAS_DASHBOARD: 'Visualize seus dados financeiros',
 
-
-
+    // DICAS PARA VOCÊ
+    TITULO_DICAS_PARA_VOCE: 'Dicas para Você',
+    
 
 
 
