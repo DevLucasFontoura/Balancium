@@ -8,6 +8,9 @@ import styles from './home.module.css';
 import { ResumoAnual } from '../componentes/resumos/ResumoAnual';
 import { financialTips } from './data/financialTips';
 import { CONSTANTES } from '@/constants/constantes';
+import { BemVindoNewTransactionIcon } from '@/components/icons/BemVindoNewTransactionIcon';
+import { BemVindoReportsIcon } from '@/components/icons/BemVindoReportsIcon';
+import { BemVindoDashboardIcon } from '@/components/icons/BemVindoDashboardIcon';
 
 interface UserData {
   name: string;
@@ -57,9 +60,7 @@ export function Home() {
 
   if (loading) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner}></div>
-      </div>
+      <div className={styles.loadingContainer}><div className={styles.loadingSpinner}></div></div>
     );
   }
 
@@ -73,52 +74,34 @@ export function Home() {
         </div>
         
         {/* Usando o ResumoAnual aqui */}
-        <div className="mt-6"><ResumoAnual /></div>
+        <div className={styles.resumoAnualContainer}><ResumoAnual /></div>
       </section>
 
       {/* Seção de Ações Rápidas */}
       <section className={styles.quickActions}>
-        <h2 className={styles.sectionTitle}>Ações Rápidas</h2>
+        <h2 className={styles.sectionTitle}>{CONSTANTES.TITULO_ACOES_RAPIDAS}</h2>
         <div className={styles.actionGrid}>
           <Link href={CONSTANTES.ROUTE_NOVA_TRANSACAO}>
             <div className={`${styles.actionCard} ${styles.primaryAction}`}>
-              <div className={styles.actionIcon}>
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-              </div>
+              <div className={styles.actionIcon}><BemVindoNewTransactionIcon /></div>
               <h3 className={styles.actionTitle}>{CONSTANTES.TITULO_ACOES_RAPIDAS_NOVA_TRANSACAO}</h3>
-              <p className={styles.actionDescription}>
-                {CONSTANTES.DESCRICAO_ACOES_RAPIDAS_NOVA_TRANSACAO}
-              </p>
+              <p className={styles.actionDescription}>{CONSTANTES.DESCRICAO_ACOES_RAPIDAS_NOVA_TRANSACAO}</p>
             </div>
           </Link>
 
           <Link href={CONSTANTES.ROUTE_RELATORIOS}>
             <div className={styles.actionCard}>
-              <div className={styles.actionIcon}>
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
+              <div className={styles.actionIcon}><BemVindoReportsIcon /></div>
               <h3 className={styles.actionTitle}>{CONSTANTES.TITULO_ACOES_RAPIDAS_RELATORIOS}</h3>
-              <p className={styles.actionDescription}>
-                {CONSTANTES.DESCRICAO_ACOES_RAPIDAS_RELATORIOS}
-              </p>
+              <p className={styles.actionDescription}>{CONSTANTES.DESCRICAO_ACOES_RAPIDAS_RELATORIOS}</p>
             </div>
           </Link>
 
           <Link href={CONSTANTES.ROUTE_DASHBOARD}>
             <div className={styles.actionCard}>
-              <div className={styles.actionIcon}>
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                </svg>
-              </div>
+              <div className={styles.actionIcon}><BemVindoDashboardIcon /></div>
               <h3 className={styles.actionTitle}>{CONSTANTES.TITULO_ACOES_RAPIDAS_DASHBOARD}</h3>
-              <p className={styles.actionDescription}>
-                {CONSTANTES.DESCRICAO_ACOES_RAPIDAS_DASHBOARD}
-              </p>
+              <p className={styles.actionDescription}>{CONSTANTES.DESCRICAO_ACOES_RAPIDAS_DASHBOARD}</p>
             </div>
           </Link>
         </div>

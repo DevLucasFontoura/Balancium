@@ -392,4 +392,8 @@
   .tipDescription {
     color: rgb(156, 163, 175);
   }
+}
+
+.resumoAnualContainer {
+  margin-top: 1.5rem;
 } 
