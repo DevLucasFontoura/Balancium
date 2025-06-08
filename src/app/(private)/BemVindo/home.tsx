@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { auth, db } from '@/lib/firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
-import Link from 'next/link';
-import styles from './home.module.css';
+import { BemVindoNewTransactionIcon } from '@/components/icons/BemVindoNewTransactionIcon';
+import { BemVindoDashboardIcon } from '@/components/icons/BemVindoDashboardIcon';
+import { BemVindoReportsIcon } from '@/components/icons/BemVindoReportsIcon';
 import { ResumoAnual } from '../componentes/resumos/ResumoAnual';
 import { financialTips } from './data/financialTips';
 import { CONSTANTES } from '@/constants/constantes';
-import { BemVindoNewTransactionIcon } from '@/components/icons/BemVindoNewTransactionIcon';
-import { BemVindoReportsIcon } from '@/components/icons/BemVindoReportsIcon';
-import { BemVindoDashboardIcon } from '@/components/icons/BemVindoDashboardIcon';
+import { auth, db } from '@/lib/firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import styles from './home.module.css';
+import Link from 'next/link';
 
 interface UserData {
   name: string;
