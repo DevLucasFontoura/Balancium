@@ -9,6 +9,8 @@ import { useAuth } from '@/hooks/useAuth';
 import styles from './login.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
+import Lottie from 'lottie-react';
+import financialAnimation from '@/animations/login_animation.json';
 
 export function Login() {
   const router = useRouter();
@@ -42,10 +44,12 @@ export function Login() {
 
           <p className={styles.welcomeText}> {CONSTANTES.DESCRICAO_BEM_VINDO_LOGIN} </p>
 
-          <div className={styles.features}>
-            <div className={styles.featureItem}> <DashboardIcon className={styles.featureIcon} /> <span> {CONSTANTES.FEATURE_DASHBOARD_INTUITIVO} </span> </div>
-            <div className={styles.featureItem}> <CategorizationIcon className={styles.featureIcon} /> <span> {CONSTANTES.FEATURE_CATEGORIZACAO_AUTOMATICO} </span> </div>
-            <div className={styles.featureItem}> <ReportsIcon className={styles.featureIcon} /> <span> {CONSTANTES.FEATURE_RELATORIOS_DETALHADOS} </span> </div>
+          <div className={styles.animationContainer}>
+            <Lottie 
+              animationData={financialAnimation}
+              loop={true}
+              className={styles.lottieAnimation}
+            />
           </div>
         </div>
 
@@ -59,9 +63,9 @@ export function Login() {
               <div className={styles.inputGroup}>
                 <label htmlFor={CONSTANTES.LABEL_EMAIL} className={styles.inputLabel}> {CONSTANTES.LABEL_EMAIL} </label>
                 <input
-                  id={CONSTANTES.LABEL_EMAIL}
-                  name={CONSTANTES.LABEL_EMAIL}
-                  type={CONSTANTES.LABEL_EMAIL}
+                  id={CONSTANTES.LABEL_EMAIL_CONST}
+                  name={CONSTANTES.LABEL_EMAIL_CONST}
+                  type={CONSTANTES.LABEL_EMAIL_CONST}
                   required
                   className={styles.input}
                   placeholder={CONSTANTES.PLACEHOLDER_EMAIL}

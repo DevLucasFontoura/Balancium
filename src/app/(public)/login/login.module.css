@@ -1,10 +1,10 @@
 .container {
-  min-height: 100vh;
+  min-height: 90vh;
   background: linear-gradient(135deg, rgba(19, 186, 130, 0.1) 0%, rgba(13, 140, 97, 0.05) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 0.5rem;
 }
 
 .contentGrid {
@@ -20,7 +20,7 @@
 .welcomeSection {
   display: none;
   flex: 1;
-  padding: 4rem;
+  padding: 2rem;
   background: linear-gradient(135deg, rgba(19, 186, 130, 0.1) 0%, rgba(13, 140, 97, 0.05) 100%);
   position: relative;
   overflow: hidden;
@@ -131,7 +131,7 @@
 
 .formSection {
   flex: 1;
-  padding: 4rem;
+  padding: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,7 +144,7 @@
 }
 
 .formTitle {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: #1a202c;
   margin-bottom: 0.5rem;
@@ -153,14 +153,14 @@
 
 .formSubtitle {
   color: #4a5568;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   text-align: left;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .inputGroup {
@@ -177,7 +177,7 @@
 
 .input {
   width: 100%;
-  padding: 1rem;
+  padding: 0.75rem;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   font-size: 1rem;
@@ -198,15 +198,15 @@
 }
 
 .formFooter {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .submitButton {
   width: 100%;
-  padding: 1rem;
+  padding: 0.75rem;
   border: none;
   border-radius: 12px;
   font-size: 1rem;
@@ -258,19 +258,20 @@
 
 @media (max-width: 1024px) {
   .container {
+    padding: 0.25rem;
+  }
+  .contentGrid {
+    border-radius: 12px;
+    max-width: 98vw;
+  }
+  .formSection {
     padding: 1rem;
   }
-
-  .contentGrid {
-    border-radius: 16px;
+  .welcomeSection {
+    padding: 1rem;
   }
-
-  .formSection {
-    padding: 2rem;
-  }
-
-  .formTitle {
-    font-size: 1.75rem;
+  .formContainer {
+    max-width: 98vw;
   }
 }
 
@@ -278,4 +279,18 @@
   .welcomeSection {
     display: flex;
   }
+}
+
+.animationContainer {
+  width: 100%;
+  max-width: 400px;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lottieAnimation {
+  width: 100%;
+  height: auto;
 } 

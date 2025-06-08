@@ -4,7 +4,8 @@ export const CONSTANTES = {
     LABEL_PASSWORD: 'password' as const,
     LABEL_SUBMIT: 'submit' as const,
     PLACEHOLDER_PASSWORD: '••••••••',
-    LABEL_EMAIL: 'email' as const,
+    LABEL_EMAIL_CONST: 'email' as const,
+    LABEL_EMAIL: 'E-mail',
     PLACEHOLDER_EMAIL: 'seu@email.com',
     LABEL_SENHA: 'Senha',
     LABEL_BLANK: '',
@@ -141,7 +142,7 @@ export const CONSTANTES = {
 
     // -------------------------- PAGINA LOGIN --------------------------
     TITULO_BEM_VINDO_LOGIN: 'Bem-vindo de volta ao',
-    TITULO_BEM_VINDO_LOGIN_PARTE_02: 'Balancium',
+    TITULO_BEM_VINDO_LOGIN_PARTE_02: 'Balancium!',
     DESCRICAO_BEM_VINDO_LOGIN: 'Continue gerenciando suas finanças de forma simples e eficiente', 
     BOTAO_BEM_VINDO_LOGIN_ENTRAR: 'Entrar',
     BOTAO_BEM_VINDO_LOGIN_CRIAR_CONTA: 'Criar Conta',
@@ -152,7 +153,7 @@ export const CONSTANTES = {
     BOTAO_BEM_VINDO_LOGIN_JA_TEM_CONTA: 'Já tem uma conta?',
     BOTAO_BEM_VINDO_LOGIN_FAZER_LOGIN: 'Fazer login',
     TITULO_FORM_LOGIN: 'Entre na sua conta',
-    DESCRICAO_FORM_LOGIN: 'Insira suas credenciais para acessar',
+    DESCRICAO_FORM_LOGIN: 'Insira suas credenciais para acessar a sua conta.',
     FEATURE_DASHBOARD_INTUITIVO: 'Dashboard Intuitivo',
     FEATURE_CATEGORIZACAO_AUTOMATICO: 'Categorização Automática',
     FEATURE_RELATORIOS_DETALHADOS: 'Relatórios Detalhados',
