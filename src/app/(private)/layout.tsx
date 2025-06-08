@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase/config';
 import { Sidebar } from '@/components/SideBar/Sidebar';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 export default function PrivateLayout({
   children,
@@ -14,6 +15,7 @@ export default function PrivateLayout({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
+  const { isOpen: sidebarOpen } = useSidebar();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -45,7 +47,7 @@ export default function PrivateLayout({
             duration-300 
             ease-in-out
             pt-20 lg:pt-8
-            ${isOpen ? 'lg:ml-64' : 'lg:ml-0'}
+            ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}
           `}
         >
           <div className="p-4 lg:p-8">
