@@ -241,6 +241,9 @@ export const CONSTANTES = {
     TITULO_RECURSO_CARD_04: 'Categorização',
     DESCRICAO_RECURSO_CARD_04: 'Crie e edite categorias para organizar suas transações.',
 
+    TITULO_EXPERIMENTE_NA_PRATICA: 'Experimente na prática',
+    DESCRICAO_EXPERIMENTE_NA_PRATICA: 'Veja como o Balancium pode ajudar você a controlar suas finanças de forma simples e eficiente',
+
     // BENEFICIOS CARD
     TITULO_BENEFICIOS_CARD_01: 'Economia de Tempo',
     DESCRICAO_BENEFICIOS_CARD_01: 'Automatize suas finanças e economize horas de trabalho manual',
@@ -249,7 +252,11 @@ export const CONSTANTES = {
     TITULO_BENEFICIOS_CARD_03: 'Organização Total',
     DESCRICAO_BENEFICIOS_CARD_03: 'Mantenha todos os seus dados financeiros organizados em um só lugar',
 
+    COMECE_A_USAR_AGORA: 'Comece a usar agora mesmo',
+    DESCRICAO_COMECE_A_USAR_AGORA: 'Junte-se a milhares de usuários que já transformaram suas finanças',
 
+    CAMINHO_IMAGEM_RELATORIOS: '/img_relatorios.png',
+    DESCRICAO_IMAGEM_RELATORIOS: 'Relatórios do Balancium',
 
 
 

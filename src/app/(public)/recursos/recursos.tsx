@@ -44,41 +44,30 @@ export function Recursos() {
         <div className={styles.demoContent}>
           <div className={styles.demoImage}>
             <Image
-              src="/img_relatorios.png"
-              alt="Relatórios do Balancium"
+              src={CONSTANTES.CAMINHO_IMAGEM_RELATORIOS}
+              alt={CONSTANTES.DESCRICAO_IMAGEM_RELATORIOS}
               width={600}
               height={400}
               className={styles.dashboardPreview}
             />
           </div>
           <div className={styles.demoText}>
-            <h2>Experimente na Prática</h2>
-            <p>
-              Veja como o Balancium pode transformar sua gestão financeira com uma 
-              interface moderna e recursos poderosos.
-            </p>
+            <h2>{CONSTANTES.TITULO_EXPERIMENTE_NA_PRATICA}</h2>
+            <p>{CONSTANTES.DESCRICAO_EXPERIMENTE_NA_PRATICA}</p>
+
             <div className={styles.benefitsGrid}>
-              {beneficios.map((beneficio, index) => (
-                <div key={index} className={styles.benefitItem}>
-                  <h4>{beneficio.title}</h4>
-                  <p>{beneficio.description}</p>
-                </div>
-              ))}
+              {beneficios.map((beneficio, index) => ( <div key={index} className={styles.benefitItem}> <h4>{beneficio.title}</h4> <p>{beneficio.description}</p> </div> ))}
             </div>
           </div>
         </div>
       </section>
 
       <section className={styles.ctaSection}>
-        <h2>Comece a usar agora mesmo</h2>
-        <p>Junte-se a milhares de usuários que já transformaram suas finanças</p>
+        <h2>{CONSTANTES.COMECE_A_USAR_AGORA}</h2>
+        <p>{CONSTANTES.DESCRICAO_COMECE_A_USAR_AGORA}</p>
         <div className={styles.ctaButtons}>
-          <Link href="/cadastro" className={styles.primaryButton}>
-            Criar Conta Grátis
-          </Link>
-          <Link href="/como-funciona" className={styles.secondaryButton}>
-            Saiba Mais
-          </Link>
+          <Link href={CONSTANTES.ROUTE_CADASTRO} className={styles.primaryButton}>{CONSTANTES.COMECAR_GRATIS}</Link>
+          <Link href={CONSTANTES.ROUTE_COMO_FUNCIONA} className={styles.secondaryButton}>{CONSTANTES.SAIBA_MAIS}</Link>
         </div>
       </section>
     </div>
