@@ -64,7 +64,8 @@ export const CONSTANTES = {
     LEGAL: 'Legal',
 
     // -------------------------- PAGINA BEM-VINDO --------------------------
-    TITULO_BEM_VINDO: 'Controle suas finanças com simplicidade e eficiência',
+    TITULO_BEM_VINDO_01: 'Controle suas finanças',
+    TITULO_BEM_VINDO_02: 'com simplicidade e eficiência',
     SUBTITULO_BEM_VINDO: 'Organize suas receitas e despesas de forma inteligente. Tome decisões financeiras com confiança e alcance seus objetivos.',
     CARD_BEM_VINDO_01: 'Gestão simplificada',
     CARD_BEM_VINDO_02: 'Tempo Real',
@@ -82,13 +83,22 @@ export const CONSTANTES = {
     CARD_BENEFICIOS_04: 'Segurança Garantida',
     DESCRICAO_BENEFICIOS_04: 'Seus dados são protegidos com as mais avançadas tecnologias de criptografia.',
     
-    TITULO_TESTEMUNHOS: 'O que nossos usuários dizem',
+    TITULO_TESTEMUNHOS: 'O que nossos usuários dizem:',
     NOME_TESTEMUNHO_01: 'Maria Silva',
     CARGO_TESTEMUNHO_01: 'Profissional Autônoma',
     TESTEMUNHO_01: 'O Balancium mudou completamente a forma como eu lido com minhas finanças. Agora tenho total controle dos meus gastos e consigo planejar melhor meu futuro.',
     NOME_TESTEMUNHO_02: 'João Santos',
     CARGO_TESTEMUNHO_02: 'Empresário',
     TESTEMUNHO_02: 'Interface super intuitiva e fácil de usar. Em poucos dias já consegui ter uma visão clara das minhas finanças e identificar onde posso economizar.',
+    NOME_TESTEMUNHO_03: 'Ana Oliveira',
+    CARGO_TESTEMUNHO_03: 'Médica',
+    TESTEMUNHO_03: 'Como profissional da saúde, preciso manter um controle rigoroso das minhas finanças. O Balancium me ajuda a fazer isso de forma simples e eficiente.',
+    NOME_TESTEMUNHO_04: 'Pedro Costa',
+    CARGO_TESTEMUNHO_04: 'Desenvolvedor',
+    TESTEMUNHO_04: 'A interface moderna e as funcionalidades avançadas do Balancium me impressionaram. É exatamente o que eu precisava para organizar minhas finanças.',
+    NOME_TESTEMUNHO_05: 'Carla Mendes',
+    CARGO_TESTEMUNHO_05: 'Professora',
+    TESTEMUNHO_05: 'O Balancium me ajudou a economizar mais de 20% do meu salário. Os relatórios são claros e as metas me mantêm motivada a poupar.',
 
     TITULO_CTA: 'Comece a controlar suas finanças hoje',
     DESCRICAO_CTA: 'Junte-se a milhares de pessoas que já estão transformando sua vida financeira com o Balancium',

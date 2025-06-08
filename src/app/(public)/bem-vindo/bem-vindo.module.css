@@ -603,12 +603,33 @@
   padding: 6rem 0;
 }
 
+.testimonialContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 800px;
+  min-height: 300px;
+  overflow: visible;
+}
+
 .testimonialCard {
   background: white;
   border-radius: 16px;
   padding: 2rem;
-  margin: 0 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  cursor: grab;
+  z-index: 1;
+}
+
+.testimonialCard:active {
+  cursor: grabbing;
 }
 
 .testimonialText {
@@ -629,6 +650,7 @@
   height: 48px;
   border-radius: 50%;
   background: #e2e8f0;
+  transform-origin: center;
 }
 
 .authorInfo {
@@ -638,9 +660,96 @@
 .authorName {
   font-weight: 600;
   color: #1a202c;
+  transform-origin: left;
 }
 
 .authorRole {
   color: #718096;
   font-size: 0.875rem;
+  transform-origin: left;
+}
+
+.testimonialArrow {
+  background: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  padding: 0;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.testimonialArrow:first-of-type {
+  left: -32px;
+}
+
+.testimonialArrow.arrowRight {
+  right: -32px;
+  left: auto;
+}
+
+.testimonialDots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  z-index: 2;
+}
+
+.testimonialDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e0;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.activeDot {
+  background: #13ba82;
+}
+
+@media (max-width: 768px) {
+  .testimonialContainer {
+    min-height: 250px;
+  }
+  .testimonialCard {
+    padding: 1.5rem;
+    max-width: 90vw;
+  }
+  .testimonialArrow {
+    width: 36px;
+    height: 36px;
+  }
+  .testimonialArrow:first-of-type {
+    left: -18px;
+  }
+  .testimonialArrow.arrowRight {
+    right: -18px;
+  }
+}
+
+.testimonialArrow .arrowIcon {
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2313ba82' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* Ajuste para garantir que só a seta da direita rotacione */
+.testimonialArrow.arrowRight .arrowIcon {
+  transform: rotate(180deg);
 } 
