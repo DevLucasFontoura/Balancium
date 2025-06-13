@@ -48,13 +48,27 @@ export function Login() {
     return (
       <div className={mobileStyles.loginCard} style={{ minHeight: '100vh', justifyContent: 'center' }}>
         <div className={mobileStyles.loginTitle}>Entrar no Balancium</div>
-        <form className={mobileStyles.loginForm}>
-          <input type="email" placeholder="E-mail" className={mobileStyles.input} />
-          <input type="password" placeholder="Senha" className={mobileStyles.input} />
+        <form className={mobileStyles.loginForm} onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            className={mobileStyles.input}
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Senha"
+            className={mobileStyles.input}
+            value={formData.password}
+            onChange={handleChange}
+          />
           <button type="submit" className={mobileStyles.button}>Entrar</button>
         </form>
         <a href="#" className={mobileStyles.link}>Esqueceu a senha?</a>
-        <a href="#" className={mobileStyles.link}>Criar conta gratuita</a>
+        <Link href="/registro" className={mobileStyles.link}>Criar conta gratuita</Link>
       </div>
     );
   }

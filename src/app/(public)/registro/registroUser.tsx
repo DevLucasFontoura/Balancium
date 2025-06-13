@@ -93,13 +93,34 @@ export function Registro() {
     return (
       <div className={mobileStyles.registroCard}>
         <div className={mobileStyles.registroTitle}>Criar Conta</div>
-        <form className={mobileStyles.registroForm}>
-          <input type="text" placeholder="Nome completo" className={mobileStyles.input} />
-          <input type="email" placeholder="E-mail" className={mobileStyles.input} />
-          <input type="password" placeholder="Senha" className={mobileStyles.input} />
+        <form className={mobileStyles.registroForm} onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Nome completo"
+            className={mobileStyles.input}
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            className={mobileStyles.input}
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Senha"
+            className={mobileStyles.input}
+            value={formData.password}
+            onChange={handleChange}
+          />
           <button type="submit" className={mobileStyles.button}>Criar Conta</button>
         </form>
-        <a href="#" className={mobileStyles.link}>Já tem conta? Entrar</a>
+        <Link href="/login" className={mobileStyles.link}>Já tem conta? Entrar</Link>
       </div>
     );
   }
