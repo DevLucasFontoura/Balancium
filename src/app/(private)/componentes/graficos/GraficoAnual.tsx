@@ -135,7 +135,13 @@ export function GraficoAnual({ ano }: GraficoAnualProps) {
         label: 'Entradas',
         data: getDadosFiltrados(Object.values(dadosMensais).map(mes => mes.entradas)),
         borderColor: 'rgb(34, 197, 94)',
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(34, 197, 94, 0.25)');
+          gradient.addColorStop(1, 'rgba(34, 197, 94, 0.05)');
+          return gradient;
+        },
         tension: 0.4,
         fill: true
       },
@@ -143,7 +149,13 @@ export function GraficoAnual({ ano }: GraficoAnualProps) {
         label: 'Saídas',
         data: getDadosFiltrados(Object.values(dadosMensais).map(mes => mes.saidas)),
         borderColor: 'rgb(239, 68, 68)',
-        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(239, 68, 68, 0.18)');
+          gradient.addColorStop(1, 'rgba(239, 68, 68, 0.04)');
+          return gradient;
+        },
         tension: 0.4,
         fill: true
       }
