@@ -94,6 +94,10 @@
   border: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(19, 186, 130, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .buttonGroup :global(.btn-primary):hover {
@@ -322,70 +326,6 @@
   }
   50% {
     text-shadow: 0 0 30px rgba(128, 208, 199, 0.5);
-  }
-}
-
-@media (max-width: 768px) {
-  .title {
-    font-size: 2.5rem;
-  }
-  
-  .highlight {
-    font-size: 3rem;
-  }
-  
-  .subtitle {
-    font-size: 1.25rem;
-  }
-  
-  .buttonGroup {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .buttonGroup :global(.btn-primary),
-  .secondaryButton {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .heroSection {
-    padding: 4rem 1rem;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-  }
-  
-  .benefitsGrid {
-    grid-template-columns: 1fr;
-  }
-  
-  .feature {
-    padding: 0.75rem;
-  }
-  
-  .stats {
-    position: static;
-    margin-top: 2rem;
-  }
-
-  .heroGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .heroImage {
-    margin: 0;
-    width: 100%;
-  }
-
-  .imageContainer {
-    height: 300px;
-    border-radius: 16px;
-  }
-
-  .textContent {
-    max-width: 100%;
   }
 }
 
@@ -720,26 +660,6 @@
   background: #13ba82;
 }
 
-@media (max-width: 768px) {
-  .testimonialContainer {
-    min-height: 250px;
-  }
-  .testimonialCard {
-    padding: 1.5rem;
-    max-width: 90vw;
-  }
-  .testimonialArrow {
-    width: 36px;
-    height: 36px;
-  }
-  .testimonialArrow:first-of-type {
-    left: -18px;
-  }
-  .testimonialArrow.arrowRight {
-    right: -18px;
-  }
-}
-
 .testimonialArrow .arrowIcon {
   width: 20px;
   height: 20px;
@@ -749,7 +669,6 @@
   background-size: contain;
 }
 
-/* Ajuste para garantir que só a seta da direita rotacione */
 .testimonialArrow.arrowRight .arrowIcon {
   transform: rotate(180deg);
 } 

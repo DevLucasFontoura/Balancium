@@ -1,14 +1,36 @@
 import { CONSTANTES } from '@/constants/constantes';
 import styles from './bem-vindo.module.css';
+import mobileStyles from './bem-vindo_mobile.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BiSolidUserCircle } from 'react-icons/bi';
 
 export function BemVindo() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const totalTestimonials = 5;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Verifica inicialmente
+    checkMobile();
+
+    // Adiciona o listener para mudanças de tamanho
+    window.addEventListener('resize', checkMobile);
+
+    // Limpa o listener quando o componente é desmontado
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Função para combinar os estilos base com os estilos mobile quando necessário
+  const getStyles = (baseStyle: string) => {
+    return `${styles[baseStyle]} ${isMobile ? mobileStyles[baseStyle] : ''}`;
+  };
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % totalTestimonials);
@@ -63,26 +85,26 @@ export function BemVindo() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.backgroundElements}>
-        <div className={styles.gradientOrb} />
-        <div className={styles.gradientOrb2} />
+    <div className={getStyles('container')}>
+      <div className={getStyles('backgroundElements')}>
+        <div className={getStyles('gradientOrb')} />
+        <div className={getStyles('gradientOrb2')} />
       </div>
       
       {/* Hero Section */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.title}> <span>{CONSTANTES.TITULO_BEM_VINDO_01}</span> <span>{CONSTANTES.TITULO_BEM_VINDO_02}</span> </h1>
-          <div className={styles.heroGrid}>
-            <div className={styles.textContent}>
-              <p className={styles.subtitle}>{CONSTANTES.SUBTITULO_BEM_VINDO}</p>
-              <div className={styles.buttonGroup}>
+      <section className={getStyles('heroSection')}>
+        <div className={getStyles('heroContent')}>
+          <h1 className={getStyles('title')}> <span>{CONSTANTES.TITULO_BEM_VINDO_01}</span> <span>{CONSTANTES.TITULO_BEM_VINDO_02}</span> </h1>
+          <div className={getStyles('heroGrid')}>
+            <div className={getStyles('textContent')}>
+              <p className={getStyles('subtitle')}>{CONSTANTES.SUBTITULO_BEM_VINDO}</p>
+              <div className={getStyles('buttonGroup')}>
                 <Link href={CONSTANTES.ROUTE_CADASTRO} className="btn-primary">{CONSTANTES.COMECAR_GRATIS}</Link>
-                <Link href={CONSTANTES.ROUTE_COMO_FUNCIONA} className={styles.secondaryButton}>{CONSTANTES.SAIBA_MAIS}</Link>
+                <Link href={CONSTANTES.ROUTE_COMO_FUNCIONA} className={getStyles('secondaryButton')}>{CONSTANTES.SAIBA_MAIS}</Link>
               </div>
             </div>
-            <div className={styles.heroImage}>
-              <div className={styles.imageContainer}>
+            <div className={getStyles('heroImage')}>
+              <div className={getStyles('imageContainer')}>
                 <Image src={CONSTANTES.IMAGEM_INICIAL_BEM_VINDO} alt="Preview do Dashboard do Balancium" fill
                   style={{ objectFit: 'contain', padding: '1.5rem' }}
                   priority
@@ -95,51 +117,47 @@ export function BemVindo() {
       </section>
 
       {/* Benefits Section */}
-      <section className={styles.benefitsSection}>
-        <div className={styles.benefitsContent}>
-
-          <h2 className={styles.sectionTitle}> {CONSTANTES.TITULO_BENEFICIOS} </h2>
-
-          <div className={styles.benefitsGrid}>
-
-            <div className={styles.benefitCard}> <div className={`${styles.benefitIcon} ${styles.benefitIcon1}`} />
-              <h3 className={styles.benefitTitle}> {CONSTANTES.CARD_BENEFICIOS_01}</h3>
-              <p className={styles.benefitText}> {CONSTANTES.DESCRICAO_BENEFICIOS_01} </p>
+      <section className={getStyles('benefitsSection')}>
+        <div className={getStyles('benefitsContent')}>
+          <h2 className={getStyles('sectionTitle')}> {CONSTANTES.TITULO_BENEFICIOS} </h2>
+          <div className={getStyles('benefitsGrid')}>
+            <div className={getStyles('benefitCard')}> <div className={`${getStyles('benefitIcon')} ${getStyles('benefitIcon1')}`} />
+              <h3 className={getStyles('benefitTitle')}> {CONSTANTES.CARD_BENEFICIOS_01}</h3>
+              <p className={getStyles('benefitText')}> {CONSTANTES.DESCRICAO_BENEFICIOS_01} </p>
             </div>
 
-            <div className={styles.benefitCard}>  <div className={`${styles.benefitIcon} ${styles.benefitIcon2}`} />
-              <h3 className={styles.benefitTitle}> {CONSTANTES.CARD_BENEFICIOS_02}</h3>
-              <p className={styles.benefitText}> {CONSTANTES.DESCRICAO_BENEFICIOS_02} </p>
+            <div className={getStyles('benefitCard')}>  <div className={`${getStyles('benefitIcon')} ${getStyles('benefitIcon2')}`} />
+              <h3 className={getStyles('benefitTitle')}> {CONSTANTES.CARD_BENEFICIOS_02}</h3>
+              <p className={getStyles('benefitText')}> {CONSTANTES.DESCRICAO_BENEFICIOS_02} </p>
             </div>
 
-            <div className={styles.benefitCard}> <div className={`${styles.benefitIcon} ${styles.benefitIcon3}`} />
-              <h3 className={styles.benefitTitle}> {CONSTANTES.CARD_BENEFICIOS_03}</h3>
-              <p className={styles.benefitText}> {CONSTANTES.DESCRICAO_BENEFICIOS_03} </p>
+            <div className={getStyles('benefitCard')}> <div className={`${getStyles('benefitIcon')} ${getStyles('benefitIcon3')}`} />
+              <h3 className={getStyles('benefitTitle')}> {CONSTANTES.CARD_BENEFICIOS_03}</h3>
+              <p className={getStyles('benefitText')}> {CONSTANTES.DESCRICAO_BENEFICIOS_03} </p>
             </div>
 
-            <div className={styles.benefitCard}> <div className={`${styles.benefitIcon} ${styles.benefitIcon4}`} />
-              <h3 className={styles.benefitTitle}> {CONSTANTES.CARD_BENEFICIOS_04}</h3>
-              <p className={styles.benefitText}> {CONSTANTES.DESCRICAO_BENEFICIOS_04} </p>
+            <div className={getStyles('benefitCard')}> <div className={`${getStyles('benefitIcon')} ${getStyles('benefitIcon4')}`} />
+              <h3 className={getStyles('benefitTitle')}> {CONSTANTES.CARD_BENEFICIOS_04}</h3>
+              <p className={getStyles('benefitText')}> {CONSTANTES.DESCRICAO_BENEFICIOS_04} </p>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className={styles.testimonialSection}>
-        <div className={styles.benefitsContent}>
-          <h2 className={styles.sectionTitle}> {CONSTANTES.TITULO_TESTEMUNHOS} </h2>
+      <section className={getStyles('testimonialSection')}>
+        <div className={getStyles('benefitsContent')}>
+          <h2 className={getStyles('sectionTitle')}> {CONSTANTES.TITULO_TESTEMUNHOS} </h2>
           
-          <div className={styles.testimonialContainer}>
+          <div className={getStyles('testimonialContainer')}>
             <motion.button 
-              className={styles.testimonialArrow} 
+              className={getStyles('testimonialArrow')} 
               onClick={() => paginate(-1)}
               aria-label="Testimonial anterior"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={styles.arrowIcon} />
+              <div className={getStyles('arrowIcon')} />
             </motion.button>
 
             <AnimatePresence initial={false} custom={direction}>
@@ -166,23 +184,23 @@ export function BemVindo() {
                     paginate(-1);
                   }
                 }}
-                className={styles.testimonialCard}
+                className={getStyles('testimonialCard')}
               >
-                <p className={styles.testimonialText}>
+                <p className={getStyles('testimonialText')}>
                   {getTestimonialData(currentTestimonial).text}
                 </p>
-                <div className={styles.testimonialAuthor}>
+                <div className={getStyles('testimonialAuthor')}>
                   <motion.div 
-                    className={styles.authorAvatar}
+                    className={getStyles('authorAvatar')}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2 }}
                   >
                     <BiSolidUserCircle size={48} color="#CBD5E1" />
                   </motion.div>
-                  <div className={styles.authorInfo}>
+                  <div className={getStyles('authorInfo')}>
                     <motion.div 
-                      className={styles.authorName}
+                      className={getStyles('authorName')}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
@@ -190,7 +208,7 @@ export function BemVindo() {
                       {getTestimonialData(currentTestimonial).name}
                     </motion.div>
                     <motion.div 
-                      className={styles.authorRole}
+                      className={getStyles('authorRole')}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
@@ -203,21 +221,21 @@ export function BemVindo() {
             </AnimatePresence>
 
             <motion.button 
-              className={`${styles.testimonialArrow} ${styles.arrowRight}`}
+              className={`${getStyles('testimonialArrow')} ${getStyles('arrowRight')}`}
               onClick={() => paginate(1)}
               aria-label="Próximo testimonial"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={styles.arrowIcon} />
+              <div className={getStyles('arrowIcon')} />
             </motion.button>
           </div>
 
-          <div className={styles.testimonialDots}>
+          <div className={getStyles('testimonialDots')}>
             {[...Array(totalTestimonials)].map((_, index) => (
               <motion.button
                 key={index}
-                className={`${styles.testimonialDot} ${index === currentTestimonial ? styles.activeDot : ''}`}
+                className={`${getStyles('testimonialDot')} ${index === currentTestimonial ? getStyles('activeDot') : ''}`}
                 onClick={() => {
                   setCurrentTestimonial(index);
                   setPage([index, index > currentTestimonial ? 1 : -1]);
@@ -232,11 +250,11 @@ export function BemVindo() {
       </section>
 
       {/* CTA Section */}
-      <section className={styles.ctaSection}>
-        <div className={styles.benefitsContent}>
-          <h2 className={styles.ctaTitle}> {CONSTANTES.TITULO_CTA} </h2>
-          <p className={styles.ctaText}> {CONSTANTES.DESCRICAO_CTA} </p>
-          <Link href={CONSTANTES.ROUTE_CADASTRO} className={styles.ctaButton}> {CONSTANTES.BOTAO_CTA} </Link>
+      <section className={getStyles('ctaSection')}>
+        <div className={getStyles('benefitsContent')}>
+          <h2 className={getStyles('ctaTitle')}> {CONSTANTES.TITULO_CTA} </h2>
+          <p className={getStyles('ctaText')}> {CONSTANTES.DESCRICAO_CTA} </p>
+          <Link href={CONSTANTES.ROUTE_CADASTRO} className={getStyles('ctaButton')}> {CONSTANTES.BOTAO_CTA} </Link>
         </div>
       </section>
     </div>

@@ -1,0 +1,186 @@
+@media (max-width: 768px) {
+    .footerGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .brandSection {
+        grid-column: span 1;
+    }
+
+    .footerColumn {
+        gap: 0.75rem;
+    }
+
+    .desktopNav {
+        display: none;
+    }
+
+    .mobileMenuButton {
+        display: block;
+    }
+
+    .footerGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footerBrand {
+        grid-column: span 2;
+    }
+
+    .mobileNav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80vw;
+        max-width: 340px;
+        height: 100vh;
+        background: #13ba82;
+        box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .mobileNav.open {
+        transform: translateX(0);
+    }
+
+    .mobileNavContent {
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin-top: 2.5rem;
+    }
+
+    .mobileNavLink, .mobileCtaButton {
+        color: #fff;
+        font-size: 1.08rem;
+        font-weight: 500;
+        border-radius: 0;
+        padding: 0.5rem 0.2rem;
+        background: none;
+        border: none;
+        text-align: left;
+        transition: color 0.2s;
+        box-shadow: none;
+    }
+
+    .mobileNavLink:hover, .mobileCtaButton:hover {
+        color: #e6fff5;
+        background: none;
+    }
+
+    .active {
+        color: #13ba82 !important;
+        font-weight: 700;
+        background: none;
+    }
+
+    .mobileNavClose {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        background: none;
+        border: none;
+        font-size: 2.2rem;
+        color: #fff;
+        cursor: pointer;
+        z-index: 1100;
+        transition: color 0.2s;
+    }
+
+    .mobileNavClose:hover {
+        color: #1a202c;
+    }
+}
+
+.active {
+  color: #13ba82;
+  font-weight: bold;
+  background: rgba(19, 186, 130, 0.08);
+}
+
+.mobileNav {
+    background: #106447;
+    color: #fff;
+    width: 80vw;
+    max-width: 340px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.mobileNavContent {
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menuSectionTitle {
+    font-size: 0.95rem;
+    color: #b7e5d0;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem 0;
+    letter-spacing: 0.03em;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    color: #e6fff5;
+    font-size: 1.08rem;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0.7rem 0.8rem;
+    background: none;
+    border: none;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.menuItem:hover {
+    background: #159c6b;
+    color: #fff;
+}
+
+.menuItem.active {
+    background: #159c6b;
+    color: #fff;
+    font-weight: 700;
+}
+
+.menuIcon {
+    font-size: 1.3rem;
+    color: #7be2b2;
+}
+
+.mobileNavClose {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1100;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.mobileNavClose:hover {
+    opacity: 1;
+}

@@ -1,0 +1,85 @@
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .highlight {
+    font-size: 3rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .buttonGroup :global(.btn-primary),
+  .secondaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .heroSection {
+    padding: 4rem 1rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .feature {
+    padding: 0.75rem;
+  }
+  
+  .stats {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroImage {
+    margin: 0;
+    width: 100%;
+  }
+
+  .imageContainer {
+    height: 300px;
+    border-radius: 16px;
+  }
+
+  .textContent {
+    max-width: 100%;
+  }
+
+  .testimonialContainer {
+    min-height: 250px;
+  }
+
+  .testimonialCard {
+    padding: 1.5rem;
+    max-width: 90vw;
+  }
+
+  .testimonialArrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .testimonialArrow:first-of-type {
+    left: -18px;
+  }
+
+  .testimonialArrow.arrowRight {
+    right: -18px;
+  }
+}

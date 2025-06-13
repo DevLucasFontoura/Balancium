@@ -149,7 +149,7 @@
 
 /* Menu mobile */
 .mobileMenuButton {
-  display: block;
+  display: none;
   padding: 0.5rem;
   border-radius: 0.5rem;
   color: rgb(75 85 99);
@@ -242,33 +242,23 @@
 }
 
 /* Responsividade */
-@media (min-width: 768px) {
-  .navLinks {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
+@media (max-width: 768px) {
   .mobileMenuButton {
-    display: none;
+    display: block;
   }
-
-  .footerGrid {
-    grid-template-columns: repeat(5, 1fr);
+  .desktopNav {
+    display: none;
   }
 }
 
-@media (max-width: 768px) {
-  .footerGrid {
-    grid-template-columns: 1fr;
+@media (min-width: 769px) {
+  .mobileMenuButton {
+    display: none;
   }
-
-  .brandSection {
-    grid-column: span 1;
-  }
-
-  .footerColumn {
-    gap: 0.75rem;
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
   }
 }
 
@@ -430,20 +420,4 @@
 .footerCopyright {
   font-size: 0.875rem;
   color: rgb(75 85 99);
-}
-
-@media (min-width: 768px) {
-  .desktopNav {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .footerGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .footerBrand {
-    grid-column: span 1;
-  }
 } 
