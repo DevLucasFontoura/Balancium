@@ -11,8 +11,9 @@ import { auth } from '@/lib/firebase/config';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase/config';
 import { toast } from 'react-hot-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import mobileStyles from './registroUserMobile.module.css';
 
 interface FormData {
   name: string;
@@ -28,6 +29,14 @@ export function Registro() {
     email: CONSTANTES.LABEL_BLANK,
     password: CONSTANTES.LABEL_BLANK
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,6 +88,21 @@ export function Registro() {
       [e.target.name]: e.target.value
     }));
   };
+
+  if (isMobile) {
+    return (
+      <div className={mobileStyles.registroCard}>
+        <div className={mobileStyles.registroTitle}>Criar Conta</div>
+        <form className={mobileStyles.registroForm}>
+          <input type="text" placeholder="Nome completo" className={mobileStyles.input} />
+          <input type="email" placeholder="E-mail" className={mobileStyles.input} />
+          <input type="password" placeholder="Senha" className={mobileStyles.input} />
+          <button type="submit" className={mobileStyles.button}>Criar Conta</button>
+        </form>
+        <a href="#" className={mobileStyles.link}>Já tem conta? Entrar</a>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

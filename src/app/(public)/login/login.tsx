@@ -7,10 +7,11 @@ import { CONSTANTES } from '@/constants/constantes';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import styles from './login.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Lottie from 'lottie-react';
 import financialAnimation from '@/animations/login_animation.json';
+import mobileStyles from './loginMobile.module.css';
 
 export function Login() {
   const router = useRouter();
@@ -19,6 +20,14 @@ export function Login() {
     email: CONSTANTES.LABEL_BLANK,
     password: CONSTANTES.LABEL_BLANK
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +43,21 @@ export function Login() {
       [e.target.name]: e.target.value
     }));
   };
+
+  if (isMobile) {
+    return (
+      <div className={mobileStyles.loginCard} style={{ minHeight: '100vh', justifyContent: 'center' }}>
+        <div className={mobileStyles.loginTitle}>Entrar no Balancium</div>
+        <form className={mobileStyles.loginForm}>
+          <input type="email" placeholder="E-mail" className={mobileStyles.input} />
+          <input type="password" placeholder="Senha" className={mobileStyles.input} />
+          <button type="submit" className={mobileStyles.button}>Entrar</button>
+        </form>
+        <a href="#" className={mobileStyles.link}>Esqueceu a senha?</a>
+        <a href="#" className={mobileStyles.link}>Criar conta gratuita</a>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
