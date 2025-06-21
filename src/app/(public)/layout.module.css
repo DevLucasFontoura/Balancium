@@ -69,7 +69,12 @@
 
 .footerGrid {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+}
+
+.footerBrand {
+  grid-column: span 3;
 }
 
 .brandSection {
@@ -391,12 +396,12 @@
 
 .footerGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
 .footerBrand {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .footerBrandInner {
@@ -444,4 +449,22 @@
 .footerCopyright {
   font-size: 0.875rem;
   color: rgb(75 85 99);
+}
+
+.footerVersion {
+  font-size: 0.8rem;
+  color: rgb(16 185 129);
+  margin-top: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.footerVersionIcon {
+  font-size: 0.9rem;
+  opacity: 0.8;
 } 

@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { FaHome, FaPlus, FaChartBar, FaCog, FaTable, FaRegLightbulb, FaListAlt, FaTag, FaSignInAlt, FaRocket } from 'react-icons/fa';
+import { FaHome, FaPlus, FaChartBar, FaCog, FaTable, FaRegLightbulb, FaListAlt, FaTag, FaSignInAlt, FaRocket, FaCodeBranch } from 'react-icons/fa';
 
 export default function PublicLayout({
   children,
@@ -150,6 +150,10 @@ export default function PublicLayout({
           </div>
           <div className={getStyles('footerBottom')}>
             <p className={getStyles('footerCopyright')}> &copy; {new Date().getFullYear()} {CONSTANTES.DIREITO_DE_AUTOR} </p>
+            <div className={getStyles('footerVersion')}>
+              <FaCodeBranch className={getStyles('footerVersionIcon')} />
+              <span>{CONSTANTES.VERSAO_SISTEMA}</span>
+            </div>
           </div>
         </div>
       </footer>
