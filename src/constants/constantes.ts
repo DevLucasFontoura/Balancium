@@ -1,6 +1,6 @@
 export const CONSTANTES = {
 
-    VERSAO_SISTEMA: '1.0.1',
+    VERSAO_SISTEMA: '1.1.0',
 
     // -------------------------- PAGINA LABELS --------------------------
     LABEL_PASSWORD: 'password' as const,
@@ -372,4 +372,177 @@ export const CONSTANTES = {
 
 
 
+    // -------------------------- PAGINA AJUDA --------------------------
+    TITULO_PAGINA_AJUDA: 'Central de Ajuda',
+    DESCRICAO_PAGINA_AJUDA: 'Encontre respostas para suas dúvidas e aprenda a usar o Balancium de forma eficiente',
+    PLACEHOLDER_BUSCA_AJUDA: 'Busque por palavras-chave...',
+    BOTAO_LIMPAR_FILTROS: 'Limpar filtros',
+    BOTAO_TODAS_CATEGORIAS: 'Todas as categorias',
+    
+    // Seções da página de ajuda
+    TITULO_PRIMEIROS_PASSOS: 'Primeiros Passos',
+    TITULO_VIDEOS_TUTORIAIS: 'Vídeos Tutoriais',
+    TITULO_CONTATO_SUPORTE: 'Ainda precisa de ajuda?',
+    
+    // Primeiros passos
+    TITULO_CRIAR_CONTA: 'Criar Conta',
+    DESCRICAO_CRIAR_CONTA: 'Registre-se gratuitamente com seu e-mail e comece a controlar suas finanças',
+    TITULO_CONFIGURAR_CATEGORIAS: 'Configurar Categorias',
+    DESCRICAO_CONFIGURAR_CATEGORIAS: 'Personalize as categorias de acordo com seu perfil financeiro',
+    TITULO_ADICIONAR_TRANSACOES: 'Adicionar Transações',
+    DESCRICAO_ADICIONAR_TRANSACOES: 'Comece registrando suas receitas e despesas diárias',
+    TITULO_ANALISAR_RELATORIOS: 'Analisar Relatórios',
+    DESCRICAO_ANALISAR_RELATORIOS: 'Visualize gráficos e relatórios para tomar decisões informadas',
+    LINK_CRIAR_CONTA: 'Criar conta →',
+    
+    // Vídeos tutoriais
+    TITULO_VIDEO_DASHBOARD: 'Como usar o Dashboard',
+    DESCRICAO_VIDEO_DASHBOARD: 'Aprenda a interpretar os gráficos e estatísticas do seu dashboard',
+    DURACAO_VIDEO_DASHBOARD: '3:45',
+    TITULO_VIDEO_TRANSACOES: 'Adicionando Transações',
+    DESCRICAO_VIDEO_TRANSACOES: 'Guia completo para registrar suas receitas e despesas',
+    DURACAO_VIDEO_TRANSACOES: '2:30',
+    TITULO_VIDEO_RELATORIOS: 'Criando Relatórios',
+    DESCRICAO_VIDEO_RELATORIOS: 'Como gerar e interpretar relatórios mensais e anuais',
+    DURACAO_VIDEO_RELATORIOS: '4:15',
+    
+    // Contato e suporte
+    DESCRICAO_CONTATO_SUPORTE: 'Nossa equipe está pronta para ajudar você a aproveitar ao máximo o Balancium',
+    BOTAO_ENTRAR_CONTATO: 'Entrar em Contato',
+    BOTAO_COMO_FUNCIONA: 'Como Funciona',
+    
+    // Estados vazios
+    TITULO_NENHUM_RESULTADO: 'Nenhum resultado encontrado',
+    DESCRICAO_NENHUM_RESULTADO: 'Tente usar termos diferentes ou limpar os filtros',
+    BOTAO_LIMPAR_FILTROS_RESULTADO: 'Limpar filtros',
+    
+    // Categorias de ajuda
+    CATEGORIA_PRIMEIROS_PASSOS: 'Primeiros Passos',
+    CATEGORIA_DASHBOARD: 'Dashboard',
+    CATEGORIA_TRANSACOES: 'Transações',
+    CATEGORIA_RELATORIOS: 'Relatórios',
+    CATEGORIA_CATEGORIAS: 'Categorias',
+    CATEGORIA_PROBLEMAS_TECNICOS: 'Problemas Técnicos',
+    
+    // Acessibilidade
+    LABEL_VOLTAR_AO_TOPO: 'Voltar ao topo',
+    LABEL_BUSCA_AJUDA: 'Buscar na ajuda',
+    LABEL_FILTRAR_CATEGORIA: 'Filtrar por categoria',
+    LABEL_EXPANDIR_PERGUNTA: 'Expandir pergunta',
+    LABEL_REPRODUZIR_VIDEO: 'Reproduzir vídeo',
+
+    // -------------------------- Perguntas Frequentes --------------------------
+    TITULO_PERGUNTAS_FREQUENTES: 'Perguntas Frequentes',
+    DESCRICAO_PERGUNTAS_FREQUENTES: 'Encontre respostas para as perguntas mais frequentes sobre o Balancium',
+
+    // Perguntas Frequentes - Primeiros Passos
+    PERGUNTA_01: 'Como criar minha conta no Balancium?',
+    RESPOSTA_01: 'Para criar sua conta, clique em "Criar Conta Gratuita" na página inicial. Preencha seu nome completo e e-mail, crie uma senha segura e clique em "Criar Conta". Você receberá um e-mail de confirmação.',
+    PERGUNTA_02: 'Como fazer login na minha conta?',
+    RESPOSTA_02: 'Na página de login, insira seu e-mail e senha. Se esqueceu sua senha, clique em "Esqueceu sua senha?" para recuperá-la.',
+    PERGUNTA_03: 'Como navegar pelo sistema?',
+    RESPOSTA_03: 'Use o menu lateral para acessar as diferentes seções: Dashboard, Nova Transação, Relatórios e Configurações. O menu é responsivo e se adapta ao tamanho da tela.',
+    PERGUNTA_04: 'Quais são os planos disponíveis?',
+    RESPOSTA_04: 'O Balancium oferece três planos: Gratuito (básico), Plus (R$ 9,90/mês) e Premium (R$ 19,90/mês). Cada plano oferece recursos diferentes conforme suas necessidades.',
+
+    // Perguntas Frequentes - Dashboard
+    PERGUNTA_05: 'Como interpretar os gráficos do dashboard?',
+    RESPOSTA_05: 'Os gráficos mostram a distribuição dos seus gastos por categoria. Cores diferentes representam categorias diferentes. Quanto maior a barra, maior o gasto naquela categoria.',
+    PERGUNTA_06: 'Como filtrar dados por período?',
+    RESPOSTA_06: 'No dashboard, use o seletor de ano para visualizar dados de diferentes períodos. Os gráficos e estatísticas se atualizam automaticamente.',
+    PERGUNTA_07: 'O que significam os números no dashboard?',
+    RESPOSTA_07: 'O dashboard mostra: Total de receitas, total de despesas, saldo (receitas - despesas), e distribuição por categoria. Use esses dados para entender seus padrões financeiros.',
+    PERGUNTA_08: 'Como personalizar meu dashboard?',
+    RESPOSTA_08: 'Atualmente o dashboard é padronizado, mas você pode filtrar por ano e visualizar diferentes períodos. Futuras atualizações incluirão mais opções de personalização.',
+
+    // Perguntas Frequentes - Transações
+    PERGUNTA_09: 'Como adicionar uma nova transação?',
+    RESPOSTA_09: 'Clique em "Nova Transação" no menu lateral. Preencha a descrição, valor, categoria, data e tipo (entrada ou saída). Clique em "Salvar" para confirmar.',
+    PERGUNTA_10: 'Como editar uma transação?',
+    RESPOSTA_10: 'Na tabela de transações, clique no ícone de editar (lápis) ao lado da transação. Faça as alterações necessárias e clique em "Salvar".',
+    PERGUNTA_11: 'Como excluir uma transação?',
+    RESPOSTA_11: 'Na tabela de transações, clique no ícone de excluir (lixeira) ao lado da transação. Confirme a exclusão na janela que aparecer.',
+    PERGUNTA_12: 'Posso anexar comprovantes às transações?',
+    RESPOSTA_12: 'Sim! No plano Premium, você pode anexar arquivos (comprovantes, recibos) às suas transações. Isso ajuda a manter um histórico completo.',
+    PERGUNTA_13: 'Como categorizar transações automaticamente?',
+    RESPOSTA_13: 'O sistema aprende com suas categorizações anteriores. Após algumas transações, ele começará a sugerir categorias automaticamente baseado na descrição.',
+    PERGUNTA_14: 'Posso importar transações de outros sistemas?',
+    RESPOSTA_14: 'Sim! Nas configurações, vá para "Exportação de Dados" e use a função de importação. O sistema aceita arquivos CSV e Excel.',
+
+    // Perguntas Frequentes - Relatórios
+    PERGUNTA_15: 'Como gerar relatórios mensais?',
+    RESPOSTA_15: 'Acesse "Relatórios" no menu lateral. Selecione o ano e mês desejados. O sistema gerará automaticamente um relatório completo com gráficos e tabelas.',
+    PERGUNTA_16: 'Como exportar dados para Excel?',
+    RESPOSTA_16: 'Nas configurações, vá para "Exportação de Dados". Selecione o ano desejado e clique em "Exportar". O arquivo Excel será baixado automaticamente.',
+    PERGUNTA_17: 'Quais tipos de relatórios estão disponíveis?',
+    RESPOSTA_17: 'Relatórios mensais detalhados, relatórios anuais, análise por categoria, comparação entre meses, e projeções financeiras com IA (no plano Premium).',
+    PERGUNTA_18: 'Como interpretar os gráficos dos relatórios?',
+    RESPOSTA_18: 'Os gráficos mostram tendências ao longo do tempo, distribuição por categoria, e comparações. Use as legendas e tooltips para entender melhor os dados.',
+    PERGUNTA_19: 'Posso compartilhar meus relatórios?',
+    RESPOSTA_19: 'Atualmente os relatórios são privados. Futuras atualizações incluirão opções de compartilhamento seguro com familiares ou consultores financeiros.',
+
+    // Perguntas Frequentes - Categorias
+    PERGUNTA_20: 'Como criar uma nova categoria?',
+    RESPOSTA_20: 'Nas configurações, vá para "Categorias". Clique em "Nova Categoria", escolha um nome, cor e tipo. Clique em "Salvar" para criar.',
+    PERGUNTA_21: 'Como organizar minhas categorias?',
+    RESPOSTA_21: 'Recomendamos criar categorias específicas como "Alimentação", "Transporte", "Lazer", etc. Use cores diferentes para facilitar a identificação nos gráficos.',
+    PERGUNTA_22: 'Posso editar categorias existentes?',
+    RESPOSTA_22: 'Sim! No plano Plus e Premium, você pode editar o nome e cor das categorias. Clique no ícone de editar ao lado da categoria desejada.',
+    PERGUNTA_23: 'Como excluir uma categoria?',
+    RESPOSTA_23: 'Nas configurações > Categorias, clique no ícone de excluir ao lado da categoria. Atenção: categorias com transações não podem ser excluídas.',
+    PERGUNTA_24: 'Quantas categorias posso criar?',
+    RESPOSTA_24: 'Não há limite no número de categorias. Crie quantas precisar para organizar suas finanças de forma eficiente.',
+    PERGUNTA_25: 'Posso usar categorias para receitas e despesas?',
+    RESPOSTA_25: 'Sim! Cada categoria pode ser configurada para receitas, despesas ou ambos. Isso ajuda a organizar melhor seus dados financeiros.',
+
+    // Perguntas Frequentes - Problemas Técnicos
+    PERGUNTA_26: 'Não consigo fazer login. O que fazer?',
+    RESPOSTA_26: 'Verifique se o e-mail e senha estão corretos. Se esqueceu a senha, use a opção "Esqueceu sua senha?". Se o problema persistir, entre em contato conosco.',
+    PERGUNTA_27: 'Os dados não estão carregando. O que fazer?',
+    RESPOSTA_27: 'Verifique sua conexão com a internet. Tente recarregar a página (F5). Se o problema persistir, faça logout e login novamente.',
+    PERGUNTA_28: 'Como recuperar minha senha?',
+    RESPOSTA_28: 'Na página de login, clique em "Esqueceu sua senha?". Digite seu e-mail e você receberá um link para redefinir a senha.',
+    PERGUNTA_29: 'O sistema está lento. O que fazer?',
+    RESPOSTA_29: 'Limpe o cache do navegador, feche outras abas desnecessárias, ou tente usar um navegador diferente. Se o problema persistir, entre em contato.',
+    PERGUNTA_30: 'Perdi meus dados. Como recuperar?',
+    RESPOSTA_30: 'Seus dados são salvos automaticamente na nuvem. Faça login novamente e eles devem aparecer. Se não aparecerem, entre em contato com nosso suporte.',
+    PERGUNTA_31: 'Como cancelar minha assinatura?',
+    RESPOSTA_31: 'Nas configurações, vá para "Plano de Assinatura" e clique em "Cancelar Assinatura". Sua conta continuará ativa até o final do período pago.',
+    PERGUNTA_32: 'O sistema não funciona no meu navegador.',
+    RESPOSTA_32: 'O Balancium funciona melhor no Chrome, Firefox, Safari e Edge. Certifique-se de que seu navegador está atualizado.',
+
+    ID_FAQ_01: '1',
+    ID_FAQ_02: '2',
+    ID_FAQ_03: '3',
+    ID_FAQ_04: '4',
+    ID_FAQ_05: '5',
+    ID_FAQ_06: '6',
+    ID_FAQ_07: '7',
+    ID_FAQ_08: '8',
+    ID_FAQ_09: '9',
+    ID_FAQ_10: '10',
+    ID_FAQ_11: '11',
+    ID_FAQ_12: '12',
+    ID_FAQ_13: '13',
+    ID_FAQ_14: '14',
+    ID_FAQ_15: '15',
+    ID_FAQ_16: '16',
+    ID_FAQ_17: '17',
+    ID_FAQ_18: '18',
+    ID_FAQ_19: '19',
+    ID_FAQ_20: '20',
+    ID_FAQ_21: '21',
+    ID_FAQ_22: '22',
+    ID_FAQ_23: '23',
+    ID_FAQ_24: '24',
+    ID_FAQ_25: '25',
+    ID_FAQ_26: '26',
+    ID_FAQ_27: '27',
+    ID_FAQ_28: '28',
+    ID_FAQ_29: '29',
+    ID_FAQ_30: '30',
+    ID_FAQ_31: '31',
+    ID_FAQ_32: '32',
+
+   
 }
