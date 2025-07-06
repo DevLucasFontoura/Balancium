@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase/config';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import toast from 'react-hot-toast';
 import styles from './metas.module.css';
 
 interface Meta {
@@ -12,74 +15,171 @@ interface Meta {
   descricao: string;
   valorAtual: number;
   valorMeta: number;
-  categoria: string;
 }
 
 export default function MetasPage() {
-  const [metas, setMetas] = useState<Meta[]>([
-    {
-      id: '1',
-      titulo: 'Viagem para Europa',
-      descricao: 'Economizar para uma viagem de 15 dias pela Europa',
-      valorAtual: 5000,
-      valorMeta: 15000,
-      categoria: 'Viagem'
-    },
-    {
-      id: '2',
-      titulo: 'Entrada do Apartamento',
-      descricao: 'Juntar dinheiro para dar entrada em um apartamento',
-      valorAtual: 25000,
-      valorMeta: 80000,
-      categoria: 'Imóvel'
-    },
-    {
-      id: '3',
-      titulo: 'Fundo de Emergência',
-      descricao: 'Criar uma reserva de emergência de 6 meses de despesas',
-      valorAtual: 8000,
-      valorMeta: 12000,
-      categoria: 'Segurança'
-    }
-  ]);
+  const [metas, setMetas] = useState<Meta[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [showNovaMeta, setShowNovaMeta] = useState(false);
   const [novaMeta, setNovaMeta] = useState({
     titulo: '',
     descricao: '',
-    valorMeta: '',
-    categoria: ''
+    valorMeta: ''
   });
+
+  // Função para formatar valor como moeda brasileira
+  const formatarValorInput = (valor: string) => {
+    // Remove tudo que não é número
+    const apenasNumeros = valor.replace(/\D/g, '');
+    
+    // Converte para número e divide por 100 para ter centavos
+    const valorNumerico = apenasNumeros ? parseInt(apenasNumeros) / 100 : 0;
+    
+    // Formata como moeda brasileira
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(valorNumerico);
+  };
+
+  // Função para converter valor formatado de volta para número
+  const converterValorFormatado = (valorFormatado: string) => {
+    const apenasNumeros = valorFormatado.replace(/\D/g, '');
+    return apenasNumeros ? (parseInt(apenasNumeros) / 100).toString() : '';
+  };
 
   const [editandoMeta, setEditandoMeta] = useState<string | null>(null);
   const [novoValor, setNovoValor] = useState('');
 
-  const handleCriarMeta = () => {
-    if (novaMeta.titulo && novaMeta.descricao && novaMeta.valorMeta) {
-      const novaMetaObj: Meta = {
-        id: Date.now().toString(),
-        titulo: novaMeta.titulo,
-        descricao: novaMeta.descricao,
-        valorAtual: 0,
-        valorMeta: parseFloat(novaMeta.valorMeta),
-        categoria: novaMeta.categoria || 'Geral'
-      };
+  // Carregar metas do Firebase
+  useEffect(() => {
+    const carregarMetas = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
 
-      setMetas([...metas, novaMetaObj]);
-      setNovaMeta({ titulo: '', descricao: '', valorMeta: '', categoria: '' });
-      setShowNovaMeta(false);
+      try {
+        const q = query(
+          collection(db, 'metas'),
+          where('userId', '==', user.uid),
+          where('status', '==', 'ativo')
+        );
+        const querySnapshot = await getDocs(q);
+        const metasData: Meta[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          metasData.push({
+            id: doc.id,
+            titulo: data.titulo,
+            descricao: data.descricao,
+            valorAtual: data.valorAtual || 0,
+            valorMeta: data.valorMeta
+          });
+        });
+        setMetas(metasData);
+      } catch (error) {
+        console.error('Erro ao carregar metas:', error);
+        toast.error('Erro ao carregar metas');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarMetas();
+  }, []);
+
+  const handleCriarMeta = async () => {
+    if (novaMeta.titulo && novaMeta.descricao && novaMeta.valorMeta) {
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error('Usuário não autenticado');
+        return;
+      }
+
+      try {
+        // Converter valor formatado para número
+        const valorNumerico = parseFloat(converterValorFormatado(novaMeta.valorMeta));
+        
+        if (isNaN(valorNumerico) || valorNumerico <= 0) {
+          toast.error('Digite um valor válido para a meta');
+          return;
+        }
+
+        const metaData = {
+          userId: user.uid,
+          titulo: novaMeta.titulo,
+          descricao: novaMeta.descricao,
+          valorAtual: 0,
+          valorMeta: valorNumerico,
+          status: 'ativo',
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        };
+
+        const docRef = await addDoc(collection(db, 'metas'), metaData);
+        
+        const novaMetaObj: Meta = {
+          id: docRef.id,
+          titulo: novaMeta.titulo,
+          descricao: novaMeta.descricao,
+          valorAtual: 0,
+          valorMeta: valorNumerico
+        };
+
+        setMetas([...metas, novaMetaObj]);
+        setNovaMeta({ titulo: '', descricao: '', valorMeta: '' });
+        setShowNovaMeta(false);
+        toast.success('Meta criada com sucesso!');
+      } catch (error) {
+        console.error('Erro ao criar meta:', error);
+        toast.error('Erro ao criar meta');
+      }
+    } else {
+      toast.error('Preencha todos os campos obrigatórios');
     }
   };
 
-  const handleEditarValor = (metaId: string) => {
+  const handleEditarValor = async (metaId: string) => {
     if (novoValor) {
-      setMetas(metas.map(meta => 
-        meta.id === metaId 
-          ? { ...meta, valorAtual: parseFloat(novoValor) }
-          : meta
-      ));
-      setNovoValor('');
-      setEditandoMeta(null);
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error('Usuário não autenticado');
+        return;
+      }
+
+      try {
+        // Converter valor formatado para número
+        const novoValorNumerico = parseFloat(converterValorFormatado(novoValor));
+        
+        if (isNaN(novoValorNumerico) || novoValorNumerico < 0) {
+          toast.error('Digite um valor válido');
+          return;
+        }
+        
+        // Atualizar no Firebase
+        const metaRef = doc(db, 'metas', metaId);
+        await updateDoc(metaRef, {
+          valorAtual: novoValorNumerico,
+          updatedAt: serverTimestamp()
+        });
+
+        // Atualizar estado local
+        setMetas(metas.map(meta => 
+          meta.id === metaId 
+            ? { ...meta, valorAtual: novoValorNumerico }
+            : meta
+        ));
+        setNovoValor('');
+        setEditandoMeta(null);
+        toast.success('Valor atualizado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao atualizar valor:', error);
+        toast.error('Erro ao atualizar valor');
+      }
+    } else {
+      toast.error('Digite um valor válido');
     }
   };
 
@@ -93,6 +193,17 @@ export default function MetasPage() {
       currency: 'BRL'
     }).format(valor);
   };
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Carregando metas...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -141,25 +252,19 @@ export default function MetasPage() {
               />
             </div>
             <div className={styles.formGroup}>
-              <label className={styles.label}>Valor da Meta (R$)</label>
-              <Input
-                type="number"
-                placeholder="0,00"
-                value={novaMeta.valorMeta}
-                onChange={(e) => setNovaMeta({...novaMeta, valorMeta: e.target.value})}
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Categoria</label>
+              <label className={styles.label}>Valor da Meta</label>
               <Input
                 type="text"
-                placeholder="Ex: Viagem, Imóvel, Educação"
-                value={novaMeta.categoria}
-                onChange={(e) => setNovaMeta({...novaMeta, categoria: e.target.value})}
+                placeholder="R$ 0,00"
+                value={novaMeta.valorMeta}
+                onChange={(e) => {
+                  const valorFormatado = formatarValorInput(e.target.value);
+                  setNovaMeta({...novaMeta, valorMeta: valorFormatado});
+                }}
                 className={styles.input}
               />
             </div>
+
             <div className={styles.modalBotoes}>
               <Button 
                 variant="outline" 
@@ -186,7 +291,6 @@ export default function MetasPage() {
               <div className={styles.metaInfo}>
                 <h3 className={styles.metaTitulo}>{meta.titulo}</h3>
                 <p className={styles.metaDescricao}>{meta.descricao}</p>
-                <span className={styles.metaCategoria}>{meta.categoria}</span>
               </div>
             </div>
 
@@ -216,10 +320,13 @@ export default function MetasPage() {
               {editandoMeta === meta.id ? (
                 <div className={styles.edicaoValor}>
                   <Input
-                    type="number"
-                    placeholder="Novo valor"
+                    type="text"
+                    placeholder="R$ 0,00"
                     value={novoValor}
-                    onChange={(e) => setNovoValor(e.target.value)}
+                    onChange={(e) => {
+                      const valorFormatado = formatarValorInput(e.target.value);
+                      setNovoValor(valorFormatado);
+                    }}
                     className={styles.inputValor}
                   />
                   <Button 
