@@ -57,6 +57,7 @@ export const CONSTANTES = {
     ROUTE_NOVA_TRANSACAO: '/nova-transacao',
     ROUTE_RELATORIOS: '/relatorios',
     ROUTE_DASHBOARD: '/dashboard',
+    ROUTE_METAS: '/metas',
     ROUTE_CONFIGURACOES: '/configuracoes',
 
     // -------------------------- PAGINA LAYOUT --------------------------
