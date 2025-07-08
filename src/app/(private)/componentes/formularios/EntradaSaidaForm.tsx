@@ -34,7 +34,12 @@ interface FormState {
   tipo: 'entrada' | 'saida';
 }
 
-export function EntradaSaidaForm() {
+interface EntradaSaidaFormProps {
+  onCancel?: () => void;
+  onSuccess?: () => void;
+}
+
+export function EntradaSaidaForm({ onCancel, onSuccess }: EntradaSaidaFormProps = {}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -191,7 +196,7 @@ export function EntradaSaidaForm() {
       
       toast.success('Transação salva com sucesso!');
       console.log('Formulário resetado com sucesso');
-      
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error('Erro ao salvar transação:', err);
       if (err instanceof Error) {
@@ -410,7 +415,14 @@ export function EntradaSaidaForm() {
       <div className={styles.actions}>
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => {
+            if (onCancel) {
+              onCancel();
+            } else {
+              reset();
+              setFormData(initialFormState);
+            }
+          }}
           className={styles.cancelButton}
         >
           Cancelar

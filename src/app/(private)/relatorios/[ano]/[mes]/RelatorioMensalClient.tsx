@@ -191,7 +191,7 @@ export function RelatorioMensalClient({ ano, mes }: RelatorioMensalClientProps) 
         />
         
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
-          <div className="p-6 border-b border-gray-100 dark:border-gray-700">
+          <div className="p-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               Transações do Mês
             </h2>

@@ -8,6 +8,7 @@ import { formatarData } from '@/utils/formatarData';
 import { EditarTransacaoModal } from '../modais/EditarTransacaoModal';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { EntradaSaidaForm } from '../formularios/EntradaSaidaForm';
 
 interface Categoria {
   id: string;
@@ -35,6 +36,7 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
   const [loading, setLoading] = useState(true);
   const [transacaoParaEditar, setTransacaoParaEditar] = useState<Transacao | null>(null);
   const [categorias, setCategorias] = useState<Record<string, Categoria>>({});
+  const [showAddTransacao, setShowAddTransacao] = useState(false);
 
   async function carregarCategorias() {
     const user = auth.currentUser;
@@ -237,26 +239,65 @@ export function TabelaMensal({ mes, ano, onTransacoesChange }: TabelaMensalProps
   return (
     <div className="space-y-4">
       {transacoes.length > 0 && (
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-center md:justify-end space-x-2 pr-4">
+          <button
+            onClick={() => setShowAddTransacao(true)}
+            className="inline-flex items-center justify-center w-32 h-12 md:w-auto md:h-auto px-0 md:px-4 py-0 md:py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors dark:hover:bg-emerald-600 dark:focus:ring-offset-gray-900"
+          >
+            <span className="md:hidden flex items-center justify-center w-full h-full">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </span>
+            <span className="hidden md:inline-flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Adicionar Transação
+            </span>
+          </button>
           <button
             onClick={handleDeleteAll}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-colors dark:hover:bg-rose-600 dark:focus:ring-offset-gray-900"
+            className="inline-flex items-center justify-center w-32 h-12 md:w-auto md:h-auto px-0 md:px-4 py-0 md:py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-colors dark:hover:bg-rose-600 dark:focus:ring-offset-gray-900"
           >
-            <svg 
-              className="w-4 h-4 mr-2" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" 
-              />
-            </svg>
-            Excluir Todas
+            <span className="md:hidden flex items-center justify-center w-full h-full">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </span>
+            <span className="hidden md:inline-flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Excluir Todas
+            </span>
           </button>
+        </div>
+      )}
+
+      {/* Modal de Adicionar Transação */}
+      {showAddTransacao && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 w-full" style={{ maxWidth: '40rem' }}>
+            <button
+              onClick={() => setShowAddTransacao(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Adicionar Transação</h2>
+            <EntradaSaidaForm 
+              key={mes + '-' + ano + '-add'} 
+              onCancel={() => setShowAddTransacao(false)}
+              onSuccess={() => {
+                setShowAddTransacao(false);
+                // A tabela já atualiza pelo onTransacoesChange, mas pode forçar atualização se necessário
+                if (typeof onTransacoesChange === 'function') onTransacoesChange();
+              }}
+            />
+          </div>
         </div>
       )}
 
