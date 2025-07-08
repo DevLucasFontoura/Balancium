@@ -86,6 +86,48 @@
   justify-content: center;
 }
 
+.versionCard {
+  margin-top: 2rem;
+  background-color: rgb(240 253 250);
+  border: 1px solid rgb(167 243 208);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.versionContent {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.versionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(5 150 105);
+}
+
+.versionDescription {
+  font-size: 0.875rem;
+  color: rgb(5 150 105);
+  margin-top: 0.25rem;
+}
+
+.versionInfo {
+  display: flex;
+  align-items: center;
+}
+
+.versionNumber {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(16 185 129);
+  background-color: rgb(236 253 245);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid rgb(16 185 129);
+}
+
 .dangerCard {
   margin-top: 2rem;
   background-color: rgb(254 242 242);
@@ -156,6 +198,25 @@
 
   .cardDescription {
     color: rgb(156 163 175);
+  }
+
+  .versionCard {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgb(16 185 129);
+  }
+
+  .versionTitle {
+    color: rgb(167 243 208);
+  }
+
+  .versionDescription {
+    color: rgb(167 243 208);
+  }
+
+  .versionNumber {
+    color: rgb(16 185 129);
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgb(16 185 129);
   }
 
   .dangerCard {

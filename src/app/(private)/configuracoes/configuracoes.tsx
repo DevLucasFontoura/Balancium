@@ -11,6 +11,7 @@ import { deleteUser, EmailAuthProvider, reauthenticateWithCredential } from 'fir
 import { toast } from 'react-hot-toast';
 import styles from './configuracoes.module.css';
 import Link from 'next/link';
+import { CONSTANTES } from '@/constants/constantes';
 
 const menuItems = [
   {
@@ -138,6 +139,21 @@ export function Configuracoes() {
           </Link>
         ))}
       </div>
+
+      {/* Card de Versão do Aplicativo */}
+      <Card className={styles.versionCard}>
+        <div className={styles.versionContent}>
+          <div>
+            <h3 className={styles.versionTitle}>Versão do Aplicativo</h3>
+            <p className={styles.versionDescription}>
+              Informações sobre a versão atual do Balancium
+            </p>
+          </div>
+          <div className={styles.versionInfo}>
+            <span className={styles.versionNumber}>{CONSTANTES.VERSAO_SISTEMA}</span>
+          </div>
+        </div>
+      </Card>
 
       {/* Card de Exclusão */}
       <Card className={styles.dangerCard}>
