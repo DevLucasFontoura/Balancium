@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -28,6 +28,16 @@ export default function MetasPage() {
     valorMeta: ''
   });
 
+  // Estado para modal de edição de meta
+  const [metaParaEditar, setMetaParaEditar] = useState<Meta | null>(null);
+  const [edicaoMeta, setEdicaoMeta] = useState({
+    valorAdicionar: '',
+    valorMetaTotal: ''
+  });
+
+  // Estado para modal de confirmação de exclusão
+  const [metaParaExcluir, setMetaParaExcluir] = useState<Meta | null>(null);
+
   // Função para formatar valor como moeda brasileira
   const formatarValorInput = (valor: string) => {
     // Remove tudo que não é número
@@ -50,9 +60,6 @@ export default function MetasPage() {
     const apenasNumeros = valorFormatado.replace(/\D/g, '');
     return apenasNumeros ? (parseInt(apenasNumeros) / 100).toString() : '';
   };
-
-  const [editandoMeta, setEditandoMeta] = useState<string | null>(null);
-  const [novoValor, setNovoValor] = useState('');
 
   // Carregar metas do Firebase
   useEffect(() => {
@@ -141,46 +148,92 @@ export default function MetasPage() {
     }
   };
 
-  const handleEditarValor = async (metaId: string) => {
-    if (novoValor) {
-      const user = auth.currentUser;
-      if (!user) {
-        toast.error('Usuário não autenticado');
-        return;
-      }
+  const handleEditarMeta = async () => {
+    if (!metaParaEditar) return;
 
-      try {
-        // Converter valor formatado para número
-        const novoValorNumerico = parseFloat(converterValorFormatado(novoValor));
-        
-        if (isNaN(novoValorNumerico) || novoValorNumerico < 0) {
-          toast.error('Digite um valor válido');
-          return;
-        }
-        
-        // Atualizar no Firebase
-        const metaRef = doc(db, 'metas', metaId);
-        await updateDoc(metaRef, {
-          valorAtual: novoValorNumerico,
-          updatedAt: serverTimestamp()
-        });
-
-        // Atualizar estado local
-        setMetas(metas.map(meta => 
-          meta.id === metaId 
-            ? { ...meta, valorAtual: novoValorNumerico }
-            : meta
-        ));
-        setNovoValor('');
-        setEditandoMeta(null);
-        toast.success('Valor atualizado com sucesso!');
-      } catch (error) {
-        console.error('Erro ao atualizar valor:', error);
-        toast.error('Erro ao atualizar valor');
-      }
-    } else {
-      toast.error('Digite um valor válido');
+    const user = auth.currentUser;
+    if (!user) {
+      toast.error('Usuário não autenticado');
+      return;
     }
+
+    try {
+      let novoValorAtual = metaParaEditar.valorAtual;
+      let novoValorMeta = metaParaEditar.valorMeta;
+
+      // Processar valor a adicionar
+      if (edicaoMeta.valorAdicionar) {
+        const valorAdicionarNumerico = parseFloat(converterValorFormatado(edicaoMeta.valorAdicionar));
+        if (!isNaN(valorAdicionarNumerico) && valorAdicionarNumerico > 0) {
+          novoValorAtual += valorAdicionarNumerico;
+        }
+      }
+
+      // Processar novo valor total da meta
+      if (edicaoMeta.valorMetaTotal) {
+        const novoValorMetaNumerico = parseFloat(converterValorFormatado(edicaoMeta.valorMetaTotal));
+        if (!isNaN(novoValorMetaNumerico) && novoValorMetaNumerico > 0) {
+          novoValorMeta = novoValorMetaNumerico;
+        }
+      }
+
+      // Atualizar no Firebase
+      const metaRef = doc(db, 'metas', metaParaEditar.id);
+      await updateDoc(metaRef, {
+        valorAtual: novoValorAtual,
+        valorMeta: novoValorMeta,
+        updatedAt: serverTimestamp()
+      });
+
+      // Atualizar estado local
+      setMetas(metas.map(meta => 
+        meta.id === metaParaEditar.id 
+          ? { ...meta, valorAtual: novoValorAtual, valorMeta: novoValorMeta }
+          : meta
+      ));
+
+      // Limpar e fechar modal
+      setEdicaoMeta({ valorAdicionar: '', valorMetaTotal: '' });
+      setMetaParaEditar(null);
+      toast.success('Meta atualizada com sucesso!');
+    } catch (error) {
+      console.error('Erro ao atualizar meta:', error);
+      toast.error('Erro ao atualizar meta');
+    }
+  };
+
+  const abrirModalEdicao = (meta: Meta) => {
+    setMetaParaEditar(meta);
+    setEdicaoMeta({
+      valorAdicionar: '',
+      valorMetaTotal: formatarMoeda(meta.valorMeta)
+    });
+  };
+
+  const handleExcluirMeta = async (metaId: string) => {
+    const user = auth.currentUser;
+    if (!user) {
+      toast.error('Usuário não autenticado');
+      return;
+    }
+
+    try {
+      // Excluir do Firebase
+      const metaRef = doc(db, 'metas', metaId);
+      await deleteDoc(metaRef);
+
+      // Remover do estado local
+      setMetas(metas.filter(meta => meta.id !== metaId));
+      setMetaParaExcluir(null); // Fechar modal
+      toast.success('Meta excluída com sucesso!');
+    } catch (error) {
+      console.error('Erro ao excluir meta:', error);
+      toast.error('Erro ao excluir meta');
+    }
+  };
+
+  const confirmarExclusao = (meta: Meta) => {
+    setMetaParaExcluir(meta);
   };
 
   const calcularProgresso = (atual: number, meta: number) => {
@@ -284,6 +337,95 @@ export default function MetasPage() {
         </div>
       )}
 
+      {/* Modal de Edição de Meta */}
+      {metaParaEditar && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalTitulo}>Editar Meta</h2>
+            
+            <div className={styles.metaInfoEdicao}>
+              <h3 className={styles.metaTituloEdicao}>{metaParaEditar.titulo}</h3>
+              <p className={styles.metaDescricaoEdicao}>{metaParaEditar.descricao}</p>
+            </div>
+
+            <div className={styles.progressoAtual}>
+              <div className={styles.progressoInfo}>
+                <span className={styles.valorAtualEdicao}>
+                  {formatarMoeda(metaParaEditar.valorAtual)}
+                </span>
+                <span className={styles.valorMetaEdicao}>
+                  de {formatarMoeda(metaParaEditar.valorMeta)}
+                </span>
+              </div>
+              
+              <div className={styles.barraProgresso}>
+                <div 
+                  className={styles.progressoPreenchido}
+                  style={{ width: `${calcularProgresso(metaParaEditar.valorAtual, metaParaEditar.valorMeta)}%` }}
+                />
+              </div>
+              
+              <div className={styles.percentual}>
+                {calcularProgresso(metaParaEditar.valorAtual, metaParaEditar.valorMeta).toFixed(1)}%
+              </div>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Adicionar Valor</label>
+              <Input
+                type="text"
+                placeholder="R$ 0,00"
+                value={edicaoMeta.valorAdicionar}
+                onChange={(e) => {
+                  const valorFormatado = formatarValorInput(e.target.value);
+                  setEdicaoMeta({...edicaoMeta, valorAdicionar: valorFormatado});
+                }}
+                className={styles.input}
+              />
+              <small className={styles.inputHelp}>
+                Deixe em branco se não quiser adicionar valor
+              </small>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Novo Valor Total da Meta</label>
+              <Input
+                type="text"
+                placeholder="R$ 0,00"
+                value={edicaoMeta.valorMetaTotal}
+                onChange={(e) => {
+                  const valorFormatado = formatarValorInput(e.target.value);
+                  setEdicaoMeta({...edicaoMeta, valorMetaTotal: valorFormatado});
+                }}
+                className={styles.input}
+              />
+              <small className={styles.inputHelp}>
+                Valor total que você quer atingir (100%)
+              </small>
+            </div>
+
+            <div className={styles.modalBotoes}>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setMetaParaEditar(null);
+                  setEdicaoMeta({ valorAdicionar: '', valorMetaTotal: '' });
+                }}
+                className={styles.botaoCancelar}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                onClick={handleEditarMeta}
+                className={styles.botaoSalvar}
+              >
+                Atualizar Meta
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={styles.gridMetas}>
         {metas.map((meta) => (
           <Card key={meta.id} className={styles.metaCard}>
@@ -292,6 +434,15 @@ export default function MetasPage() {
                 <h3 className={styles.metaTitulo}>{meta.titulo}</h3>
                 <p className={styles.metaDescricao}>{meta.descricao}</p>
               </div>
+              <button
+                onClick={() => confirmarExclusao(meta)}
+                className={styles.botaoExcluir}
+                title="Excluir meta"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
 
             <div className={styles.metaProgresso}>
@@ -317,50 +468,17 @@ export default function MetasPage() {
             </div>
 
             <div className={styles.metaAcoes}>
-              {editandoMeta === meta.id ? (
-                <div className={styles.edicaoValor}>
-                  <Input
-                    type="text"
-                    placeholder="R$ 0,00"
-                    value={novoValor}
-                    onChange={(e) => {
-                      const valorFormatado = formatarValorInput(e.target.value);
-                      setNovoValor(valorFormatado);
-                    }}
-                    className={styles.inputValor}
-                  />
-                  <Button 
-                    size="sm"
-                    onClick={() => handleEditarValor(meta.id)}
-                    className={styles.botaoSalvarValor}
-                  >
-                    Salvar
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => {
-                      setEditandoMeta(null);
-                      setNovoValor('');
-                    }}
-                    className={styles.botaoCancelarValor}
-                  >
-                    Cancelar
-                  </Button>
-                </div>
-              ) : (
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setEditandoMeta(meta.id)}
-                  className={styles.botaoEditar}
-                >
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  Editar Valor
-                </Button>
-              )}
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => abrirModalEdicao(meta)}
+                className={styles.botaoEditar}
+              >
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Editar Meta
+              </Button>
             </div>
           </Card>
         ))}
@@ -375,6 +493,48 @@ export default function MetasPage() {
           <p className={styles.emptyDescricao}>
             Comece criando sua primeira meta financeira para acompanhar seus objetivos
           </p>
+        </div>
+      )}
+
+      {/* Modal de Confirmação de Exclusão */}
+      {metaParaExcluir && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalConfirmacao}>
+            <div className={styles.modalConfirmacaoIcon}>
+              <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            
+            <h2 className={styles.modalConfirmacaoTitulo}>Excluir Meta</h2>
+            
+            <p className={styles.modalConfirmacaoDescricao}>
+              Tem certeza que deseja excluir a meta <strong>"{metaParaExcluir.titulo}"</strong>?
+            </p>
+            
+            <p className={styles.modalConfirmacaoAviso}>
+              Esta ação não pode ser desfeita e todos os dados da meta serão perdidos permanentemente.
+            </p>
+
+            <div className={styles.modalConfirmacaoBotoes}>
+              <Button 
+                variant="outline" 
+                onClick={() => setMetaParaExcluir(null)}
+                className={styles.botaoCancelarExclusao}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                onClick={() => handleExcluirMeta(metaParaExcluir.id)}
+                className={styles.botaoConfirmarExclusao}
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Excluir Meta
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>
