@@ -1,364 +1,297 @@
 .container {
-  max-width: 80rem;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 2rem;
+  min-height: 100vh;
 }
 
 .header {
-  margin-bottom: 1.5rem;
-  margin-left: -0.5rem;
+  margin-bottom: 2rem;
 }
 
 .backButton {
   display: inline-flex;
   align-items: center;
-  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  color: #64748b;
   font-weight: 500;
-  color: rgb(75 85 99);
-  transition: color 0.2s;
-  padding: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .backButton:hover {
-  color: rgb(17 24 39);
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.heroCard {
-  background: #00A86B;
+/* Hero Section */
+.heroSection {
+  text-align: center;
+  margin-bottom: 3rem;
   padding: 3rem 2rem;
-  border-radius: 1rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 1.5rem;
+  color: white;
+  box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
+}
+
+.heroIcon {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .heroTitle {
   font-size: 2.5rem;
   font-weight: 700;
-  color: white;
   margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .heroSubtitle {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
-.content {
+/* Main Card */
+.mainCard {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e2e8f0;
+}
+
+.cardHeader {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.exportCard,
-.importCard {
-  padding: 2rem;
-  background: var(--card-bg);
+.cardIcon {
+  flex-shrink: 0;
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border-radius: 1rem;
-  border: 1px solid rgb(229 231 235);
-  transition: transform 0.2s, box-shadow 0.2s;
-  width: 100%;
-}
-
-.exportCard:hover,
-.importCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
 }
 
 .cardTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: var(--text-primary);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.cardDescription {
+  font-size: 1.125rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Form Section */
+.formSection {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cardTitle::before {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 24px;
-  background: #00A86B;
-  border-radius: 2px;
-}
-
-.formGrid {
-  display: grid;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-.label {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.select {
-  width: 100%;
-  max-width: 200px;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgb(229 231 235);
-  padding: 0 1rem;
-  background: var(--card-bg);
-  color: var(--text-primary);
-  transition: all 0.2s;
-}
-
-.select:hover {
-  border-color: rgb(209 213 219);
-}
-
-.select:focus {
-  border-color: #00A86B;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 168, 107, 0.1);
-}
-
-.formatosGrid {
-  display: grid;
-  grid-template-columns: 1fr;
   gap: 0.75rem;
 }
 
-.formatoButton {
+.label {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgb(229 231 235);
-  text-align: left;
-  transition: all 0.2s;
-  background: var(--card-bg);
-  color: var(--text-primary);
-}
-
-.formatoButton:hover {
-  background: rgba(0, 168, 107, 0.1);
-  border-color: #00A86B;
-}
-
-.formatoSelected {
-  background: rgba(0, 168, 107, 0.1);
-  border-color: #00A86B;
-  color: #00A86B;
-}
-
-.formatoIcon {
-  font-size: 1.25rem;
-}
-
-.dateRange {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.datePicker {
-  width: 100%;
-}
-
-.exportActions,
-.importActions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.exportButton,
-.templateButton {
-  width: fit-content;
-  height: 2.5rem;
-  padding: 0 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.2s;
-  background: #00A86B;
-  color: white;
-}
-
-.exportButton:hover,
-.templateButton:hover {
-  transform: translateY(-1px);
-  background: #008F5D;
-}
-
-.importInstructions {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: var(--card-bg);
-  border-radius: 0.75rem;
-  border: 1px solid rgb(229 231 235);
-}
-
-.importInstructions h3 {
-  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: #374151;
+  font-size: 1rem;
 }
 
-.importInstructions ol {
-  padding-left: 1.5rem;
-  counter-reset: item;
-}
-
-.importInstructions ol li {
-  margin-bottom: 0.75rem;
-  position: relative;
-  padding-left: 0.5rem;
-  color: var(--text-secondary);
-}
-
-.importInstructions ol li::before {
-  content: counter(item) ".";
-  counter-increment: item;
-  position: absolute;
-  left: -1.5rem;
-  color: #00A86B;
-  font-weight: 600;
-}
-
-.importInstructions ul {
-  padding-left: 1.5rem;
-  margin: 0.75rem 0;
-  list-style-type: disc;
-}
-
-.importInstructions ul li {
-  margin-bottom: 0.5rem;
-  color: var(--text-secondary);
-}
-
-.templateDownload {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgb(229 231 235);
-}
-
-.templateDownload p {
-  margin-bottom: 1rem;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.fileInput {
-  width: 100%;
-  padding: 2rem;
-  border: 2px dashed rgb(229 231 235);
+.select {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
   border-radius: 0.75rem;
-  background: var(--card-bg);
+  font-size: 1rem;
+  background: white;
+  color: #374151;
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: all 0.2s;
-  color: var(--text-secondary);
 }
 
-.fileInput:hover {
-  border-color: #00A86B;
-  background: rgba(0, 168, 107, 0.1);
+.select:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
-.fileInput:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.select:hover {
+  border-color: #d1d5db;
 }
 
-.importStatus {
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+/* Features List */
+.featuresList {
+  background: #f8fafc;
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
 }
 
-.historyCard {
-  padding: 1.5rem;
-  background: var(--card-bg);
+.featuresTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: white;
   border-radius: 0.75rem;
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
 }
 
-.historyTable {
-  overflow-x: auto;
+.featureItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #10b981;
 }
 
-.table {
-  width: 100%;
-}
-
-.table th {
-  padding: 0.5rem 1rem;
-  text-align: left;
-  font-size: 0.875rem;
+.featureItem span {
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #374151;
 }
 
-.table td {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: var(--text-primary);
+/* Export Actions */
+.exportActions {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
 }
 
-.statusBadge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: rgba(0, 168, 107, 0.1);
-  color: #00A86B;
+.exportButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+  min-width: 250px;
+  justify-content: center;
 }
 
-/* Responsividade */
-@media (min-width: 768px) {
-  .formatosGrid {
-    grid-template-columns: repeat(3, 1fr);
+.exportButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.exportButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
   }
 
-  .dateRange {
-    grid-template-columns: repeat(2, 1fr);
+  .heroSection {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .mainCard {
+    padding: 1.5rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .cardIcon {
+    align-self: center;
+  }
+
+  .cardTitle {
+    font-size: 1.5rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .exportButton {
+    width: 100%;
+    min-width: auto;
   }
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .backButton {
-    color: rgb(156 163 175);
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 1.75rem;
   }
 
-  .backButton:hover {
-    color: white;
+  .cardTitle {
+    font-size: 1.25rem;
   }
 
-  .exportCard,
-  .importCard,
-  .select,
-  .fileInput,
-  .importInstructions,
-  .historyCard {
-    border-color: rgb(55 65 81);
+  .featuresList {
+    padding: 1.5rem;
   }
 
-  .formatoButton {
-    border-color: rgb(55 65 81);
-  }
-
-  .formatoButton:hover {
-    background: rgba(0, 168, 107, 0.2);
-  }
-
-  .formatoSelected {
-    background: rgba(0, 168, 107, 0.2);
-  }
-
-  .statusBadge {
-    background: rgba(0, 168, 107, 0.2);
+  .featureItem {
+    padding: 0.75rem;
   }
 } 

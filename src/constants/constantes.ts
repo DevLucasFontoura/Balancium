@@ -1,6 +1,6 @@
 export const CONSTANTES = {
 
-    VERSAO_SISTEMA: '1.1.0',
+    VERSAO_SISTEMA: '1.2.0',
 
     // -------------------------- PAGINA LABELS --------------------------
     LABEL_PASSWORD: 'password' as const,
